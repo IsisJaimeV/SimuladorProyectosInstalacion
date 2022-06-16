@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+/* Scrollbar */
+
+body::-webkit-scrollbar {
+    width: 5px;
+}
+
+body::-webkit-scrollbar-track {
+    background: rgba(248, 248, 246, 0.5);
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: rgb(165, 165, 165);
+    border-radius: 10px;
+}
+
+
+/* Fonts */
+
+@font-face {
+    font-family: "Roboto-Light";
+    src: url('assets/fonts/Roboto-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: "Roboto-Regular";
+    src: url('assets/fonts/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: "Roboto-Medium";
+    src: url('assets/fonts/Roboto-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: "Roboto-Semibold";
+    src: url('assets/fonts/Roboto-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: "Roboto-Bold";
+    src: url('assets/fonts/Roboto-Black.ttf') format('truetype');
+}
+
+body {
+    overflow-x: hidden;
+}
