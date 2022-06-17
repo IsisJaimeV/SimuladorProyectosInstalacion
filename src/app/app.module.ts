@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgxSpinnerModule } from "ngx-spinner";  
+import { CommonModule, CurrencyPipe} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -26,8 +27,9 @@ import { NgxSpinnerModule } from "ngx-spinner";
     ReactiveFormsModule,
     BrowserAnimationsModule,
     NgxSpinnerModule ,
+    CommonModule
   ],
-  providers: [],
+  providers: [CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

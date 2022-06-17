@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SimuladorProyectosDAOService } from '../../services/DAO/simulador-proyectos-dao.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import Swal from 'sweetalert2'
+import { CommonModule, CurrencyPipe} from '@angular/common';
 
 
 @Component({
@@ -12,21 +13,37 @@ import Swal from 'sweetalert2'
 })
 export class DashboardComponent implements OnInit {
 
-  //preueba
-  number1: number = 0;
+  //CURRENCY INPUT
+  formattedAmount: any;
+  amount: any;
+
 
   // SELECT FILTER
+  anioArray: number[] = [1,2,3,4,5,6,7,8,9,10]
   linea: any[] = [];
   zona: any[] = [];
   codigo: any[] = [];
   
   //FORM
   filterForm = new FormGroup({
-    zona: new FormControl('', Validators.required)
+    zona: new FormControl(''),
+    linea: new FormControl(''),
+    codigo: new FormControl(''),
+    anio: new FormControl(''),
+    gastos: new FormControl(''),
+    activos: new FormControl(''),
   })
-  constructor(private simuladorProyecto: SimuladorProyectosDAOService, private spinner: NgxSpinnerService) { }
+
+  //RESULTADOS
+  ventasTotalesAnuales: any = 0;
+  tir: number = 0;
+  vpn : number = 0;
+  prd : number = 0;
+
+  constructor(private simuladorProyecto: SimuladorProyectosDAOService, private spinner: NgxSpinnerService, private currencyPipe : CurrencyPipe) { }
 
   ngOnInit(): void {
+    this.selectLinea();
     this.selectZona();
   }
 
@@ -35,4 +52,24 @@ export class DashboardComponent implements OnInit {
       this.zona = res;
     });
   }
+
+  selectCodigo(event: any) {
+    let value = event.target.value;
+    this.simuladorProyecto.getCodigo(value).subscribe(res => {
+      this.codigo = res;
+    });
+  }
+
+  selectLinea() {
+    this.simuladorProyecto.getLinea().subscribe(res => {
+      this.linea = res;
+    });
+  }
+
+
+
+  transformAmount(element: any){
+    this.formattedAmount = this.currencyPipe.transform(this.formattedAmount, '$');
+    element.target.value = this.formattedAmount;
+}
 }
