@@ -5,10 +5,11 @@
             <div class="row">
                 <div class="col-md-6">
                     <p class="tituloInput">Zona</p>
-                    <input list="filterLinea" name="filterLinea" placeholder="Selecciona una Linea">
-                    <datalist id="filterLinea">
-                        <option>preueba</option>
-                        <option>preueba</option>
+                    <input formControlName="zona" list="filterZona" name="filterZona" placeholder="Selecciona una Zona" id="zona">
+                    <datalist required id="filterZona">
+                        <option [value]="item.nombre" *ngFor="let item of zona">
+                            {{item.area}} {{item.nombre}}
+                        </option>
                     </datalist>
                 </div>
                 <div class="col">
@@ -25,10 +26,10 @@
                 </div>
             </div>
             <div class="row mt-3">
-                <p class="tituloInput">Activos</p>
+                <p class="tituloInput">Activos {{number1 | number : '1.1' }}</p>
                 <p class="descripcion">Importe estimado de los equipos en comodato. El monto debe ser considerado como nuevo por el valor de reposición. El valor de recuperación se considera al final del plazo del contrato.
                 </p>
-                <input type="text" style="margin-left: 10px;">
+                <input type="currency" style="margin-left: 10px;">
             </div>
             <div class="row mt-4">
                 <p class="tituloInput">Gastos preoperativos</p>
@@ -80,7 +81,8 @@
                             <th scope="col">Volumen incremental anual</th>
                             <th scope="col">Volumen incremental anual</th>
                             <th scope="col">Distribuye Cryoinfra</th>
-                            <th scope="col" class="col-sm-2"><button class="btn btn-primary"><i class="fa fa-plus"></i> Codigo</button></th>
+                            <th scope="col" class="col-sm-2"><button class="btn btn-primary"><i class="fa fa-plus"></i>
+                                    Codigo</button></th>
                         </tr>
                     </thead>
                     <tbody>
