@@ -1,2 +1,271 @@
 <app-header></app-header>
-<p>dashboard works!</p>
+<div class="container-fluid">
+    <div class="row mt-5 ms-4 me-4">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="tituloInput">Zona</p>
+                    <input list="filterLinea" name="filterLinea" placeholder="Selecciona una Linea">
+                    <datalist id="filterLinea">
+                        <option>preueba</option>
+                        <option>preueba</option>
+                    </datalist>
+                </div>
+                <div class="col">
+                    <p class="tituloInput">Años de contrato</p>
+                    <select id="filterLinea" placeholder="Selecciona una Linea">
+                        <option *ngFor="let item of [1,2,3,4,5,6,7,8,9,10]">{{item}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="subtitulos" href="/">
+                    <img src="../../../assets/icons/icon-inversion.png" alt="" class="img-subtitulos me-3">
+                    <p>Inversión <b>inicial</b></p>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <p class="tituloInput">Activos</p>
+                <p class="descripcion">Importe estimado de los equipos en comodato. El monto debe ser considerado como nuevo por el valor de reposición. El valor de recuperación se considera al final del plazo del contrato.
+                </p>
+                <input type="text" style="margin-left: 10px;">
+            </div>
+            <div class="row mt-4">
+                <p class="tituloInput">Gastos preoperativos</p>
+                <p class="descripcion">Monto estimado para la instalación y traslado de equipos.</p>
+                <input type="text" style="margin-left: 10px;">
+            </div>
+        </div>
+        <div class="col ms-2">
+            <div class="divNotaImportante">
+                <div class="col ps-5 pe-5 pt-4">
+                    <div class="row">
+                        <div class="navbar-brand" href="/">
+                            <img src="../../../assets/icons/icon-nota.png" alt="" class="img-logo me-3">
+                            <p style="font-size: 25px;">Nota <b>importante</b></p>
+                        </div>
+                    </div>
+                    <div class="row ps-4 pe-4 pt-3 notaDescripcion">
+                        <ul>
+                            <li> El <b> resultado financiero generado por el simulador no garantiza la aprobación del
+                                    proyecto </b> en caso de error u omisión de datos significativos para su evaluación.
+                            </li>
+                            <li> Esto es una referencia que aplica para <b> consumos nuevos.</b> </li>
+                            <li> <b> Estimación preliminar</b> antes de la evaluación de proyectos. </li>
+                        </ul>
+                    </div>
+                    <div class="row notaFooter pt-3">
+                        <p><b> Esto no sustituye la evaluación financiera </b><br> validada por la OCP.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row ms-3 me-3 mt-3">
+        <div class="subtitulos" href="/">
+            <img src="../../../assets/icons/icon-venta.png" alt="" class="img-subtitulos me-3">
+            <p>Venta <b>incremental</b></p>
+        </div>
+    </div>
+    <div class="row ms-3 me-3 mt-3">
+        <div class="divVenta">
+            <div class="table-responsive">
+                <table class="table table-fixed table-borderless table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Linea</th>
+                            <th scope="col" class="col-sm-3">Código</th>
+                            <th scope="col">Precio piso</th>
+                            <th scope="col">Precio propuesto</th>
+                            <th scope="col">Volumen incremental anual</th>
+                            <th scope="col">Volumen incremental anual</th>
+                            <th scope="col">Distribuye Cryoinfra</th>
+                            <th scope="col" class="col-sm-2"><button class="btn btn-primary"><i class="fa fa-plus"></i> Codigo</button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input class="linea" list="filterLinea" name="filterLinea" placeholder="Selecciona una Linea">
+                                <datalist id="filterLinea">
+                                    <option>preueba</option>
+                                    <option>preueba</option>
+                                </datalist>
+                            </td>
+                            <td><input class="codigo" list="filterLinea" name="filterLinea" placeholder="Selecciona un codigo">
+                                <datalist id="filterLinea">
+                                    <option>preueba</option>
+                                    <option>preueba</option>
+                                </datalist>
+                            </td>
+                            <td style="padding-top: 20px;"><span>$ 12.00</span></td>
+                            <td><input type="text" class="propuesto" placeholder="$ 00.00"></td>
+                            <td><input type="text" class="volumen" placeholder="$ 00.00"> m3</td>
+                            <td style="padding-top: 20px;">$ 150.00</td>
+                            <td style="padding-top: 20px;"><label class="switch ms-4">
+                                    <input type="checkbox" formControlName="tipoOperacion" id="cryoinfra">
+                                    <span class="slider round" checked></span>
+                                </label></td>
+                            <td style="padding-top: 20px;">
+                                <div class="editar"><i class="fa fa-pencil"></i></div>
+                                <div class="eliminar"><i class="fa fa-trash"></i></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input class="linea" list="filterLinea" name="filterLinea" placeholder="Selecciona una Linea">
+                                <datalist id="filterLinea">
+                                    <option>preueba</option>
+                                    <option>preueba</option>
+                                </datalist>
+                            </td>
+                            <td><input class="codigo" list="filterLinea" name="filterLinea" placeholder="Selecciona un codigo">
+                                <datalist id="filterLinea">
+                                    <option>preueba</option>
+                                    <option>preueba</option>
+                                </datalist>
+                            </td>
+                            <td style="padding-top: 20px;"><span>$ 12.00</span></td>
+                            <td><input type="text" class="propuesto" placeholder="$ 00.00"></td>
+                            <td><input type="text" class="volumen" placeholder="$ 00.00"> m3</td>
+                            <td style="padding-top: 20px;">$ 150.00</td>
+                            <td style="padding-top: 20px;"><label class="switch ms-4">
+                                    <input type="checkbox" formControlName="tipoOperacion" id="cryoinfra">
+                                    <span class="slider round" checked></span>
+                                </label></td>
+                            <td style="padding-top: 20px;">
+                                <div class="editar"><i class="fa fa-pencil"></i></div>
+                                <div class="eliminar"><i class="fa fa-trash"></i></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input class="linea" list="filterLinea" name="filterLinea" placeholder="Selecciona una Linea">
+                                <datalist id="filterLinea">
+                                    <option>preueba</option>
+                                    <option>preueba</option>
+                                </datalist>
+                            </td>
+                            <td><input class="codigo" list="filterLinea" name="filterLinea" placeholder="Selecciona un codigo">
+                                <datalist id="filterLinea">
+                                    <option>preueba</option>
+                                    <option>preueba</option>
+                                </datalist>
+                            </td>
+                            <td style="padding-top: 20px;"><span>$ 12.00</span></td>
+                            <td><input type="text" class="propuesto" placeholder="$ 00.00"></td>
+                            <td><input type="text" class="volumen" placeholder="$ 00.00"> m3</td>
+                            <td style="padding-top: 20px;">$ 150.00</td>
+                            <td style="padding-top: 20px;"><label class="switch ms-4">
+                                    <input type="checkbox" formControlName="tipoOperacion" id="cryoinfra">
+                                    <span class="slider round" checked></span>
+                                </label></td>
+                            <td style="padding-top: 20px;">
+                                <div class="editar"><i class="fa fa-pencil"></i></div>
+                                <div class="eliminar"><i class="fa fa-trash"></i></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input class="linea" list="filterLinea" name="filterLinea" placeholder="Selecciona una Linea">
+                                <datalist id="filterLinea">
+                                    <option>preueba</option>
+                                    <option>preueba</option>
+                                </datalist>
+                            </td>
+                            <td><input class="codigo" list="filterLinea" name="filterLinea" placeholder="Selecciona un codigo">
+                                <datalist id="filterLinea">
+                                    <option>preueba</option>
+                                    <option>preueba</option>
+                                </datalist>
+                            </td>
+                            <td style="padding-top: 20px;"><span>$ 12.00</span></td>
+                            <td><input type="text" class="propuesto" placeholder="$ 00.00"></td>
+                            <td><input type="text" class="volumen" placeholder="$ 00.00"> m3</td>
+                            <td style="padding-top: 20px;">$ 150.00</td>
+                            <td style="padding-top: 20px;"><label class="switch ms-4">
+                                    <input type="checkbox" formControlName="tipoOperacion" id="cryoinfra">
+                                    <span class="slider round" checked></span>
+                                </label></td>
+                            <td style="padding-top: 20px;">
+                                <div class="editar"><i class="fa fa-pencil"></i></div>
+                                <div class="eliminar"><i class="fa fa-trash"></i></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row ms-3 mt-3 ventasTotales">
+        <div class="col posible">
+            <div class="row division ">
+                <p class="mt-3">$ 470</p>
+            </div>
+            <div class="row valor">
+                <p>Ventas totales anuales </p>
+            </div>
+        </div>
+        <div class="col col-btnSimulacion">
+            <button class="btn btn-primary simulacion me-5" type="submit"><img
+                    src="../../../assets/icons/icon-simular.png">Simular </button>
+        </div>
+    </div>
+    <div class="row ms-3 me-3 mt-3 tituloIndicadores">
+        <div class="subtitulos" href="/">
+            <img src="../../../assets/icons/icon-indicadores.png" alt="" class="img-subtitulos me-3">
+            <p>Indicadores</p>
+        </div>
+    </div>
+    <div class="row ms-3 me-3 mt-3">
+        <div class="col mt-3 me-4">
+            <div class="row indicadoresDivs">
+                <div class="col-md-3 text-center">
+                    <img src="../../../assets/icons/icon-tir.png" class="mt-4 iconDiv">
+                </div>
+                <div class="col divisionDivs">
+                    <div class="row division ">
+                        <p class="mt-3"><span class="identificadorIndicadores">TIR</span><b>Tasa interna de retorno</b>
+                        </p>
+                    </div>
+                    <div class="row mt-2">
+                        <p><canvas class="color1"></canvas> $ </p>
+                    </div>
+                </div>
+            </div>
+            <p class="indicadoresDescripcion">Para ser rentable la TIR debe ser mayor al 12%</p>
+        </div>
+        <div class="col  mt-3 me-4">
+            <div class="row indicadoresDivs">
+                <div class="col-md-3 text-center">
+                    <img src="../../../assets/icons/icon-vpn.png" class="mt-4 iconDiv">
+                </div>
+                <div class="col divisionDivs">
+                    <div class="row division ">
+                        <p class="mt-3"><span class="identificadorIndicadores">VPN</span><b>Valor presente neto</b></p>
+                    </div>
+                    <div class="row mt-2">
+                        <p><canvas class="color2"></canvas> $ </p>
+                    </div>
+                </div>
+            </div>
+            <p class="indicadoresDescripcion">Para ser rentable la VPN debe ser mayor a $ 0</p>
+        </div>
+        <div class="col  mt-3 me-4">
+            <div class="row indicadoresDivs">
+                <div class="col-md-3 text-center">
+                    <img src="../../../assets/icons/icon.prd.png" class="mt-4 iconDiv">
+                </div>
+                <div class="col divisionDivs">
+                    <div class="row division ">
+                        <p class="mt-3"><span class="identificadorIndicadores">PRD</span><b>Periodo de recuperación
+                                descontado</b></p>
+                    </div>
+                    <div class="row mt-2">
+                        <p><canvas class="color3"></canvas> $ </p>
+                    </div>
+                </div>
+            </div>
+            <p class="indicadoresDescripcion">La recuperación de la inversión debe ser menor a la duración del contrato.
+            </p>
+        </div>
+
+    </div>
+
+</div>

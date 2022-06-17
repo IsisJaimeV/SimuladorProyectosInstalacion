@@ -1,14 +1,17 @@
 /* Scrollbar */
 
-body::-webkit-scrollbar {
+body::-webkit-scrollbar,
+table::-webkit-scrollbar {
     width: 5px;
 }
 
-body::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track,
+table::-webkit-scrollbar-track {
     background: rgba(248, 248, 246, 0.5);
 }
 
-body::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb,
+table::-webkit-scrollbar-thumb:window-inactive {
     background-color: rgb(165, 165, 165);
     border-radius: 10px;
 }

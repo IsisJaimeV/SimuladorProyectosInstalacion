@@ -1,0 +1,470 @@
+//filter
+input {
+    font-family: Roboto-Light;
+    width: 20vw;
+    height: 41px;
+    background: #F2F2F2;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border: transparent;
+    border-radius: 6px;
+}
+
+input:focus {
+    outline: none;
+}
+
+select,
+datalist {
+    font-family: Roboto-Light;
+    width: 20vw;
+    height: 41px;
+    background: #F2F2F2;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border: transparent;
+    border-radius: 6px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    option {
+        padding: 10px;
+    }
+}
+
+select:focus,
+datalist:focus {
+    outline: none;
+}
+
+select:after,
+datalist:after {
+    border-color: #fff transparent transparent transparent;
+}
+
+
+/* Nota importante */
+
+.divNotaImportante {
+    background: #F2F2F2;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.tituloInput {
+    font-family: Roboto-Medium;
+    font-size: 1.3em;
+    line-height: 10px;
+    color: #575756;
+}
+
+.img-logo {
+    width: 8%;
+    margin-left: 10px;
+}
+
+.navbar-brand {
+    p {
+        font-family: Roboto-Medium;
+        color: #1F3569;
+        font-size: 1.1em;
+        display: inline;
+    }
+    b {
+        color: #EF872F;
+    }
+}
+
+.notaDescripcion {
+    font-family: Roboto-Regular;
+    font-size: 20px;
+    b {
+        color: #1F3569;
+    }
+}
+
+.notaFooter {
+    margin-left: -2.5em !important;
+    margin-right: -2.5em !important;
+    background-color: #fff;
+    font-family: Roboto-Regular;
+    font-size: 20px;
+    text-align: center;
+    b {
+        color: #1F3569;
+    }
+}
+
+
+/* DivInputs */
+
+.subtitulos {
+    p {
+        font-family: Roboto-Semibold;
+        color: #EF872F;
+        font-size: 1.5em;
+        display: inline;
+    }
+    b {
+        color: #1F3569;
+    }
+}
+
+.descripcion {
+    font-family: Roboto-Regular;
+    font-size: 18px;
+    line-height: 21px;
+    color: #575756;
+}
+
+.img-subtitulos {
+    width: 30px;
+}
+
+
+/* Div Venta Incremental*/
+
+
+/* Table*/
+
+.table-responsive {
+    height: 300px;
+    background: #FFFFFF;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
+
+.table-fixed tbody {
+    overflow-y: auto;
+    width: 100%;
+}
+
+.table-fixed tbody td,
+.table-fixed tbody th,
+.table-fixed thead>tr>th {
+    &::after {
+        content: '';
+        clear: both;
+        display: block;
+    }
+}
+
+thead {
+    font-size: 19px;
+    line-height: 22px;
+    text-align: center;
+    color: #04539E;
+    tr {
+        th {
+            padding-bottom: 30px !important;
+            button {
+                font-size: 17px;
+                width: 141px;
+                height: 40px;
+                background: #203568;
+                box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+                border-radius: 15px;
+                border: none;
+            }
+        }
+    }
+}
+
+tbody {
+    text-align: center;
+    font-family: Roboto-Regular;
+    tr {
+        td {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            .linea,
+            .propuesto,
+            .volumen {
+                text-align: center;
+                width: 90px !important;
+            }
+            .codigo {
+                width: 253px !important;
+            }
+        }
+        tr:hover {
+            background: #F2F2F2;
+        }
+    }
+}
+
+.eliminar,
+.editar {
+    margin-right: 5px;
+    padding: 10px;
+    background: #FFFFFF;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    display: inline;
+}
+
+
+/* Rounded sliders */
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 43px;
+    height: 18px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #F2F2F2;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.25);
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 0px;
+    bottom: 1px;
+    background-color: #CBCBCA;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background: #F2F2F2;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border: transparent;
+}
+
+input:focus+.slider {
+    background: #F2F2F2;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border: transparent;
+}
+
+input:checked+.slider:before {
+    background-color: #617E41;
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+/* Ventas totales anuales */
+
+.posible {
+    background: #FFFFFF;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    border-bottom: 2px dashed transparent !important;
+    width: 20%;
+    .division {
+        z-index: 2 !important;
+        font-size: 1em;
+        line-height: 1em;
+        font-family: Roboto-Semibold;
+        color: #1F3569;
+        text-align: center;
+        margin-top: 10px;
+        border-bottom: 2px dashed #1F3569;
+    }
+    .valor {
+        font-size: 1em !important;
+        line-height: 1em;
+        margin-top: 10px;
+        font-family: Roboto-Semibold;
+        color: #1F3569;
+        text-align: center;
+    }
+    .colorUtilidad {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #617E41;
+        margin-right: 5px;
+    }
+}
+
+.simulacion {
+    font-size: 1.5em;
+    margin-top: -5px;
+    font-family: Roboto-Regular;
+    background: #203568;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    border: transparent;
+    color: #fff;
+    b {
+        color: #1F3569;
+    }
+    img {
+        width: 15% !important;
+        margin-right: 10px;
+    }
+}
+
+.col-btnSimulacion {
+    margin-top: 8vh;
+}
+
+.ventasTotales {
+    position: absolute;
+    right: 0;
+}
+
+
+/*Indicadores*/
+
+.tituloIndicadores {
+    margin-top: 20vh !important;
+}
+
+.indicadoresDescripcion {
+    font-family: Roboto-Regular;
+    font-size: 1.1em;
+    margin-top: 10px;
+    line-height: 21px;
+    color: #575756;
+}
+
+.indicadoresDivs {
+    text-align: center;
+    font-family: Roboto-Regular;
+    font-size: 1em;
+    background: #F2F2F2;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    .divisionDivs {
+        border-radius: 8px;
+        border: 1px dashed #C8C8C7;
+        background: #FFFFFF;
+    }
+    .iconDiv {
+        margin: 0 auto;
+        width: 60% !important;
+    }
+}
+
+.identificadorIndicadores {
+    margin-right: 10px;
+    font-family: Roboto-Bold;
+    font-size: 1.5em;
+    color: #1F3569;
+}
+
+canvas {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+.color1 {
+    background: #922415;
+}
+
+.color2 {
+    background: #617E41;
+}
+
+.color3 {
+    background: #617E41;
+}
+
+@media (max-width:450px) {
+    .navbar-brand {
+        p {
+            font-size: 19px !important;
+        }
+    }
+    .divNotaImportante {
+        ul {
+            font-size: 15px;
+        }
+    }
+    .notaFooter,
+    .descripcion,
+    .indicadoresDescripcion,
+    .identificadorIndicadores {
+        font-size: 15px;
+    }
+    select,
+    datalist,
+    input {
+        width: 80vw !important;
+        margin-bottom: 2vh;
+    }
+    .simulacion {
+        img {
+            width: 30% !important;
+        }
+    }
+    .img-logo {
+        width: 15%;
+    }
+    .img-subtitulos {
+        width: 15%;
+    }
+    .tituloIndicadores {
+        margin-top: 25vh !important;
+    }
+}
+
+@media (max-width:820px) {
+    .navbar-brand {
+        p {
+            font-size: 19px !important;
+        }
+    }
+    .divNotaImportante {
+        ul {
+            font-size: 15px;
+        }
+    }
+    .notaFooter,
+    .descripcion,
+    .indicadoresDescripcion,
+    .identificadorIndicadores {
+        font-size: 15px;
+    }
+    select,
+    datalist,
+    input {
+        width: 40vw;
+        margin-bottom: 2vh;
+    }
+    .simulacion {
+        img {
+            width: 30% !important;
+        }
+    }
+    .img-logo {
+        width: 15%;
+    }
+    .img-subtitulos {
+        width: 8%;
+    }
+    .tituloIndicadores {
+        margin-top: 25vh !important;
+    }
+}
