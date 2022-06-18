@@ -1,7 +1,7 @@
 //filter
 input {
     font-family: Roboto-Light;
-    width: 5vw;
+    width: 20vw;
     height: 41px;
     background: #F2F2F2;
     box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.25);
@@ -16,7 +16,7 @@ input:focus {
 select,
 datalist {
     font-family: Roboto-Light;
-    width: 20vw;
+    width: 20vw !important;
     height: 41px;
     background: #F2F2F2;
     box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.25);
@@ -411,7 +411,7 @@ canvas {
     select,
     datalist,
     input {
-        width: 20vw !important;
+        width: 80vw !important;
         margin-bottom: 2vh;
     }
     .simulacion {
