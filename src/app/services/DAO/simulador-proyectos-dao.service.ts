@@ -51,6 +51,11 @@ export class SimuladorProyectosDAOService {
     return amount
   }
 
+  transformNumber(element: string){
+    var amount = Number(element);
+    return amount
+  }
+
   getDatosNormal(form: Object): Observable<any> {
     const headers = {
       'Content-Type': 'application/json; charset=utf-8',
@@ -59,14 +64,17 @@ export class SimuladorProyectosDAOService {
 
     const body = JSON.stringify(form);
     const json = JSON.parse(body);
-    delete json.activos, json.aniosDeContrato, json.gastosPreoperativos, json.linea, json.items;
+    var key = "items"
+    delete json[key]
+    delete json.activos, json.aniosDeContrato, json.gastosPreoperativos, json.linea, json.ventasTotalesAnuales;
     json.propuesto = this.transformAmount(json.propuesto)
 
     this.eliminarVacios(json);
+    console.log(json)
     return this.http.post(environment.endp_precioPiso, json, { 'headers': headers })
   }
 
-  getDatosExtendido(form: Object): Observable<any> {
+  getDatosExtendido(form: any[]): Observable<any> {
     const headers = {
       'Content-Type': 'application/json; charset=utf-8',
       'Ocp-Apim-Subscription-Key': 'd788385e2e7349388f922cd2158dbf7c'
@@ -74,7 +82,7 @@ export class SimuladorProyectosDAOService {
 
     const body = JSON.stringify(form);
     const json = JSON.parse(body);
-    console.log(json)
+
     return this.http.post(environment.endp_analisis, json, { 'headers': headers })
   }
 }

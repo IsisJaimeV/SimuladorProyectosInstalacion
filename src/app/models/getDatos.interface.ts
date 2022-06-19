@@ -8,6 +8,7 @@ export interface getDatosExtendidosI{
     propuesto: number,
     volumen: number,
     tipoOperacion: boolean,
-    items: Array<number>
+    items: Object,
+    ventasTotalesAnuales: number
 }
 
