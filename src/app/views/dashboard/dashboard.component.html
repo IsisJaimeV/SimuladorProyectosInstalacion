@@ -85,12 +85,12 @@
                                 <th scope="col">Volumen incremental anual</th>
                                 <th scope="col">Volumen incremental anual</th>
                                 <th scope="col">Distribuye Cryoinfra</th>
-                                <th scope="col" class="col-sm-1"><button class="btn btn-primary" (click)="agregarCodigo()"><i class="fa fa-plus"></i>
-                                    Codigo</button></th>
+                                <th scope="col" class="col-sm-1"><a class="btn btn-primary" (click)="add_fila()"><i class="fa fa-plus"></i>
+                                    Codigo</a></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr id="{{collapse}}" *ngFor="let collapse of collapses; let i = index" [(ngModel)]="collapses">
+                        <tbody id="filas">
+                            <tr>
                                 <td><input class="linea" formControlName="linea" (change)="selectCodigo($event)" list="filterLinea" name="filterLinea" placeholder="Selecciona una Linea" autocomplete="off">
                                     <datalist id="filterLinea">
                                         <option [value]="item.linea" *ngFor="let item of linea">
@@ -114,7 +114,7 @@
                                     <span class="slider round" checked></span>
                                 </label></td>
                                 <td style="padding-top: 20px;">
-                                    <div class="eliminar" (click)="eliminarCodigo()" style="cursor: pointer;"><i class="fa fa-trash"></i></div>
+                                    <div class="eliminar" style="cursor: pointer;" (click)='eliminar(this)'><i class="fa fa-trash"></i></div>
                                 </td>
                             </tr>
                         </tbody>

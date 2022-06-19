@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { SimuladorProyectosDAOService } from '../../services/DAO/simulador-proyectos-dao.service';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -20,7 +20,6 @@ export class DashboardComponent implements OnInit {
   formattedAmountVolumen: any;
   resultado: any[] = [];
 
-  collapses: string[] = ["collapse46"]
 
   // SELECT FILTER
   anioArray: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -67,7 +66,7 @@ export class DashboardComponent implements OnInit {
   vpn: number = 0;
   prd: string = '';
 
-  constructor(private simuladorProyecto: SimuladorProyectosDAOService, private spinner: NgxSpinnerService, private currencyPipe: CurrencyPipe) { }
+  constructor(private simuladorProyecto: SimuladorProyectosDAOService, private spinner: NgxSpinnerService, private currencyPipe: CurrencyPipe, private elementRef: ElementRef, private renderer: Renderer2) { }
 
   ngOnInit(): void {
     this.selectZona();
@@ -216,22 +215,46 @@ export class DashboardComponent implements OnInit {
         (document.getElementById("colorPRD") as HTMLSpanElement).style.background = "#922415"
         this.prd = resp.resultado.periodoDeRecuperacion;
       }
-
-
-
-      console.log(this.arrayTemp)
     })
-
-
   }
 
-  agregarCodigo() {
-    this.collapses.push("collapse46");
+  add_fila() {
+
+    var tr = document.createElement('tr');
+    tr.innerHTML = "<tr><td><input class='linea' formControlName='linea' (change)='selectCodigo($event)' list='filterLinea' name='filterLinea' placeholder='Selecciona una Linea' autocomplete='off'>" +
+      "<datalist id='filterLinea'>" +
+      "<option [value]='item.linea' *ngFor='let item of linea'>" +
+      "{{item.linea}} {{item.descripcion}}" +
+      "</option>" +
+      "</datalist>" +
+      "</td>" +
+      "<td><input class='codigo' formControlName='codigo' list='filterCodigo' name='filterCodigo' placeholder='Selecciona un código' id='codigo' autocomplete='off'>" +
+      "<datalist required id='filterCodigo'>" +
+      "<option [value]='item.codigo' *ngFor='let item of codigo' >" +
+      "{{item.codigo}} {{item.descripcion}}" +
+      "</option>" +
+      "</datalist>" +
+      "</td>" +
+      "<td style='padding-top: 20px;'><span>$ {{spanPrecioPiso | number : '1.2'}}</span></td>" +
+      "<td><input type='text' class='propuesto' placeholder='$ 00.00' formControlName='propuesto' required id='propuesto' autocomplete='off'></td>" +
+      "<td><input type='text' class='volumen' placeholder='0' formControlName='volumen' id='volumen' (change)='primeraConsulta(filterForm.value)' autocomplete='off'> m3</td>" +
+      "<td style='padding-top: 20px;'>$ {{spanVolumen | number : '1.2'}}</td>" +
+      "<td style='padding-top: 20px;'><label class='switch ms-4'>" +
+      "<input type='checkbox' formControlName='tipoOperacion' id='cryoinfra' (change)='primeraConsulta(filterForm.value)'>" +
+      "<span class='slider round' checked></span>" +
+      "</label></td>" +
+      "<td style='padding-top: 20px;'>" +
+      "<div class='eliminar' (click)='eliminar(this)' style='cursor: pointer;'><i class='fa fa-trash'></i></div>" +
+      "</td></tr>";
+    (document.getElementById("filas") as HTMLTableRowElement).appendChild(tr);
   }
 
-  eliminarCodigo() {
-    this.collapses.splice(1);
+  eliminar(e: any) {
+    console.log("escuchando")
+    e.target.parentNode.removeChild(e.target.parentNode);
   }
-
+  ngAfterViewInit(element: any) {
+    this.renderer.listen(this.elementRef.nativeElement, 'click', (event) => { this.eliminar(element); });
+  }
 
 }
