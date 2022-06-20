@@ -83,12 +83,13 @@
                                 <th scope="col" class="col-sm-3">Código</th>
                                 <th scope="col" class="col-sm-1">Precio piso</th>
                                 <th scope="col">Precio propuesto</th>
-                                <th scope="col">Volumen incremental anual</th>
-                                <th scope="col">Volumen incremental anual</th>
                                 <th scope="col">Distribuye Cryoinfra</th>
+                                <th scope="col">Volumen incremental anual</th>
+                                <th scope="col">Volumen incremental anual</th>
                                 <th scope="col" class="col-sm-1">Acciones</th>
                             </tr>
                         </thead>
+
                         <tbody id="filas">
                             <tr style="background-color: rgb(220, 220, 220)">
                                 <td><input class="linea" formControlName="linea" (change)="selectCodigo($event)" list="filterLinea" name="filterLinea" placeholder="Selecciona una Linea" autocomplete="off" [(ngModel)]="modeloCodigos.linea">
@@ -108,15 +109,15 @@
                                 <td style="padding-top: 20px;"><span [(ngModel)]="modeloCodigos.spanPrecioPiso">$
                                         {{spanPrecioPiso | number : '1.2'}}</span></td>
                                 <td><input type="text" class="propuesto" placeholder="$ 00.00" formControlName="propuesto" required id="propuesto" autocomplete="off" [(ngModel)]="modeloCodigos.propuesto"></td>
-                                <td><input type="text" class="volumen" placeholder="0" formControlName="volumen" id="volumen" (change)="primeraConsulta(filterForm.value)" autocomplete="off" [(ngModel)]="modeloCodigos.volumen"> m3
-                                </td>
-                                <td style="padding-top: 20px;" [(ngModel)]="modeloCodigos.spanVolumen">$ {{spanVolumen | number : '1.2'}}</td>
                                 <td style="padding-top: 20px;"><label class="switch ms-4">
                                         <input type="checkbox" formControlName="tipoOperacion" id="cryoinfra"
-                                            (change)="primeraConsulta(filterForm.value)"
                                             [(ngModel)]="modeloCodigos.tipoOperacion">
                                         <span class="slider round" checked></span>
                                     </label></td>
+
+                                <td style="padding-top: 20px;" [(ngModel)]="modeloCodigos.spanVolumen">$ {{spanVolumen | number : '1.2'}}</td>
+                                <td><input type="text" class="volumen" placeholder="0" formControlName="volumen" id="volumen" (change)="primeraConsulta(filterForm.value)" autocomplete="off" [(ngModel)]="modeloCodigos.volumen"> m3
+                                </td>
                                 <td style="padding-top: 20px;  background-color: rgb(220, 220, 220)">
                                     <a class="eliminar remover" style="cursor: pointer;" (click)="agregarElemento()" style="font-family: Roboto-Regular; background: #203568;box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);border-radius: 8px;
                                         border: transparent;color: #fff; text-decoration: none; margin-bottom: 50px; cursor: pointer;">Agregar</a>
@@ -133,13 +134,13 @@
                                 </td>
                                 <td style="padding-top: 20px;"><span>$ </span></td>
                                 <td><input type="text" class="propuesto" placeholder="{{x.propuesto}}" formControlName="propuesto"></td>
-                                <td><input type="text" class="volumen" placeholder="{{x.volumen}}" formControlName="volumen"> m3
-                                </td>
-                                <td style="padding-top: 20px;">$ </td>
                                 <td style="padding-top: 20px;"><label class="switch ms-4">
                                         <input type="checkbox" id="cryoinfra" placeholder="{{x.tipoOperacion}}" formControlName="tipoOperacion">
                                         <span class="slider round" checked></span>
                                     </label></td>
+                                <td style="padding-top: 20px;">$ </td>
+                                <td><input type="text" class="volumen" placeholder="{{x.volumen}}" formControlName="volumen"> m3
+                                </td>
                                 <td style=" font-size: 1.5em;">
                                     <a class="acciones" style="cursor: pointer;" (click)="eliminarElemento(i)"><i
                                             class="fa fa-trash"></i></a>

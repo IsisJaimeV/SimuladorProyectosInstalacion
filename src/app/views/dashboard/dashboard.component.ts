@@ -16,7 +16,10 @@ export class DashboardComponent implements OnInit {
 
 
   arrayCodigos: any[] = []
-  modeloCodigos:any = {};
+  modeloCodigos: any = {};
+  arrayPrecioPiso: any[] = []
+  arrayVolumen: any[] = [];
+  arrayTotalVolumen: any[] = [];
 
   //CURRENCY INPUT
   formattedAmountInversion: any;
@@ -129,50 +132,67 @@ export class DashboardComponent implements OnInit {
     }, 2000);
   }
 
+  sumar_array(array_numeros: any) {
+    var suma = 0;
+    array_numeros.forEach(function (numero: any) {
+      suma += numero;
+    });
+    return suma;
+  }
+
   getDatos(form: Object) {
     try {
-      var currencyPropuestos = this.filterForm.get('propuesto')?.value;
-      var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
-      var volumen = this.filterForm.get('volumen')?.value;
-
-      this.spanVolumen = propuestos * volumen;
-      this.spanVentasTotalesAnuales = this.spanVolumen;
 
       this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
-        this.spanPrecioPiso = res.resultado.info.precioPiso;
+        var currencyPropuestos = this.filterForm.get('propuesto')?.value;
+        var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
+        var volumen = this.filterForm.get('volumen')?.value;
+
+       this.spanVolumen = propuestos * volumen;
+        this.arrayVolumen.push(this.spanVolumen)
+        var total = this.sumar_array(this.arrayVolumen);
+        this.spanVentasTotalesAnuales = total;
+
+        console.log(this.spanVentasTotalesAnuales)
+
+        this.spanPrecioPiso = Number(res.resultado.info.precioPiso.toFixed(2));
+        this.arrayPrecioPiso.push(this.spanPrecioPiso);
         this.resultado = [res.resultado.info];
 
-        if(Object.keys(this.arrayTemp).length === 0){
+        if (Object.keys(this.arrayTemp).length === 0) {
           this.arrayTemp = {
             aniosDeContrato: Number(this.filterForm.get('aniosDeContrato')?.value),
             activos: Number(this.filterForm.get('activos')?.value.replace(/[^0-9\.]+/g, "")),
-            ventasTotalesAnuales: Number(this.spanVentasTotalesAnuales.toFixed(4)),
             gastosPreoperativos: Number(this.filterForm.get('gastosPreoperativos')?.value.replace(/[^0-9\.]+/g, "")),
             items: []
           };
         }
 
+        this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
+
         let itemInfo = {
           info: {
             costoVta: Number(res.resultado.info.costoVta.toFixed(4)),
-            precioPiso: Number(res.resultado.info.precioPiso.toFixed(4)),
+            precioPiso: Number(res.resultado.info.precioPiso.toFixed(2)),
             gastoCryo: Number(res.resultado.info.gastoCryo.toFixed(4)),
             gastoDist: Number(res.resultado.info.gastoDist.toFixed(4)),
             depreciacion: Number(res.resultado.info.depreciacion.toFixed(4)),
             gastoVta: Number(res.resultado.info.gastoVta.toFixed(4)),
             gastoAdm: Number(res.resultado.info.gastoAdm.toFixed(4)),
-            volumen: Number(this.filterForm.get('volumen')?.value),
-            ventaIncrementalAnual: Number(volumen),
+            volumen: Number(volumen),
+            ventaIncrementalAnual: Number(this.spanVolumen.toFixed(4)),
           },
           infoPropuesto: {
-            precioPiso: Number(this.spanPrecioPiso.toFixed(4))
+            precioPiso: Number(this.filterForm.get('propuesto')?.value)
           }
         }
 
-        this.arrayTemp.items.push(itemInfo)
+        this.arrayTemp.items.push(itemInfo);
+
         this.filterForm.controls['ventasTotalesAnuales'].setValue(this.spanVentasTotalesAnuales);
         this.filterForm.controls['items'].setValue(this.arrayTemp);
 
+        
       }, (errorServicio) => {
         Swal.fire(
           'Intenta nuevamente',
@@ -194,14 +214,14 @@ export class DashboardComponent implements OnInit {
     this.getDatos(form);
   }
 
-  agregarElemento(){
+  agregarElemento() {
     this.arrayCodigos.push(this.modeloCodigos);
     console.log(this.arrayCodigos)
 
     this.modeloCodigos = {};
   }
 
-  eliminarElemento(index:number){
+  eliminarElemento(index: number) {
     console.log(index)
     this.arrayCodigos.splice(index, 1);
     console.log(this.arrayCodigos)
