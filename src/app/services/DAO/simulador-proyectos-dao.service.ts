@@ -68,9 +68,9 @@ export class SimuladorProyectosDAOService {
     delete json[key]
     delete json.activos, json.aniosDeContrato, json.gastosPreoperativos, json.linea, json.ventasTotalesAnuales;
     json.propuesto = this.transformAmount(json.propuesto)
+    json.propuesto = Number(json.propuesto)
 
     this.eliminarVacios(json);
-    console.log(json)
     return this.http.post(environment.endp_precioPiso, json, { 'headers': headers })
   }
 

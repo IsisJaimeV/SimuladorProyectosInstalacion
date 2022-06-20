@@ -125,7 +125,7 @@ datalist:after {
 /* Table*/
 
 .table-responsive {
-    height: 300px;
+    height: 500px;
     background: #FFFFFF;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 4px;
@@ -188,6 +188,17 @@ tbody {
             background: #F2F2F2;
         }
     }
+}
+
+.linea,
+.propuesto,
+.volumen {
+    text-align: center;
+    width: 90px !important;
+}
+
+.codigo {
+    width: 253px !important;
 }
 
 .eliminar,
@@ -329,6 +340,25 @@ input:checked+.slider:before {
 .ventasTotales {
     position: absolute;
     right: 0;
+}
+
+.acciones {
+    background: #FFFFFF;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-left: 10px;
+    svg {
+        width: 18px;
+        color: #1F3569;
+    }
+}
+
+.desactivado {
+    pointer-events: none;
 }
 
 
