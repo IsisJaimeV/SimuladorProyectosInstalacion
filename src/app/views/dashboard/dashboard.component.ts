@@ -142,34 +142,36 @@ export class DashboardComponent implements OnInit {
         this.spanPrecioPiso = res.resultado.info.precioPiso;
         this.resultado = [res.resultado.info];
 
-        let temp = {
-          aniosDeContrato: Number(this.filterForm.get('aniosDeContrato')?.value),
-          activos: Number(this.filterForm.get('activos')?.value.replace(/[^0-9\.]+/g, "")),
-          ventasTotalesAnuales: Number(this.spanVentasTotalesAnuales.toFixed(4)),
-          gastosPreoperativos: Number(this.filterForm.get('gastosPreoperativos')?.value.replace(/[^0-9\.]+/g, "")),
-          items: [
-            {
-              info: {
-                costoVta: Number(res.resultado.info.costoVta.toFixed(4)),
-                precioPiso: Number(res.resultado.info.precioPiso.toFixed(4)),
-                gastoCryo: Number(res.resultado.info.gastoCryo.toFixed(4)),
-                gastoDist: Number(res.resultado.info.gastoDist.toFixed(4)),
-                depreciacion: Number(res.resultado.info.depreciacion.toFixed(4)),
-                gastoVta: Number(res.resultado.info.gastoVta.toFixed(4)),
-                gastoAdm: Number(res.resultado.info.gastoAdm.toFixed(4)),
-                volumen: Number(this.filterForm.get('volumen')?.value),
-                ventaIncrementalAnual: Number(volumen),
-              },
-              infoPropuesto: {
-                precioPiso: Number(this.spanPrecioPiso.toFixed(4))
-              }
-            }
-          ]
-        };
+        if(Object.keys(this.arrayTemp).length === 0){
+          this.arrayTemp = {
+            aniosDeContrato: Number(this.filterForm.get('aniosDeContrato')?.value),
+            activos: Number(this.filterForm.get('activos')?.value.replace(/[^0-9\.]+/g, "")),
+            ventasTotalesAnuales: Number(this.spanVentasTotalesAnuales.toFixed(4)),
+            gastosPreoperativos: Number(this.filterForm.get('gastosPreoperativos')?.value.replace(/[^0-9\.]+/g, "")),
+            items: []
+          };
+        }
 
-        this.arrayTemp = temp;
+        let itemInfo = {
+          info: {
+            costoVta: Number(res.resultado.info.costoVta.toFixed(4)),
+            precioPiso: Number(res.resultado.info.precioPiso.toFixed(4)),
+            gastoCryo: Number(res.resultado.info.gastoCryo.toFixed(4)),
+            gastoDist: Number(res.resultado.info.gastoDist.toFixed(4)),
+            depreciacion: Number(res.resultado.info.depreciacion.toFixed(4)),
+            gastoVta: Number(res.resultado.info.gastoVta.toFixed(4)),
+            gastoAdm: Number(res.resultado.info.gastoAdm.toFixed(4)),
+            volumen: Number(this.filterForm.get('volumen')?.value),
+            ventaIncrementalAnual: Number(volumen),
+          },
+          infoPropuesto: {
+            precioPiso: Number(this.spanPrecioPiso.toFixed(4))
+          }
+        }
+
+        this.arrayTemp.items.push(itemInfo)
         this.filterForm.controls['ventasTotalesAnuales'].setValue(this.spanVentasTotalesAnuales);
-        this.filterForm.controls['items'].setValue(temp);
+        this.filterForm.controls['items'].setValue(this.arrayTemp);
 
       }, (errorServicio) => {
         Swal.fire(
@@ -236,5 +238,5 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  
+
 }
