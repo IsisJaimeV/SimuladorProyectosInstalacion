@@ -144,6 +144,7 @@ export class DashboardComponent implements OnInit {
     try {
 
       this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
+        console.log(res)
         var currencyPropuestos = this.filterForm.get('propuesto')?.value;
         var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
         var volumen = this.filterForm.get('volumen')?.value;
@@ -153,11 +154,12 @@ export class DashboardComponent implements OnInit {
         var total = this.sumar_array(this.arrayVolumen);
         this.spanVentasTotalesAnuales = total;
 
-        console.log(this.spanVentasTotalesAnuales)
 
         this.spanPrecioPiso = Number(res.resultado.info.precioPiso.toFixed(2));
         this.arrayPrecioPiso.push(this.spanPrecioPiso);
         this.resultado = [res.resultado.info];
+
+        this.modeloCodigos['precioPiso'] = Number(res.resultado.info.precioPiso.toFixed(2));
 
         if (Object.keys(this.arrayTemp).length === 0) {
           this.arrayTemp = {
@@ -169,6 +171,7 @@ export class DashboardComponent implements OnInit {
         }
 
         this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
+        this.modeloCodigos['totalVolumen'] = (Number(currencyPropuestos.replace(/[^0-9\.]+/g, "")))*this.filterForm.get('volumen')?.value;
 
         let itemInfo = {
           info: {

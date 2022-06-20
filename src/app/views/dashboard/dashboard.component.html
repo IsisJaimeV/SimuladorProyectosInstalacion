@@ -132,13 +132,13 @@
                                 </td>
                                 <td><input class="codigo" placeholder="{{x.codigo}}" formControlName="codigo">
                                 </td>
-                                <td style="padding-top: 20px;"><span>$ </span></td>
+                                <td style="padding-top: 20px;"><span>$ {{x.precioPiso | number : '1.2'}}</span></td>
                                 <td><input type="text" class="propuesto" placeholder="{{x.propuesto}}" formControlName="propuesto"></td>
                                 <td style="padding-top: 20px;"><label class="switch ms-4">
-                                        <input type="checkbox" id="cryoinfra" placeholder="{{x.tipoOperacion}}" formControlName="tipoOperacion">
+                                        <input type="checkbox" id="cryoinfra" [checked]="x.tipoOperacion == 'true'" formControlName="tipoOperacion">
                                         <span class="slider round" checked></span>
                                     </label></td>
-                                <td style="padding-top: 20px;">$ </td>
+                                <td style="padding-top: 20px;">$ {{x.volumen | number : '1.2'}}</td>
                                 <td><input type="text" class="volumen" placeholder="{{x.volumen}}" formControlName="volumen"> m3
                                 </td>
                                 <td style=" font-size: 1.5em;">
