@@ -83,7 +83,7 @@
                                 <th scope="col" class="col-sm-1">Precio piso</th>
                                 <th scope="col">Precio propuesto</th>
                                 <th scope="col">Volumen incremental</th>
-                                <th scope="col">Volumen incremental anual</th>
+                                <th scope="col">Venta incremental anual</th>
                                 <th scope="col">Distribuye Cryoinfra</th>
                                 <th scope="col" class="col-sm-1">
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" [disabled]="!filterForm.valid"><i class="fa fa-plus" style="display:inline"></i>
@@ -108,7 +108,7 @@
                                                         <th scope="col" class="col-sm-1">Precio piso</th>
                                                         <th scope="col">Precio propuesto</th>
                                                         <th scope="col">Volumen incremental</th>
-                                                        <th scope="col">Volumen incremental anual</th>
+                                                        <th scope="col">Venta incremental anual</th>
                                                         <th scope="col">Distribuye Cryoinfra</th>
 
                                                     </tr>
@@ -147,7 +147,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                            <a type="button" class="btn btn-primary remover" (click)="agregarElemento(filterForm.value)">Agregar</a>
+                                            <button type="button" class="btn btn-primary remover" id="botonAgregar" (click)="agregarElemento(filterForm.value)">Agregar</button>
                                         </div>
                                     </div>
                                 </div>

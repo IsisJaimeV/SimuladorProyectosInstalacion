@@ -148,6 +148,8 @@ export class DashboardComponent implements OnInit {
 
   primeraConsulta(form: Object) {
     this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
+      (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = false;
+
       var currencyPropuestos = this.filterForm.get('propuesto')?.value;
       var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
       var volumen = this.filterForm.get('volumen')?.value;
@@ -160,7 +162,10 @@ export class DashboardComponent implements OnInit {
         'Intenta nuevamente',
         'La consulta no fue validada',
         'error'
-      )
+      );
+      (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
+      this.spanPrecioPiso = 0;
+      this.spanVolumen = 0;
     })
   }
 
@@ -238,7 +243,6 @@ export class DashboardComponent implements OnInit {
 
   segundaConsulta() {
     this.loader();
-    this.contador = 0;
     console.log(this.arrayTemp)
 
     this.simuladorProyecto.getDatosExtendido(this.arrayTemp).subscribe(resp => {
@@ -267,6 +271,7 @@ export class DashboardComponent implements OnInit {
         this.prd = resp.resultado.periodoDeRecuperacion;
       }
     })
+    
   }
 
 
