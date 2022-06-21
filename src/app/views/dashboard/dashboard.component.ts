@@ -154,6 +154,13 @@ export class DashboardComponent implements OnInit {
 
       this.spanVolumen = propuestos * volumen;
       this.spanPrecioPiso = Number(res.resultado.info.precioPiso);
+    }, (errorServicio) => {
+      console.log(errorServicio);
+      Swal.fire(
+        'Intenta nuevamente',
+        'La consulta no fue validada',
+        'error'
+      )
     })
   }
 
