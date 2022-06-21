@@ -68,6 +68,7 @@ export class DashboardComponent implements OnInit {
 
   //RESULTADOS
   arrayTemp: any = {};
+  contador: number = 0;
   spanVolumen: number = 0;
   spanPrecioPiso: number = 0;
   spanVentasTotalesAnuales: any = 0;
@@ -90,8 +91,12 @@ export class DashboardComponent implements OnInit {
 
   selectCodigo(event: any) {
     let value = event.target.value;
+    (document.getElementById("codigo") as HTMLSelectElement).disabled = true;
+    (document.getElementById("codigo") as HTMLSelectElement).style.backgroundColor = "#c0c0c0";
     this.simuladorProyecto.getCodigo(value).subscribe(res => {
       this.codigo = res;
+      (document.getElementById("codigo") as HTMLSelectElement).disabled = false;
+      (document.getElementById("codigo") as HTMLSelectElement).style.backgroundColor = "#F2F2F2";
     });
 
     //limpiar campos
@@ -141,98 +146,79 @@ export class DashboardComponent implements OnInit {
     return suma;
   }
 
-  getDatos(form: Object) {
-    try {
-      this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
-        var currencyPropuestos = this.filterForm.get('propuesto')?.value;
-        var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
-        var volumen = this.filterForm.get('volumen')?.value;
-
-
-        this.spanVolumen = propuestos * volumen;
-        this.modeloCodigos['totalVolumen'] = this.spanVolumen;
-
-
-        this.spanPrecioPiso = Number(res.resultado.info.precioPiso);
-        this.arrayPrecioPiso.push(this.spanPrecioPiso);
-        this.resultado = [res.resultado.info];
-
-        this.modeloCodigos['precioPiso'] = Number(res.resultado.info.precioPiso);
-
-        if (Object.keys(this.arrayTemp).length === 0) {
-          this.arrayTemp = {
-            aniosDeContrato: Number(this.filterForm.get('aniosDeContrato')?.value),
-            activos: Number(this.filterForm.get('activos')?.value.replace(/[^0-9\.]+/g, "")),
-            gastosPreoperativos: Number(this.filterForm.get('gastosPreoperativos')?.value.replace(/[^0-9\.]+/g, "")),
-            items: []
-          };
-        }
-
-        let itemInfo = {
-          info: {
-            costoVta: Number(res.resultado.info.costoVta),
-            precioPiso: Number(res.resultado.info.precioPiso),
-            gastoCryo: Number(res.resultado.info.gastoCryo),
-            gastoDist: Number(res.resultado.info.gastoDist),
-            depreciacion: Number(res.resultado.info.depreciacion),
-            gastoVta: Number(res.resultado.info.gastoVta),
-            gastoAdm: Number(res.resultado.info.gastoAdm),
-            volumen: Number(volumen),
-            ventaIncrementalAnual: Number(this.spanVolumen),
-          },
-          infoPropuesto: {
-            precioPiso: Number(this.filterForm.get('propuesto')?.value)
-          }
-        }
-
-        this.arrayTemp.items.push(itemInfo);
-
-        this.filterForm.controls['ventasTotalesAnuales'].setValue(this.spanVentasTotalesAnuales);
-        this.filterForm.controls['items'].setValue(this.arrayTemp);
-
-        
-      }, (errorServicio) => {
-        Swal.fire(
-          'Intenta nuevamente',
-          'La consulta no fue validada',
-          'error'
-        )
-      })
-    } catch {
-      Swal.fire(
-        'Consulta no valida',
-        'Rellena todos los campos',
-        'error'
-      )
-      this.filterForm.get('volumen')?.reset();
-    }
-  }
-
   primeraConsulta(form: Object) {
-    this.getDatos(form);
+    this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
+      var currencyPropuestos = this.filterForm.get('propuesto')?.value;
+      var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
+      var volumen = this.filterForm.get('volumen')?.value;
+
+      this.spanVolumen = propuestos * volumen;
+      this.spanPrecioPiso = Number(res.resultado.info.precioPiso);
+    })
   }
 
-  agregarElemento() {
-    this.arrayCodigos.push(this.modeloCodigos);
-    console.log(this.arrayCodigos)
 
-    this.modeloCodigos = {};
+  agregarElemento(form: Object) {
+    this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
+      //Agregar valores span Tabla
+      this.spanPrecioPiso = (res.resultado.info.precioPiso).toFixed(2);
+      this.modeloCodigos['precioPiso'] = this.spanPrecioPiso;
 
-    this.spanVolumen = 0;
-    this.spanPrecioPiso = 0;
+      var propuestos = Number(this.filterForm.get('propuesto')?.value);
+      var volumen = Number(this.filterForm.get('volumen')?.value);
+      this.modeloCodigos['totalVolumen'] = (propuestos * volumen);
 
-    var currencyPropuestos = this.filterForm.get('propuesto')?.value;
-    var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
-    var volumen = this.filterForm.get('volumen')?.value;
+      //Agregar span Ventas totales anuales
+      this.arrayVolumen.push(propuestos * volumen);
+      var total = this.sumar_array(this.arrayVolumen);
+      this.spanVentasTotalesAnuales = total;
+      this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
 
-    this.arrayVolumen.push(propuestos * volumen)
-    var total = this.sumar_array(this.arrayVolumen);
-    this.spanVentasTotalesAnuales = total;
+      //Agrega array
+     
+      this.arrayTemp['aniosDeContrato'] = Number(this.filterForm.get('aniosDeContrato')?.value);
+      this.arrayTemp['activos'] = Number(this.filterForm.get('activos')?.value.replace(/[^0-9\.]+/g, ""));
+      this.arrayTemp['gastosPreoperativos'] = Number(this.filterForm.get('gastosPreoperativos')?.value.replace(/[^0-9\.]+/g, ""));
+      
+      if(this.contador == 0){
+      this.arrayTemp['items']=[];
+      }
 
-    this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
+      let itemInfo = {
+        info: {
+          costoVta: Number(res.resultado.info.costoVta),
+          precioPiso: Number(res.resultado.info.precioPiso),
+          gastoCryo: Number(res.resultado.info.gastoCryo),
+          gastoDist: Number(res.resultado.info.gastoDist),
+          depreciacion: Number(res.resultado.info.depreciacion),
+          gastoVta: Number(res.resultado.info.gastoVta),
+          gastoAdm: Number(res.resultado.info.gastoAdm),
+          volumen: Number(volumen),
+          ventaIncrementalAnual: Number(this.spanVolumen),
+        },
+        infoPropuesto: {
+          precioPiso: Number(this.filterForm.get('propuesto')?.value)
+        }
+      }
+
+      this.arrayTemp.items.push(itemInfo);
+      this.contador++;
+
+      this.arrayCodigos.push(this.modeloCodigos);
+      console.log(this.arrayCodigos)
+      this.modeloCodigos = {};
+      this.spanVolumen = 0;
+      this.spanPrecioPiso = 0;
+
+      this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
+    })
+
   }
 
   eliminarElemento(index: number) {
+    console.log(index)
+    this.arrayTemp.items.splice(index, 1)
+
     this.arrayCodigos.splice(index, 1);
     console.log(this.arrayCodigos);
 
@@ -245,7 +231,9 @@ export class DashboardComponent implements OnInit {
 
   segundaConsulta() {
     this.loader();
+    this.contador = 0;
     console.log(this.arrayTemp)
+
     this.simuladorProyecto.getDatosExtendido(this.arrayTemp).subscribe(resp => {
 
       if (resp.resultado.tir > 12) {

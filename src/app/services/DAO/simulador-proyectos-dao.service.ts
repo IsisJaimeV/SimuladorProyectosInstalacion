@@ -4,12 +4,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs/internal/Observable';
 
-import { getDatosExtendidosI } from 'src/app/models/getDatos.interface';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SimuladorProyectosDAOService {
+
+  loading = new BehaviorSubject<boolean>(false);
+  readonly loading$ = this.loading.asObservable();
 
   constructor(private http: HttpClient) { }
 
