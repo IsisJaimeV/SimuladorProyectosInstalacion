@@ -154,6 +154,8 @@ export class DashboardComponent implements OnInit {
         var total = this.sumar_array(this.arrayVolumen);
         this.spanVentasTotalesAnuales = total;
 
+        this.modeloCodigos['totalVolumen'] = this.spanVolumen;
+
 
         this.spanPrecioPiso = Number(res.resultado.info.precioPiso.toFixed(2));
         this.arrayPrecioPiso.push(this.spanPrecioPiso);
@@ -171,8 +173,7 @@ export class DashboardComponent implements OnInit {
         }
 
         this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
-        this.modeloCodigos['totalVolumen'] = (Number(currencyPropuestos.replace(/[^0-9\.]+/g, "")))*this.filterForm.get('volumen')?.value;
-
+       
         let itemInfo = {
           info: {
             costoVta: Number(res.resultado.info.costoVta.toFixed(4)),
@@ -222,6 +223,9 @@ export class DashboardComponent implements OnInit {
     console.log(this.arrayCodigos)
 
     this.modeloCodigos = {};
+
+    this.spanVolumen = 0;
+    this.spanPrecioPiso = 0;
   }
 
   eliminarElemento(index: number) {
