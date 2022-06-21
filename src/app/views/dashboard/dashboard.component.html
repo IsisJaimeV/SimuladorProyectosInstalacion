@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <p class="tituloInput">Zona</p>
-                        <input formControlName="zona" list="filterZona" name="filterZona" placeholder="Selecciona una Zona" id="zona" required autocomplete="off">
+                        <input formControlName="zona" list="filterZona" name="filterZona" placeholder="Selecciona una Zona" id="zona" required autocomplete="off" (change)="reiniciar($event)">
                         <datalist id="filterZona">
                             <option [value]="item.nombre" *ngFor="let item of zona">
                                 {{item.area}} {{item.nombre}}
@@ -86,7 +86,7 @@
                                 <th scope="col">Venta incremental anual</th>
                                 <th scope="col">Distribuye Cryoinfra</th>
                                 <th scope="col" class="col-sm-1">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" [disabled]="!filterForm.valid"><i class="fa fa-plus" style="display:inline"></i>
+                                    <button type="button" class="btn btn-primary" (click)="resetearModal()" data-bs-toggle="modal" data-bs-target="#exampleModal" [disabled]="!filterForm.valid"><i class="fa fa-plus" style="display:inline"></i>
                                         Código
                                     </button>
                                 </th>

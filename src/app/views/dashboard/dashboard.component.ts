@@ -81,6 +81,69 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.selectZona();
     this.selectLinea();
+
+
+    $("#activos, #gastosPreoperativos, #volumen").keypress(function(evt:any) {
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      try {
+          if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+              return false;
+          } else {
+              return true;
+          }
+      } catch (e) {
+          return false;
+      }
+  });
+
+  $("#propuesto").on('keypress', (e:any) => {
+    var field = $(this);
+    var key = e.keyCode ? e.keyCode : e.which;
+
+    if (key == 8) return true;
+    if (key > 47 && key < 58) {
+        if (field.val() === "") return true;
+        var existePto = (/[.]/).test(field.val());
+        if (existePto === false) {
+            var regexp = /.[0-9]{1000}$/;
+        } else {
+            var regexp = /.[0-9]{4}$/;
+        }
+
+        return !(regexp.test(field.val()));
+    }
+    if (key == 46) {
+        if (field.val() === "") return false;
+        var regexp = /^[0-9]+$/;
+        return regexp.test(field.val());
+    }
+    return false;
+});
+
+  }
+
+  reiniciar(e:any){
+     //limpiar campos e inicializar portal
+     this.filterForm.get('aniosDeContrato')?.reset();
+     this.filterForm.get('activos')?.reset();
+     this.filterForm.get('gastosPreoperativos')?.reset();
+ 
+     this.tir = 0;
+     this.vpn = 0;
+     this.prd = "";
+     this.contador = 0;
+     this.arrayCodigos = [];
+     this.spanVentasTotalesAnuales=0;
+     this.arrayVolumen=[]
+  }
+
+  resetearModal(){
+    this.spanPrecioPiso = 0;
+      this.spanVolumen = 0;
+      this.filterForm.get('linea')?.reset();
+      this.filterForm.get('codigo')?.reset();
+      this.filterForm.get('propuesto')?.reset();
+      this.filterForm.get('volumen')?.reset();
   }
 
   selectZona() {
@@ -114,6 +177,7 @@ export class DashboardComponent implements OnInit {
       this.linea = res;
     });
   }
+
 
   transformAmountInversion(element: any) {
     this.formattedAmountInversion = this.currencyPipe.transform(this.formattedAmountInversion, '$');
@@ -166,6 +230,9 @@ export class DashboardComponent implements OnInit {
       (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
       this.spanPrecioPiso = 0;
       this.spanVolumen = 0;
+      this.filterForm.get('codigo')?.reset();
+      this.filterForm.get('propuesto')?.reset();
+      this.filterForm.get('volumen')?.reset();
     })
   }
 
@@ -217,7 +284,6 @@ export class DashboardComponent implements OnInit {
       this.contador++;
 
       this.arrayCodigos.push(this.modeloCodigos);
-      console.log(this.arrayCodigos)
       this.modeloCodigos = {};
       this.spanVolumen = 0;
       this.spanPrecioPiso = 0;
@@ -228,7 +294,6 @@ export class DashboardComponent implements OnInit {
   }
 
   eliminarElemento(index: number) {
-    console.log(index)
     this.arrayTemp.items.splice(index, 1)
 
     this.arrayCodigos.splice(index, 1);
