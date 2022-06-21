@@ -14,6 +14,7 @@ declare var $: any;
 })
 export class DashboardComponent implements OnInit {
 
+  disabledInput = true;
 
   arrayCodigos: any[] = []
   modeloCodigos: any = {};
@@ -142,26 +143,21 @@ export class DashboardComponent implements OnInit {
 
   getDatos(form: Object) {
     try {
-
       this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
-        console.log(res)
         var currencyPropuestos = this.filterForm.get('propuesto')?.value;
         var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
         var volumen = this.filterForm.get('volumen')?.value;
 
-       this.spanVolumen = propuestos * volumen;
-        this.arrayVolumen.push(this.spanVolumen)
-        var total = this.sumar_array(this.arrayVolumen);
-        this.spanVentasTotalesAnuales = total;
 
+        this.spanVolumen = propuestos * volumen;
         this.modeloCodigos['totalVolumen'] = this.spanVolumen;
 
 
-        this.spanPrecioPiso = Number(res.resultado.info.precioPiso.toFixed(2));
+        this.spanPrecioPiso = Number(res.resultado.info.precioPiso);
         this.arrayPrecioPiso.push(this.spanPrecioPiso);
         this.resultado = [res.resultado.info];
 
-        this.modeloCodigos['precioPiso'] = Number(res.resultado.info.precioPiso.toFixed(2));
+        this.modeloCodigos['precioPiso'] = Number(res.resultado.info.precioPiso);
 
         if (Object.keys(this.arrayTemp).length === 0) {
           this.arrayTemp = {
@@ -172,19 +168,17 @@ export class DashboardComponent implements OnInit {
           };
         }
 
-        this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
-       
         let itemInfo = {
           info: {
-            costoVta: Number(res.resultado.info.costoVta.toFixed(4)),
-            precioPiso: Number(res.resultado.info.precioPiso.toFixed(2)),
-            gastoCryo: Number(res.resultado.info.gastoCryo.toFixed(4)),
-            gastoDist: Number(res.resultado.info.gastoDist.toFixed(4)),
-            depreciacion: Number(res.resultado.info.depreciacion.toFixed(4)),
-            gastoVta: Number(res.resultado.info.gastoVta.toFixed(4)),
-            gastoAdm: Number(res.resultado.info.gastoAdm.toFixed(4)),
+            costoVta: Number(res.resultado.info.costoVta),
+            precioPiso: Number(res.resultado.info.precioPiso),
+            gastoCryo: Number(res.resultado.info.gastoCryo),
+            gastoDist: Number(res.resultado.info.gastoDist),
+            depreciacion: Number(res.resultado.info.depreciacion),
+            gastoVta: Number(res.resultado.info.gastoVta),
+            gastoAdm: Number(res.resultado.info.gastoAdm),
             volumen: Number(volumen),
-            ventaIncrementalAnual: Number(this.spanVolumen.toFixed(4)),
+            ventaIncrementalAnual: Number(this.spanVolumen),
           },
           infoPropuesto: {
             precioPiso: Number(this.filterForm.get('propuesto')?.value)
@@ -226,12 +220,27 @@ export class DashboardComponent implements OnInit {
 
     this.spanVolumen = 0;
     this.spanPrecioPiso = 0;
+
+    var currencyPropuestos = this.filterForm.get('propuesto')?.value;
+    var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
+    var volumen = this.filterForm.get('volumen')?.value;
+
+    this.arrayVolumen.push(propuestos * volumen)
+    var total = this.sumar_array(this.arrayVolumen);
+    this.spanVentasTotalesAnuales = total;
+
+    this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
   }
 
   eliminarElemento(index: number) {
-    console.log(index)
     this.arrayCodigos.splice(index, 1);
-    console.log(this.arrayCodigos)
+    console.log(this.arrayCodigos);
+
+    this.arrayVolumen.splice(index, 1);
+    var total = this.sumar_array(this.arrayVolumen);
+    this.spanVentasTotalesAnuales = total;
+
+    this.filterForm.controls['ventasTotalesAnuales'].setValue(this.spanVentasTotalesAnuales);
   }
 
   segundaConsulta() {

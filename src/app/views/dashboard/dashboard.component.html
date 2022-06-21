@@ -86,66 +86,94 @@
                                 <th scope="col">Distribuye Cryoinfra</th>
                                 <th scope="col">Volumen incremental anual</th>
                                 <th scope="col">Volumen incremental anual</th>
-                                <th scope="col" class="col-sm-1">Acciones</th>
+                                <th scope="col" class="col-sm-1">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-plus" style="display:inline"></i>
+                                        Código
+                                    </button>
+                                </th>
                             </tr>
                         </thead>
 
                         <tbody id="filas">
-                            <tr style="background-color: rgb(220, 220, 220)">
-                                <td><input class="linea" formControlName="linea" (change)="selectCodigo($event)" list="filterLinea" name="filterLinea" placeholder="Selecciona una Linea" autocomplete="off" [(ngModel)]="modeloCodigos.linea">
-                                    <datalist id="filterLinea">
-                                        <option [value]="item.linea" *ngFor="let item of linea">
-                                            {{item.linea}} {{item.descripcion}}
-                                        </option>
-                                    </datalist>
-                                </td>
-                                <td><input class="codigo" formControlName="codigo" list="filterCodigo" name="filterCodigo" placeholder="Selecciona un código" id="codigo" autocomplete="off" [(ngModel)]="modeloCodigos.codigo">
-                                    <datalist required id="filterCodigo">
-                                        <option [value]="item.codigo" *ngFor="let item of codigo">
-                                            {{item.codigo}} {{item.descripcion}}
-                                        </option>
-                                    </datalist>
-                                </td>
-                                <td style="padding-top: 20px;"><span [(ngModel)]="modeloCodigos.spanPrecioPiso">$
-                                        {{spanPrecioPiso | number : '1.2'}}</span></td>
-                                <td><input type="text" class="propuesto" placeholder="$ 00.00" formControlName="propuesto" required id="propuesto" autocomplete="off" [(ngModel)]="modeloCodigos.propuesto"></td>
-                                <td style="padding-top: 20px;"><label class="switch ms-4">
-                                        <input type="checkbox" formControlName="tipoOperacion" id="cryoinfra"
-                                            [(ngModel)]="modeloCodigos.tipoOperacion">
-                                        <span class="slider round" checked></span>
-                                    </label></td>
 
-                                <td style="padding-top: 20px;" [(ngModel)]="modeloCodigos.spanVolumen">$ {{spanVolumen | number : '1.2'}}</td>
-                                <td><input type="text" class="volumen" placeholder="0" formControlName="volumen" id="volumen" (change)="primeraConsulta(filterForm.value)" autocomplete="off" [(ngModel)]="modeloCodigos.volumen"> m3
-                                </td>
-                                <td style="padding-top: 20px;  background-color: rgb(220, 220, 220)">
-                                    <a class="eliminar remover" style="cursor: pointer;" (click)="agregarElemento()" style="font-family: Roboto-Regular; background: #203568;box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);border-radius: 8px;
-                                        border: transparent;color: #fff; text-decoration: none; margin-bottom: 50px; cursor: pointer;">Agregar</a>
-                                </td>
-                            </tr>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content" style="overflow-x: scroll;">
+                                        <div class="modal-body">
+                                            <table class="table table-fixed table-borderless table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Linea</th>
+                                                        <th scope="col" class="col-sm-3">Código</th>
+                                                        <th scope="col" class="col-sm-1">Precio piso</th>
+                                                        <th scope="col">Precio propuesto</th>
+                                                        <th scope="col">Distribuye Cryoinfra</th>
+                                                        <th scope="col">Volumen incremental anual</th>
+                                                        <th scope="col">Volumen incremental anual</th>
 
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input class="linea" formControlName="linea" (change)="selectCodigo($event)" list="filterLinea" name="filterLinea" placeholder="Selecciona una Linea" autocomplete="off" [(ngModel)]="modeloCodigos.linea">
+                                                            <datalist id="filterLinea">
+                                                                <option [value]="item.linea" *ngFor="let item of linea">
+                                                                    {{item.linea}} {{item.descripcion}}
+                                                                </option>
+                                                            </datalist>
+                                                        </td>
+                                                        <td><input class="codigo" formControlName="codigo" list="filterCodigo" name="filterCodigo" placeholder="Selecciona un código" id="codigo" autocomplete="off" [(ngModel)]="modeloCodigos.codigo">
+                                                            <datalist id="filterCodigo">
+                                                                <option [value]="item.codigo" *ngFor="let item of codigo">
+                                                                    {{item.codigo}} {{item.descripcion}}
+                                                                </option>
+                                                            </datalist>
+                                                        </td>
+                                                        <td style="padding-top: 20px;"><span [(ngModel)]="modeloCodigos.spanPrecioPiso">$
+                                                                {{spanPrecioPiso | number : '1.2'}}</span></td>
+                                                        <td><input type="text" class="propuesto" placeholder="$ 00.00" formControlName="propuesto" id="propuesto" autocomplete="off" [(ngModel)]="modeloCodigos.propuesto"></td>
+                                                        <td style="padding-top: 20px;"><label class="switch ms-4">
+                                                                <input type="checkbox" formControlName="tipoOperacion" id="cryoinfra" 
+                                                                    [(ngModel)]="modeloCodigos.tipoOperacion">
+                                                                <span class="slider round" checked></span>
+                                                            </label></td>
 
+                                                        <td style="padding-top: 20px;" [(ngModel)]="modeloCodigos.spanVolumen">$ {{spanVolumen | number : '1.2'}}</td>
+                                                        <td><input type="text" class="volumen" placeholder="0" formControlName="volumen" id="volumen" (blur)="primeraConsulta(filterForm.value)" autocomplete="off" [(ngModel)]="modeloCodigos.volumen"> m3
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="button" class="btn btn-primary remover" (click)="agregarElemento()">Agregar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
 
                             <tr *ngFor="let x of arrayCodigos; let i = index">
-                                <td><input class="linea" placeholder="{{x.linea}}" formControlName="linea">
+                                <td><input class="linea" placeholder="{{x.linea}}" formControlName="linea" [disabled]="true">
                                 </td>
-                                <td><input class="codigo" placeholder="{{x.codigo}}" formControlName="codigo">
+                                <td><input class="codigo" placeholder="{{x.codigo}}" formControlName="codigo" [disabled]="true">
                                 </td>
                                 <td style="padding-top: 20px;"><span>$ {{x.precioPiso | number : '1.2'}}</span></td>
-                                <td><input type="text" class="propuesto" placeholder="{{x.propuesto}}" formControlName="propuesto"></td>
+                                <td><input type="text" class="propuesto" placeholder="{{x.propuesto}}" formControlName="propuesto" [disabled]="true"></td>
                                 <td style="padding-top: 20px;"><label class="switch ms-4">
-                                        <input type="checkbox" id="cryoinfra" [checked]="x.tipoOperacion == 'true'" formControlName="tipoOperacion">
+                                        <input type="checkbox" id="cryoinfra" [checked]="x.tipoOperacion"  [disabled]="true">
                                         <span class="slider round" checked></span>
                                     </label></td>
                                 <td style="padding-top: 20px;">$ {{x.totalVolumen | number : '1.2'}}</td>
-                                <td><input type="text" class="volumen" placeholder="{{x.volumen}}" formControlName="volumen"> m3
+                                <td><input type="text" class="volumen" placeholder="{{x.volumen}}" formControlName="volumen" [disabled]="true"> m3
                                 </td>
                                 <td style=" font-size: 1.5em;">
                                     <a class="acciones" style="cursor: pointer;" (click)="eliminarElemento(i)"><i
                                             class="fa fa-trash"></i></a>
-                                    <a class="acciones desactivado" style="cursor: pointer;" (click)="eliminarElemento(i)"><i
-                                            class="fa fa-pencil"></i></a>
+                                    <a class="acciones desactivado" style="cursor: pointer;" (click)="eliminarElemento(i)"><i class="fa fa-pencil"></i></a>
                                 </td>
                             </tr>
 
@@ -164,7 +192,7 @@
                 </div>
             </div>
             <div class="col col-btnSimulacion">
-                <button class="btn btn-primary simulacion me-5" type="submit"><img
+                <button class="btn btn-primary simulacion me-5" type="submit" [disabled]="!filterForm.valid"><img
                         src="../../../assets/icons/icon-simular.png">Simular </button>
             </div>
         </div>
