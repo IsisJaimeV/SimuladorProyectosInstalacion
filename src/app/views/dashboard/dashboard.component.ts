@@ -4,7 +4,6 @@ import { SimuladorProyectosDAOService } from '../../services/DAO/simulador-proye
 import { NgxSpinnerService } from "ngx-spinner";
 import Swal from 'sweetalert2'
 import { CurrencyPipe } from '@angular/common';
-import { getDatosExtendidosI } from 'src/app/models/getDatos.interface';
 
 declare var $: any;
 @Component({
@@ -82,68 +81,84 @@ export class DashboardComponent implements OnInit {
     this.selectZona();
     this.selectLinea();
 
-
-    $("#activos, #gastosPreoperativos, #volumen").keypress(function(evt:any) {
+    //Aceptar solo numericos a input
+    $("#activos, #gastosPreoperativos, #volumen").keypress(function (evt: any) {
       var charCode = (evt.which) ? evt.which : evt.keyCode;
       try {
-          if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-              return false;
-          } else {
-              return true;
-          }
-      } catch (e) {
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
           return false;
+        } else {
+          return true;
+        }
+      } catch (e) {
+        return false;
       }
-  });
+    });
 
-  $("#propuesto").on('keypress', (e:any) => {
-    var field = $(this);
-    var key = e.keyCode ? e.keyCode : e.which;
+    //aceptar solo numericos con decimales a input
+    $("#propuesto").on('keypress', (e: any) => {
+      var field = $(this);
+      var key = e.keyCode ? e.keyCode : e.which;
 
-    if (key == 8) return true;
-    if (key > 47 && key < 58) {
+      if (key == 8) return true;
+      if (key > 47 && key < 58) {
         if (field.val() === "") return true;
         var existePto = (/[.]/).test(field.val());
         if (existePto === false) {
-            var regexp = /.[0-9]{1000}$/;
+          var regexp = /.[0-9]{1000}$/;
         } else {
-            var regexp = /.[0-9]{4}$/;
+          var regexp = /.[0-9]{4}$/;
         }
 
         return !(regexp.test(field.val()));
-    }
-    if (key == 46) {
+      }
+      if (key == 46) {
         if (field.val() === "") return false;
         var regexp = /^[0-9]+$/;
         return regexp.test(field.val());
-    }
-    return false;
-});
+      }
+      return false;
+    });
 
   }
 
-  reiniciar(e:any){
-     //limpiar campos e inicializar portal
-     this.filterForm.get('aniosDeContrato')?.reset();
-     this.filterForm.get('activos')?.reset();
-     this.filterForm.get('gastosPreoperativos')?.reset();
- 
-     this.tir = 0;
-     this.vpn = 0;
-     this.prd = "";
-     this.contador = 0;
-     this.arrayCodigos = [];
-     this.spanVentasTotalesAnuales=0;
-     this.arrayVolumen=[]
+  reiniciar(e: any) {
+    //limpiar campos e inicializar portal
+    this.filterForm.get('aniosDeContrato')?.reset();
+    this.filterForm.get('activos')?.reset();
+    this.filterForm.get('gastosPreoperativos')?.reset();
+
+    // if (this.arrayCodigos.length != 0) {
+      
+      Swal.fire({
+        title: "Se ha reiniciado",
+        text: "This alert will disappear after 3 seconds.",
+        position: "bottom",
+        showConfirmButton: false,
+        showCancelButton: false,
+        background: "#1e2122",
+        timer: 2000
+      });
+    // }
+
+
+    this.tir = 0;
+    this.vpn = 0;
+    this.prd = "";
+    this.contador = 0;
+    this.arrayCodigos = [];
+    this.spanVentasTotalesAnuales = 0;
+    this.arrayVolumen = []
+
   }
 
-  resetearModal(){
+  resetearModal() {
     this.spanPrecioPiso = 0;
-      this.spanVolumen = 0;
-      this.filterForm.get('linea')?.reset();
-      this.filterForm.get('codigo')?.reset();
-      this.filterForm.get('propuesto')?.reset();
-      this.filterForm.get('volumen')?.reset();
+    this.spanVolumen = 0;
+    this.filterForm.get('linea')?.reset();
+    this.filterForm.get('codigo')?.reset();
+    this.filterForm.get('propuesto')?.reset();
+    this.filterForm.get('volumen')?.reset();
   }
 
   selectZona() {
@@ -254,13 +269,13 @@ export class DashboardComponent implements OnInit {
       this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
 
       //Agrega array
-     
+
       this.arrayTemp['aniosDeContrato'] = Number(this.filterForm.get('aniosDeContrato')?.value);
       this.arrayTemp['activos'] = Number(this.filterForm.get('activos')?.value.replace(/[^0-9\.]+/g, ""));
       this.arrayTemp['gastosPreoperativos'] = Number(this.filterForm.get('gastosPreoperativos')?.value.replace(/[^0-9\.]+/g, ""));
-      
-      if(this.contador == 0){
-      this.arrayTemp['items']=[];
+
+      if (this.contador == 0) {
+        this.arrayTemp['items'] = [];
       }
 
       let itemInfo = {
@@ -299,11 +314,14 @@ export class DashboardComponent implements OnInit {
     this.arrayCodigos.splice(index, 1);
     console.log(this.arrayCodigos);
 
+    console.log(this.arrayVolumen)
     this.arrayVolumen.splice(index, 1);
     var total = this.sumar_array(this.arrayVolumen);
+    console.log(total)
     this.spanVentasTotalesAnuales = total;
 
-    this.filterForm.controls['ventasTotalesAnuales'].setValue(this.spanVentasTotalesAnuales);
+    this.arrayTemp['ventasTotalesAnuales'] = total;
+    this.filterForm.controls['ventasTotalesAnuales'].setValue(total);
   }
 
   segundaConsulta() {
@@ -336,7 +354,7 @@ export class DashboardComponent implements OnInit {
         this.prd = resp.resultado.periodoDeRecuperacion;
       }
     })
-    
+
   }
 
 
