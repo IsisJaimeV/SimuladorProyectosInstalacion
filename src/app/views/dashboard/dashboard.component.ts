@@ -128,7 +128,7 @@ export class DashboardComponent implements OnInit {
     this.filterForm.get('activos')?.reset();
     this.filterForm.get('gastosPreoperativos')?.reset();
 
-    // if (this.arrayCodigos.length != 0) {
+    if (this.arrayCodigos.length != 0) {
       
       Swal.fire({
         title: "Se ha reiniciado",
@@ -139,7 +139,7 @@ export class DashboardComponent implements OnInit {
         background: "#1e2122",
         timer: 2000
       });
-    // }
+     }
 
 
     this.tir = 0;
