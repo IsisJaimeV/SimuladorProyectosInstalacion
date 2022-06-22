@@ -13,8 +13,7 @@ declare var $: any;
 })
 export class DashboardComponent implements OnInit {
 
-  disabledInput = true;
-
+  //ARRAY TEMPORALES PARA RESULTADOS
   arrayCodigos: any[] = []
   modeloCodigos: any = {};
   arrayPrecioPiso: any[] = []
@@ -65,7 +64,7 @@ export class DashboardComponent implements OnInit {
     ventasTotalesAnuales: new FormControl(''),
   })
 
-  //RESULTADOS
+  //SPAN RESULTADOS
   arrayTemp: any = {};
   contador: number = 0;
   spanVolumen: number = 0;
@@ -80,83 +79,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.selectZona();
     this.selectLinea();
-
-    //Aceptar solo numericos a input
-    $("#activos, #gastosPreoperativos, #volumen").keypress(function (evt: any) {
-      var charCode = (evt.which) ? evt.which : evt.keyCode;
-      try {
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-          return false;
-        } else {
-          return true;
-        }
-      } catch (e) {
-        return false;
-      }
-    });
-
-    //aceptar solo numericos con decimales a input
-    $("#propuesto").on('keypress', (e: any) => {
-      var field = $(this);
-      var key = e.keyCode ? e.keyCode : e.which;
-
-      if (key == 8) return true;
-      if (key > 47 && key < 58) {
-        if (field.val() === "") return true;
-        var existePto = (/[.]/).test(field.val());
-        if (existePto === false) {
-          var regexp = /.[0-9]{1000}$/;
-        } else {
-          var regexp = /.[0-9]{4}$/;
-        }
-
-        return !(regexp.test(field.val()));
-      }
-      if (key == 46) {
-        if (field.val() === "") return false;
-        var regexp = /^[0-9]+$/;
-        return regexp.test(field.val());
-      }
-      return false;
-    });
-
-  }
-
-  reiniciar(e: any) {
-    //limpiar campos e inicializar portal
-    this.filterForm.get('aniosDeContrato')?.reset();
-    this.filterForm.get('activos')?.reset();
-    this.filterForm.get('gastosPreoperativos')?.reset();
-
-     if (this.arrayCodigos.length != 0) {
-      
-      Swal.fire({
-        text: "Todos los datos han sido reiniciados.",
-        position: "bottom",
-        showConfirmButton: false,
-        showCancelButton: false,
-        timer: 1500
-      });
-      }
-
-
-    this.tir = 0;
-    this.vpn = 0;
-    this.prd = "";
-    this.contador = 0;
-    this.arrayCodigos = [];
-    this.spanVentasTotalesAnuales = 0;
-    this.arrayVolumen = []
-
-  }
-
-  resetearModal() {
-    this.spanPrecioPiso = 0;
-    this.spanVolumen = 0;
-    this.filterForm.get('linea')?.reset();
-    this.filterForm.get('codigo')?.reset();
-    this.filterForm.get('propuesto')?.reset();
-    this.filterForm.get('volumen')?.reset();
+    this.separadorMiles();
+    this.soloNumerosInput();
   }
 
   selectZona() {
@@ -191,20 +115,35 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-
-  transformAmountInversion(element: any) {
-    this.formattedAmountInversion = this.currencyPipe.transform(this.formattedAmountInversion, '$');
-    element.target.value = this.formattedAmountInversion;
+  separadorMiles() {
+    $("#activos, #gastosPreoperativos").on({
+      "focus": function (event: { target: any; }) {
+        $(event.target).select();
+      },
+      "keyup": function (event: { target: any; }) {
+        $(event.target).val(function (index: any, value: string) {
+          return value.replace(/\D/g, "")
+            .replace(/([0-9])([0-9]{0})$/, '$1')
+            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+        });
+      }
+    });
   }
 
-  transformAmountGastos(element: any) {
-    this.formattedAmountGastos = this.currencyPipe.transform(this.formattedAmountGastos, '$');
-    element.target.value = this.formattedAmountGastos;
-  }
-
-  transformAmountPropuesto(element: any) {
-    this.formattedAmountPropuesto = this.currencyPipe.transform(this.formattedAmountPropuesto, '$');
-    element.target.value = this.formattedAmountPropuesto;
+  soloNumerosInput() {
+    //Aceptar solo numericos a input
+    $("#activos, #gastosPreoperativos, #volumen").keypress(function (evt: any) {
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      try {
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+          return false;
+        } else {
+          return true;
+        }
+      } catch (e) {
+        return false;
+      }
+    });
   }
 
   loader() {
@@ -215,6 +154,38 @@ export class DashboardComponent implements OnInit {
     }, 2000);
   }
 
+  primeraConsulta(form: Object) {
+    (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
+    (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "visible";
+
+    this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
+      var currencyPropuestos = this.filterForm.get('propuesto')?.value;
+      var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
+      var volumen = this.filterForm.get('volumen')?.value;
+
+      this.spanVolumen = propuestos * volumen;
+      this.spanPrecioPiso = Number(res.resultado.info.precioPiso);
+
+      (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = false;
+      (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden";
+    }, (errorServicio) => {
+      Swal.fire(
+        'Intenta nuevamente',
+        'La consulta no fue validada',
+        'error'
+      );
+      (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
+      (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden";
+      this.spanPrecioPiso = 0;
+      this.spanVolumen = 0;
+      this.filterForm.get('linea')?.reset();
+      this.filterForm.get('codigo')?.reset();
+      this.filterForm.get('volumen')?.reset();
+      this.filterForm.get('propuesto')?.reset();
+      this.filterForm.get('tipoOperacion')?.reset();
+    })
+  }
+
   sumar_array(array_numeros: any) {
     var suma = 0;
     array_numeros.forEach(function (numero: any) {
@@ -222,33 +193,6 @@ export class DashboardComponent implements OnInit {
     });
     return suma;
   }
-
-  primeraConsulta(form: Object) {
-    this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
-      (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = false;
-
-      var currencyPropuestos = this.filterForm.get('propuesto')?.value;
-      var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
-      var volumen = this.filterForm.get('volumen')?.value;
-
-      this.spanVolumen = propuestos * volumen;
-      this.spanPrecioPiso = Number(res.resultado.info.precioPiso);
-    }, (errorServicio) => {
-      console.log(errorServicio);
-      Swal.fire(
-        'Intenta nuevamente',
-        'La consulta no fue validada',
-        'error'
-      );
-      (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
-      this.spanPrecioPiso = 0;
-      this.spanVolumen = 0;
-      this.filterForm.get('codigo')?.reset();
-      this.filterForm.get('propuesto')?.reset();
-      this.filterForm.get('volumen')?.reset();
-    })
-  }
-
 
   agregarElemento(form: Object) {
     this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
@@ -265,12 +209,6 @@ export class DashboardComponent implements OnInit {
       var total = this.sumar_array(this.arrayVolumen);
       this.spanVentasTotalesAnuales = total;
       this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
-
-      //Agrega array
-
-      this.arrayTemp['aniosDeContrato'] = Number(this.filterForm.get('aniosDeContrato')?.value);
-      this.arrayTemp['activos'] = Number(this.filterForm.get('activos')?.value.replace(/[^0-9\.]+/g, ""));
-      this.arrayTemp['gastosPreoperativos'] = Number(this.filterForm.get('gastosPreoperativos')?.value.replace(/[^0-9\.]+/g, ""));
 
       if (this.contador == 0) {
         this.arrayTemp['items'] = [];
@@ -300,8 +238,24 @@ export class DashboardComponent implements OnInit {
       this.modeloCodigos = {};
       this.spanVolumen = 0;
       this.spanPrecioPiso = 0;
+      this.tir = 0;
+      this.vpn = 0;
+      this.prd = "";
+      (document.getElementById("colorTIR") as HTMLCanvasElement).style.background = "#ffffff";
+      (document.getElementById("colorVPN") as HTMLCanvasElement).style.background = "#ffffff";
+      (document.getElementById("colorPRD") as HTMLCanvasElement).style.background = "#ffffff";
 
       this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
+    })
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Dato agregado con exito',
+      toast: true,
+      position: 'top-right',
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true
     })
 
   }
@@ -310,24 +264,57 @@ export class DashboardComponent implements OnInit {
     this.arrayTemp.items.splice(index, 1)
 
     this.arrayCodigos.splice(index, 1);
-    console.log(this.arrayCodigos);
 
-    console.log(this.arrayVolumen)
     this.arrayVolumen.splice(index, 1);
     var total = this.sumar_array(this.arrayVolumen);
-    console.log(total)
     this.spanVentasTotalesAnuales = total;
 
     this.arrayTemp['ventasTotalesAnuales'] = total;
     this.filterForm.controls['ventasTotalesAnuales'].setValue(total);
+
+    this.tir = 0;
+    this.vpn = 0;
+    this.prd = "";
+    (document.getElementById("colorTIR") as HTMLCanvasElement).style.background = "#ffffff";
+    (document.getElementById("colorVPN") as HTMLCanvasElement).style.background = "#ffffff";
+    (document.getElementById("colorPRD") as HTMLCanvasElement).style.background = "#ffffff";
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Dato eliminado con exito',
+      toast: true,
+      position: 'top-right',
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true
+    })
+  }
+
+  editarElemento(index: number) {
+
+    $('#exampleModal').modal('show');
+    console.log(this.arrayCodigos[index]);
+
+    $('#linea').val(this.arrayCodigos[index].linea);
+    $('#codigo').val(this.arrayCodigos[index].codigo);
+    $('#volumen').val(this.arrayCodigos[index].totalVolumen);
+    $('#propuesto').val(this.arrayCodigos[index].volumen);
+    $('#cryoinfra').prop("checked", this.arrayCodigos[index].tipoOperacion);
+
+
   }
 
   segundaConsulta() {
     this.loader();
     console.log(this.arrayTemp)
 
-    this.simuladorProyecto.getDatosExtendido(this.arrayTemp).subscribe(resp => {
+    //Agrega array
+    this.arrayTemp['aniosDeContrato'] = Number(this.filterForm.get('aniosDeContrato')?.value);
+    this.arrayTemp['activos'] = Number(this.filterForm.get('activos')?.value.replace(/[^0-9\.]+/g, ""));
+    this.arrayTemp['gastosPreoperativos'] = Number(this.filterForm.get('gastosPreoperativos')?.value.replace(/[^0-9\.]+/g, ""));
+    this.arrayTemp['aniosDeContrato'] = Number(this.filterForm.get('aniosDeContrato')?.value);
 
+    this.simuladorProyecto.getDatosExtendido(this.arrayTemp).subscribe(resp => {
       if (resp.resultado.tir > 12) {
         (document.getElementById("colorTIR") as HTMLSpanElement).style.background = "#617E41";
         this.tir = resp.resultado.tir;
@@ -355,5 +342,64 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  reiniciar(e: any) {
+    //limpiar campos e inicializar portal
+    this.filterForm.get('aniosDeContrato')?.reset();
+    this.filterForm.get('activos')?.reset();
+    this.filterForm.get('gastosPreoperativos')?.reset();
+
+    if (this.arrayCodigos.length != 0) {
+
+      Swal.fire({
+        icon: 'info',
+        title: 'Los datos fueron reiniciados',
+        toast: true,
+        position: 'top-right',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true
+      })
+    }
+    this.tir = 0;
+    this.vpn = 0;
+    this.prd = "";
+    (document.getElementById("colorTIR") as HTMLCanvasElement).style.background = "#ffffff";
+    (document.getElementById("colorVPN") as HTMLCanvasElement).style.background = "#ffffff";
+    (document.getElementById("colorPRD") as HTMLCanvasElement).style.background = "#ffffff";
+    this.contador = 0;
+    this.arrayCodigos = [];
+    this.spanVentasTotalesAnuales = 0;
+    this.arrayVolumen = []
+  }
+
+  limpiarIndicadores() {
+    this.tir = 0;
+    this.vpn = 0;
+    this.prd = "";
+    (document.getElementById("colorTIR") as HTMLCanvasElement).style.background = "#ffffff";
+    (document.getElementById("colorVPN") as HTMLCanvasElement).style.background = "#ffffff";
+    (document.getElementById("colorPRD") as HTMLCanvasElement).style.background = "#ffffff";
+  }
+
+  resetearModal() {
+    this.spanPrecioPiso = 0;
+    this.spanVolumen = 0;
+    this.filterForm.get('linea')?.reset();
+    this.filterForm.get('codigo')?.reset();
+    this.filterForm.get('propuesto')?.reset();
+    this.filterForm.get('volumen')?.reset();
+
+    var volumen = $('#volumen').val();
+    var propuesto = $('#propuesto').val();
+    var codigo = $('#codigo').val();
+    var linea = $('#linea').val();
+
+    (document.getElementById("botonAgregar") as HTMLButtonElement).disabled = false;
+    if (volumen == "" && propuesto == "" && codigo == "" && linea == "") {
+      (document.getElementById("botonAgregar") as HTMLButtonElement).disabled = false;
+    } else {
+      (document.getElementById("botonAgregar") as HTMLButtonElement).disabled = true;
+    }
+  }
 
 }

@@ -15,7 +15,7 @@
                     </div>
                     <div class="col">
                         <p class="tituloInput">Años de contrato</p>
-                        <select id="filterAnio" formControlName="aniosDeContrato" list="filterAnio" name="filterAnio" placeholder="Selecciona un año" id="aniosDeContrato" autocomplete="off" required>
+                        <select id="filterAnio" formControlName="aniosDeContrato" list="filterAnio" name="filterAnio" placeholder="Selecciona un año" id="aniosDeContrato" (change)="limpiarIndicadores()" autocomplete="off" required>
                             <option [value]="item" *ngFor="let item of this.anioArray">
                                 {{item}}
                             </option>
@@ -32,12 +32,12 @@
                     <p class="tituloInput">Activos</p>
                     <p class="descripcion">Importe estimado de los equipos en comodato. El monto debe ser considerado como nuevo por el valor de reposición. El valor de recuperación se considera al final del plazo del contrato.
                     </p>
-                    <input type="text" style="margin-left: 10px; text-align: right;" placeholder="$00" formControlName="activos" required id="activos" autocomplete="off">
+                    <label>$<input type="text" style="margin-left: 10px; text-align: right;" placeholder="0" formControlName="activos" required id="activos" autocomplete="off"></label>
                 </div>
                 <div class="row mt-4">
                     <p class="tituloInput">Gastos preoperativos</p>
                     <p class="descripcion">Monto estimado para la instalación y traslado de equipos.</p>
-                    <input type="text" style="margin-left: 10px; text-align: right;" placeholder="$00" formControlName="gastosPreoperativos" required id="gastosPreoperativos" autocomplete="off">
+                    <label>$<input type="text" style="margin-left: 10px; text-align: right;" placeholder="0" formControlName="gastosPreoperativos" required id="gastosPreoperativos" autocomplete="off"></label>
                 </div>
             </div>
             <div class="col ms-2">
@@ -115,7 +115,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td><input class="linea" formControlName="linea" (change)="selectCodigo($event)" list="filterLinea" name="filterLinea" placeholder="Selecciona una Linea" autocomplete="off" [(ngModel)]="modeloCodigos.linea">
+                                                        <td><input class="linea" formControlName="linea" (change)="selectCodigo($event)" list="filterLinea" name="filterLinea" placeholder="Selecciona una Linea" autocomplete="off" id="linea" [(ngModel)]="modeloCodigos.linea">
                                                             <datalist id="filterLinea">
                                                                 <option [value]="item.linea" *ngFor="let item of linea">
                                                                     {{item.linea}} {{item.descripcion}}
@@ -131,7 +131,7 @@
                                                         </td>
                                                         <td style="padding-top: 20px;"><span [(ngModel)]="modeloCodigos.spanPrecioPiso">$
                                                                 {{spanPrecioPiso | number : '1.2'}}</span></td>
-                                                        <td><input type="text" class="propuesto" placeholder="$ 00.00" formControlName="propuesto" id="propuesto" autocomplete="off" [(ngModel)]="modeloCodigos.propuesto"></td>
+                                                        <td><input type="text" class="propuesto" placeholder="$ 0.0" formControlName="propuesto" id="propuesto" autocomplete="off" [(ngModel)]="modeloCodigos.propuesto"></td>
                                                         <td><input type="text" class="volumen" placeholder="0" formControlName="volumen" id="volumen" (keyup)="primeraConsulta(filterForm.value)" autocomplete="off" [(ngModel)]="modeloCodigos.volumen"> m3
                                                         </td>
                                                         <td style="padding-top: 20px;" [(ngModel)]="modeloCodigos.spanVolumen">$ {{spanVolumen | number : '1.2'}}</td>
@@ -147,12 +147,11 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                            <button type="button" class="btn btn-primary remover" id="botonAgregar" (click)="agregarElemento(filterForm.value)">Agregar</button>
+                                            <button type="button" class="btn btn-primary remover" id="botonAgregar" (click)="agregarElemento(filterForm.value)">Agregar</button> <img id="img-loader" src="../../../assets/img/loader.gif" width="20px">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
 
                             <tr *ngFor="let x of arrayCodigos; let i = index">
                                 <td><input class="linea" placeholder="{{x.linea}}" formControlName="linea" [disabled]="true" readonly>
@@ -171,7 +170,7 @@
                                 <td style=" font-size: 1.5em;">
                                     <a class="acciones" style="cursor: pointer;" (click)="eliminarElemento(i)"><i
                                             class="fa fa-trash"></i></a>
-                                    <a class="acciones desactivado" style="cursor: pointer;" (click)="eliminarElemento(i)"><i class="fa fa-pencil"></i></a>
+                                    <a class="acciones" style="cursor: pointer;" (click)="editarElemento(i)"><i class="fa fa-pencil"></i></a>
                                 </td>
                             </tr>
 
