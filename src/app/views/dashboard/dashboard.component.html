@@ -132,9 +132,9 @@
                                                         <td style="padding-top: 20px;"><span [(ngModel)]="modeloCodigos.spanPrecioPiso">$
                                                                 {{spanPrecioPiso | number : '1.2'}}</span></td>
                                                         <td><input type="text" class="propuesto" placeholder="$ 0.0" formControlName="propuesto" id="propuesto" autocomplete="off" [(ngModel)]="modeloCodigos.propuesto"></td>
-                                                        <td><input type="text" class="volumen" placeholder="0" formControlName="volumen" id="volumen" (keyup)="primeraConsulta(filterForm.value)" autocomplete="off" [(ngModel)]="modeloCodigos.volumen"> m3
+                                                        <td><input type="text" class="volumen" placeholder="0" formControlName="volumen" id="volumen" tabindex="-1" (keyup)="primeraConsulta(filterForm.value)" autocomplete="off" [(ngModel)]="modeloCodigos.volumen">                                                            m3
                                                         </td>
-                                                        <td style="padding-top: 20px;" [(ngModel)]="modeloCodigos.spanVolumen">$ {{spanVolumen | number : '1.2'}}</td>
+                                                        <td style="padding-top: 20px;" [(ngModel)]="modeloCodigos.spanVolumen" tabindex="-1">$ {{spanVolumen | number : '1.2'}}</td>
                                                         <td style="padding-top: 20px;"><label class="switch ms-4">
                                                                 <input type="checkbox" formControlName="tipoOperacion" id="cryoinfra"  (change)="primeraConsulta(filterForm.value)"
                                                                     [(ngModel)]="modeloCodigos.tipoOperacion">
@@ -148,6 +148,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                             <button type="button" class="btn btn-primary remover" id="botonAgregar" (click)="agregarElemento(filterForm.value)">Agregar</button> <img id="img-loader" src="../../../assets/img/loader.gif" width="20px">
+                                            <button type="button" class="btn btn-primary remover btnGuardar" id="btnGuardar" (click)="btnEditarElemento(filterForm.value)">Guardar</button><img id="img-loader" src="../../../assets/img/loader.gif" width="20px">
                                         </div>
                                     </div>
                                 </div>

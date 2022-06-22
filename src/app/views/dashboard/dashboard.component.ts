@@ -100,12 +100,11 @@ export class DashboardComponent implements OnInit {
     });
 
     //limpiar campos
-    this.filterForm.get('codigo')?.reset();
-    this.filterForm.get('propuesto')?.reset();
-    this.filterForm.get('volumen')?.reset();
-    this.filterForm.get('tipoOperacion')?.reset(false);
-    this.spanPrecioPiso = 0;
-    this.spanVolumen = 0;
+      $('#volumen').val();
+     $('#propuesto').val();
+    $('#codigo').val();
+     $('#tipoOperacion').val();
+
 
   }
 
@@ -164,25 +163,31 @@ export class DashboardComponent implements OnInit {
       var volumen = this.filterForm.get('volumen')?.value;
 
       this.spanVolumen = propuestos * volumen;
-      this.spanPrecioPiso = Number(res.resultado.info.precioPiso);
+      this.spanPrecioPiso = (res.resultado.info.precioPiso).toFixed(2);
 
       (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = false;
       (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden";
     }, (errorServicio) => {
-      Swal.fire(
-        'Intenta nuevamente',
-        'La consulta no fue validada',
-        'error'
-      );
-      (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
-      (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden";
-      this.spanPrecioPiso = 0;
-      this.spanVolumen = 0;
-      this.filterForm.get('linea')?.reset();
-      this.filterForm.get('codigo')?.reset();
-      this.filterForm.get('volumen')?.reset();
-      this.filterForm.get('propuesto')?.reset();
-      this.filterForm.get('tipoOperacion')?.reset();
+
+      var volumen = $('#volumen').val();
+      if (volumen === "") {
+        (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
+        (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden"
+
+      } else {
+        Swal.fire(
+          'Intenta nuevamente',
+          'La consulta no fue validada',
+          'error'
+        );
+        (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
+        (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden";
+        this.spanPrecioPiso = 0;
+        this.spanVolumen = 0;
+        this.filterForm.get('volumen')?.reset();
+        this.filterForm.get('propuesto')?.reset();
+        this.filterForm.get('tipoOperacion')?.reset();
+      }
     })
   }
 
@@ -290,18 +295,97 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+
+  index: number = 0;
   editarElemento(index: number) {
+    (document.getElementById('btnGuardar') as HTMLButtonElement).style.display = "block";
+    (document.getElementById('botonAgregar') as HTMLButtonElement).style.display = "none";
+
+    this.index = index;
+    $('#btnGuardar').show();
 
     $('#exampleModal').modal('show');
-    console.log(this.arrayCodigos[index]);
+    $('#linea').val('');
+    $('#codigo').val('');
+    $('#volumen').val('');
+    $('#propuesto').val('');
+    $('#cryoinfra').prop('');
 
-    $('#linea').val(this.arrayCodigos[index].linea);
-    $('#codigo').val(this.arrayCodigos[index].codigo);
-    $('#volumen').val(this.arrayCodigos[index].totalVolumen);
-    $('#propuesto').val(this.arrayCodigos[index].volumen);
-    $('#cryoinfra').prop("checked", this.arrayCodigos[index].tipoOperacion);
+  }
 
+  btnEditarElemento(filter: Object) {
+    var form = {
+      codigo: $('#codigo').val(),
+      zona: $('#zona').val(),
+      tipoOperacion: $('#cryoinfra').is(":checked"),
+      volumen: $('#volumen').val(),
+      propuesto: $('#propuesto').val()
+    };
 
+    (document.getElementById('btnGuardar') as HTMLButtonElement).style.display = "block";
+    (document.getElementById('btnGuardar') as HTMLButtonElement).disabled = true;
+    (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "visible";
+    this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
+      this.modeloCodigos = {};
+      this.modeloCodigos['codigo'] = $('#codigo').val();
+      this.modeloCodigos['linea'] = $('#linea').val();
+      this.modeloCodigos['propuesto'] = $('#propuesto').val();
+      this.modeloCodigos['tipoOperacion'] = $('#cryoinfra').is(":checked");
+      this.modeloCodigos['volumen'] = $('#volumen').val();
+
+      //Agregar valores span Tabla
+      this.spanPrecioPiso = (res.resultado.info.precioPiso).toFixed(2);
+      this.modeloCodigos['precioPiso'] = Number(res.resultado.info.precioPiso);
+
+      var propuestos = Number(this.filterForm.get('propuesto')?.value);
+      var volumen = Number(this.filterForm.get('volumen')?.value);
+      this.modeloCodigos['totalVolumen'] = (propuestos * volumen);
+
+      //Agregar span Ventas totales anuales
+      this.arrayVolumen[this.index] = (propuestos * volumen);
+      var total = this.sumar_array(this.arrayVolumen);
+      this.spanVentasTotalesAnuales = total;
+      this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
+
+      let itemInfo = {
+        info: {
+          costoVta: Number(res.resultado.info.costoVta),
+          precioPiso: Number(res.resultado.info.precioPiso),
+          gastoCryo: Number(res.resultado.info.gastoCryo),
+          gastoDist: Number(res.resultado.info.gastoDist),
+          depreciacion: Number(res.resultado.info.depreciacion),
+          gastoVta: Number(res.resultado.info.gastoVta),
+          gastoAdm: Number(res.resultado.info.gastoAdm),
+          volumen: Number(this.filterForm.get('volumen')?.value),
+          ventaIncrementalAnual: Number(this.spanVolumen),
+        },
+        infoPropuesto: {
+          precioPiso: Number($('#propuesto').val())
+        }
+      }
+      this.arrayCodigos[this.index] = {};
+      this.arrayCodigos[this.index] = this.modeloCodigos;
+
+      this.arrayTemp.items[this.index] = itemInfo;
+
+      this.spanVolumen = 0;
+      this.spanPrecioPiso = 0;
+      this.tir = 0;
+      this.vpn = 0;
+      this.prd = "";
+      (document.getElementById('btnGuardar') as HTMLButtonElement).disabled = false;
+      (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden";
+    })
+    $('#exampleModal').modal('hide');
+    Swal.fire({
+      icon: 'success',
+      title: 'Dato actualizado con exito',
+      toast: true,
+      position: 'top-right',
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true
+    })
   }
 
   segundaConsulta() {
@@ -384,17 +468,24 @@ export class DashboardComponent implements OnInit {
   resetearModal() {
     this.spanPrecioPiso = 0;
     this.spanVolumen = 0;
-    this.filterForm.get('linea')?.reset();
-    this.filterForm.get('codigo')?.reset();
-    this.filterForm.get('propuesto')?.reset();
-    this.filterForm.get('volumen')?.reset();
 
     var volumen = $('#volumen').val();
     var propuesto = $('#propuesto').val();
     var codigo = $('#codigo').val();
     var linea = $('#linea').val();
 
-    (document.getElementById("botonAgregar") as HTMLButtonElement).disabled = false;
+    $('#linea').val('');
+    $('#codigo').val('');
+    $('#volumen').val('');
+    $('#propuesto').val('');
+    $('#cryoinfra').prop('');
+
+    
+    (document.getElementById('botonAgregar') as HTMLImageElement).style.visibility = "visible";
+
+    (document.getElementById('btnGuardar') as HTMLButtonElement).style.display = "none";
+    (document.getElementById('botonAgregar') as HTMLButtonElement).style.display = "block";
+
     if (volumen == "" && propuesto == "" && codigo == "" && linea == "") {
       (document.getElementById("botonAgregar") as HTMLButtonElement).disabled = false;
     } else {

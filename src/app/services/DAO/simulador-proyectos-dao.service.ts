@@ -70,7 +70,7 @@ export class SimuladorProyectosDAOService {
     var key = "items"
     delete json[key]
     delete json.activos, json.aniosDeContrato, json.gastosPreoperativos, json.linea, json.ventasTotalesAnuales;
-    json.propuesto = this.transformAmount(json.propuesto)
+   
     json.propuesto = Number(json.propuesto)
 
     this.eliminarVacios(json);
