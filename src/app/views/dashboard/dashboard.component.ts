@@ -128,18 +128,16 @@ export class DashboardComponent implements OnInit {
     this.filterForm.get('activos')?.reset();
     this.filterForm.get('gastosPreoperativos')?.reset();
 
-    if (this.arrayCodigos.length != 0) {
+     if (this.arrayCodigos.length != 0) {
       
       Swal.fire({
-        title: "Se ha reiniciado",
-        text: "This alert will disappear after 3 seconds.",
+        text: "Todos los datos han sido reiniciados.",
         position: "bottom",
         showConfirmButton: false,
         showCancelButton: false,
-        background: "#1e2122",
-        timer: 2000
+        timer: 1500
       });
-     }
+      }
 
 
     this.tir = 0;
