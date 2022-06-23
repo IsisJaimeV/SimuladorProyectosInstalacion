@@ -153,14 +153,24 @@ export class DashboardComponent implements OnInit {
     }, 2000);
   }
 
-  primeraConsulta(form: Object) {
+  primeraConsulta(temp: Object) {
     (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
     (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "visible";
 
+    var form = {
+      codigo: $('#codigo').val(),
+      zona: $('#zona').val(),
+      tipoOperacion: (document.getElementById("cryoinfra") as HTMLInputElement).checked,
+      volumen: $('#volumen').val(),
+      propuesto: $('#propuesto').val()
+    };
+
+    console.log(form)
+
     this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
-      var currencyPropuestos = this.filterForm.get('propuesto')?.value;
-      var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
-      var volumen = this.filterForm.get('volumen')?.value;
+      var propuestos =$('#propuesto').val();
+      //var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
+      var volumen = $('#volumen').val();
 
       this.spanVolumen = propuestos * volumen;
       this.spanPrecioPiso = (res.resultado.info.precioPiso).toFixed(2);
@@ -205,8 +215,8 @@ export class DashboardComponent implements OnInit {
       this.spanPrecioPiso = (res.resultado.info.precioPiso).toFixed(2);
       this.modeloCodigos['precioPiso'] = this.spanPrecioPiso;
 
-      var propuestos = Number(this.filterForm.get('propuesto')?.value);
-      var volumen = Number(this.filterForm.get('volumen')?.value);
+      var propuestos = $('#propuesto').val();
+      var volumen =$('#propuesto').val();
       this.modeloCodigos['totalVolumen'] = (propuestos * volumen);
 
       //Agregar span Ventas totales anuales
@@ -305,12 +315,14 @@ export class DashboardComponent implements OnInit {
     $('#btnGuardar').show();
 
     $('#exampleModal').modal('show');
-    $('#linea').val('');
-    $('#codigo').val('');
-    $('#volumen').val('');
-    $('#propuesto').val('');
-    $('#cryoinfra').prop('');
+    $('#linea').val(this.arrayCodigos[index].linea);
+    $('#codigo').val(this.arrayCodigos[index].codigo);
+    $('#volumen').val(this.arrayCodigos[index].volumen);
+    $('#propuesto').val(this.arrayCodigos[index].propuesto);
+    $('#cryoinfra').prop('checked', (document.getElementById("cryoinfra") as HTMLInputElement).checked)
 
+    this.spanPrecioPiso = this.arrayCodigos[index].precioPiso;
+    this.spanVolumen = this.arrayCodigos[index].totalVolumen;
   }
 
   btnEditarElemento(filter: Object) {
@@ -337,8 +349,8 @@ export class DashboardComponent implements OnInit {
       this.spanPrecioPiso = (res.resultado.info.precioPiso).toFixed(2);
       this.modeloCodigos['precioPiso'] = Number(res.resultado.info.precioPiso);
 
-      var propuestos = Number(this.filterForm.get('propuesto')?.value);
-      var volumen = Number(this.filterForm.get('volumen')?.value);
+      var propuestos = $('#propuesto').val();
+      var volumen = $('#volumen').val();
       this.modeloCodigos['totalVolumen'] = (propuestos * volumen);
 
       //Agregar span Ventas totales anuales
