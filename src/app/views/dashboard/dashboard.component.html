@@ -135,7 +135,7 @@
                                                         </td>
                                                         <td style="padding-top: 20px;" [(ngModel)]="modeloCodigos.spanVolumen" tabindex="-1">$ {{spanVolumen | number : '1.2'}}</td>
                                                         <td style="padding-top: 20px;"><label class="switch ms-4">
-                                                                <input type="checkbox" formControlName="tipoOperacion" id="cryoinfra"  (change)="primeraConsulta(filterForm.value)"
+                                                                <input type="checkbox" formControlName="tipoOperacion" id="cryoinfraSpan"  (change)="primeraConsulta(filterForm.value)"
                                                                     [(ngModel)]="modeloCodigos.tipoOperacion">
                                                                 <span class="slider round" checked></span>
                                                             </label></td>
@@ -154,13 +154,13 @@
                             </div>
 
                             <tr *ngFor="let x of arrayCodigos; let i = index">
-                                <td><input class="linea" placeholder="{{x.linea}}" formControlName="linea" [disabled]="true" readonly>
+                                <td><input class="linea" placeholder="{{x.linea}}" [disabled]="true" readonly value="{{x.linea}}">
                                 </td>
-                                <td><input class="codigo" placeholder="{{x.codigo}}" formControlName="codigo" [disabled]="true" readonly>
+                                <td><input class="codigo" placeholder="{{x.codigo}}" [disabled]="true" readonly value="{{x.codigo}}">
                                 </td>
                                 <td style="padding-top: 20px;"><span>$ {{x.precioPiso | number : '1.2'}}</span></td>
-                                <td><input type="text" class="propuesto" placeholder="{{x.propuesto}}" formControlName="propuesto" [disabled]="true" readonly></td>
-                                <td><input type="text" class="volumen" placeholder="{{x.volumen}}" formControlName="volumen" [disabled]="true" readonly> m3
+                                <td><input type="text" class="propuesto" placeholder="{{x.propuesto}}" [disabled]="true" readonly value="{{x.propuesto}}"></td>
+                                <td><input type="text" class="volumen" placeholder="{{x.volumen}}" [disabled]="true" readonly value="{{x.volumen}}"> m3
                                 </td>
                                 <td style="padding-top: 20px;">$ {{x.totalVolumen | number : '1.2'}}</td>
                                 <td style="padding-top: 20px;"><label class="switch ms-4">

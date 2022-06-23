@@ -160,7 +160,7 @@ export class DashboardComponent implements OnInit {
     var form = {
       codigo: $('#codigo').val(),
       zona: $('#zona').val(),
-      tipoOperacion: (document.getElementById("cryoinfra") as HTMLInputElement).checked,
+      tipoOperacion: (document.getElementById("cryoinfraSpan") as HTMLInputElement).checked,
       volumen: $('#volumen').val(),
       propuesto: $('#propuesto').val()
     };
@@ -319,7 +319,7 @@ export class DashboardComponent implements OnInit {
     $('#codigo').val(this.arrayCodigos[index].codigo);
     $('#volumen').val(this.arrayCodigos[index].volumen);
     $('#propuesto').val(this.arrayCodigos[index].propuesto);
-    $('#cryoinfra').prop('checked', (document.getElementById("cryoinfra") as HTMLInputElement).checked)
+    $('#cryoinfraSpan').prop('checked', this.arrayCodigos[index].tipoOperacion)
 
     this.spanPrecioPiso = this.arrayCodigos[index].precioPiso;
     this.spanVolumen = this.arrayCodigos[index].totalVolumen;
@@ -375,9 +375,8 @@ export class DashboardComponent implements OnInit {
           precioPiso: Number($('#propuesto').val())
         }
       }
-      this.arrayCodigos[this.index] = {};
+    
       this.arrayCodigos[this.index] = this.modeloCodigos;
-
       this.arrayTemp.items[this.index] = itemInfo;
 
       this.spanVolumen = 0;
@@ -387,6 +386,11 @@ export class DashboardComponent implements OnInit {
       this.prd = "";
       (document.getElementById('btnGuardar') as HTMLButtonElement).disabled = false;
       (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden";
+
+      $('#linea').val('');
+    $('#codigo').val('');
+    $('#volumen').val('');
+
     })
     $('#exampleModal').modal('hide');
     Swal.fire({
