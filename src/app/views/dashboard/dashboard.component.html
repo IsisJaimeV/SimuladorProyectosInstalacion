@@ -122,7 +122,7 @@
                                                                 </option>
                                                             </datalist>
                                                         </td>
-                                                        <td><input class="codigo" formControlName="codigo" list="filterCodigo" name="filterCodigo" placeholder="Selecciona un código" id="codigo" autocomplete="off" [(ngModel)]="modeloCodigos.codigo">
+                                                        <td><input class="codigo" formControlName="codigo" list="filterCodigo" name="filterCodigo" placeholder="Selecciona un código" id="codigo" autocomplete="off" [(ngModel)]="modeloCodigos.codigo" (change)="selectedCodigo($event)">
                                                             <datalist id="filterCodigo">
                                                                 <option [value]="item.codigo" *ngFor="let item of codigo">
                                                                     {{item.codigo}} {{item.descripcion}}
@@ -131,7 +131,7 @@
                                                         </td>
                                                         <td style="padding-top: 20px;"><span [(ngModel)]="modeloCodigos.spanPrecioPiso">$ {{spanPrecioPiso | number : '1.2'}}</span></td>
                                                         <td><input type="text" class="propuesto" placeholder="$ 0.0" formControlName="propuesto" id="propuesto" autocomplete="off" [(ngModel)]="modeloCodigos.propuesto"></td>
-                                                        <td><input type="text" class="volumen" placeholder="0" formControlName="volumen" id="volumen" tabindex="-1" (keyup)="primeraConsulta(filterForm.value)" autocomplete="off" [(ngModel)]="modeloCodigos.volumen">                                                            m3
+                                                        <td><input type="text" class="volumen" placeholder="0" formControlName="volumen" id="volumen" tabindex="-1" (keyup)="primeraConsulta(filterForm.value)" autocomplete="off" [(ngModel)]="modeloCodigos.volumen">{{selectedUMSpan}}
                                                         </td>
                                                         <td style="padding-top: 20px;" [(ngModel)]="modeloCodigos.spanVolumen" tabindex="-1">$ {{spanVolumen | number : '1.2'}}</td>
                                                         <td style="padding-top: 20px;"><label class="switch ms-4">
@@ -147,7 +147,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                             <button type="button" class="btn btn-primary remover" id="botonAgregar" (click)="agregarElemento(filterForm.value)">Agregar</button> <img id="img-loader" src="../../../assets/img/loader.gif" width="20px">
-                                            <button type="button" class="btn btn-primary remover btnGuardar" id="btnGuardar" (click)="btnEditarElemento(filterForm.value)">Guardar</button><img id="img-loader" src="../../../assets/img/loader.gif" width="20px">
+                                            <button type="button" class="btn btn-primary remover btnGuardar" id="btnGuardar" (click)="btnEditarElemento()">Actualizar</button><img id="img-loader" src="../../../assets/img/loader.gif" width="20px">
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +160,7 @@
                                 </td>
                                 <td style="padding-top: 20px;"><span>$ {{x.precioPiso | number : '1.2'}}</span></td>
                                 <td><input type="text" class="propuesto" placeholder="{{x.propuesto}}" [disabled]="true" readonly value="{{x.propuesto}}"></td>
-                                <td><input type="text" class="volumen" placeholder="{{x.volumen}}" [disabled]="true" readonly value="{{x.volumen}}"> m3
+                                <td><input type="text" class="volumen" placeholder="{{x.volumen}}" [disabled]="true" readonly value="{{x.volumen}}"> {{x.selectedUMSpan}}
                                 </td>
                                 <td style="padding-top: 20px;">$ {{x.totalVolumen | number : '1.2'}}</td>
                                 <td style="padding-top: 20px;"><label class="switch ms-4">

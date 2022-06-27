@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   //ARRAY TEMPORALES PARA RESULTADOS
   arrayCodigos: any[] = []
   modeloCodigos: any = {};
+  tempEditarArray: any = {};
   arrayPrecioPiso: any[] = []
   arrayVolumen: any[] = [];
   arrayTotalVolumen: any[] = [];
@@ -66,6 +67,7 @@ export class DashboardComponent implements OnInit {
 
   //SPAN RESULTADOS
   arrayTemp: any = {};
+  selectedUMSpan: string = '';
   contador: number = 0;
   spanVolumen: number = 0;
   spanPrecioPiso: number = 0;
@@ -82,7 +84,6 @@ export class DashboardComponent implements OnInit {
     this.separadorMiles();
     this.soloNumerosInput();
   }
-
   selectZona() {
     this.simuladorProyecto.getZona().subscribe(res => {
       this.zona = res;
@@ -100,13 +101,22 @@ export class DashboardComponent implements OnInit {
     });
 
     //limpiar campos
-      $('#volumen').val();
-     $('#propuesto').val();
+    $('#volumen').val();
+    $('#propuesto').val();
     $('#codigo').val();
-     $('#tipoOperacion').val();
+    $('#tipoOperacion').val();
+  }
 
+  selectedCodigo(event: any) {
+    let value = event.target.value;
+
+    var codigo = this.codigo.find(resp => resp.codigo == value)
+    try {
+      this.selectedUMSpan = codigo.um;
+    } catch { }
 
   }
+
 
   selectLinea() {
     this.simuladorProyecto.getLinea().subscribe(res => {
@@ -165,10 +175,9 @@ export class DashboardComponent implements OnInit {
       propuesto: $('#propuesto').val()
     };
 
-    console.log(form)
 
     this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
-      var propuestos =$('#propuesto').val();
+      var propuestos = $('#propuesto').val();
       //var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
       var volumen = $('#volumen').val();
 
@@ -177,27 +186,26 @@ export class DashboardComponent implements OnInit {
 
       (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = false;
       (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden";
-    }, (errorServicio) => {
 
       var volumen = $('#volumen').val();
       if (volumen === "") {
         (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
         (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden"
-
-      } else {
-        Swal.fire(
-          'Intenta nuevamente',
-          'La consulta no fue validada',
-          'error'
-        );
-        (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
-        (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden";
-        this.spanPrecioPiso = 0;
-        this.spanVolumen = 0;
-        this.filterForm.get('volumen')?.reset();
-        this.filterForm.get('propuesto')?.reset();
-        this.filterForm.get('tipoOperacion')?.reset();
       }
+    }, (error) => {
+      Swal.fire(
+        '',
+        error.error.resultado,
+        'error'
+      );
+
+      (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
+      (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden";
+      this.spanPrecioPiso = 0;
+      this.spanVolumen = 0;
+      this.filterForm.get('volumen')?.reset();
+      this.filterForm.get('tipoOperacion')?.reset();
+
     })
   }
 
@@ -210,13 +218,21 @@ export class DashboardComponent implements OnInit {
   }
 
   agregarElemento(form: Object) {
-    this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
+    var formGet = {
+      codigo: $('#codigo').val(),
+      zona: $('#zona').val(),
+      tipoOperacion: $('#cryoinfra').is(":checked"),
+      volumen: $('#volumen').val(),
+      propuesto: $('#propuesto').val()
+    };
+    this.simuladorProyecto.getDatosNormal(formGet).subscribe(res => {
       //Agregar valores span Tabla
       this.spanPrecioPiso = (res.resultado.info.precioPiso).toFixed(2);
       this.modeloCodigos['precioPiso'] = this.spanPrecioPiso;
+      this.modeloCodigos['selectedUMSpan'] = this.selectedUMSpan;
 
       var propuestos = $('#propuesto').val();
-      var volumen =$('#propuesto').val();
+      var volumen = $('#propuesto').val();
       this.modeloCodigos['totalVolumen'] = (propuestos * volumen);
 
       //Agregar span Ventas totales anuales
@@ -252,6 +268,7 @@ export class DashboardComponent implements OnInit {
       this.arrayCodigos.push(this.modeloCodigos);
       this.modeloCodigos = {};
       this.spanVolumen = 0;
+      this.selectedUMSpan = "";
       this.spanPrecioPiso = 0;
       this.tir = 0;
       this.vpn = 0;
@@ -261,18 +278,17 @@ export class DashboardComponent implements OnInit {
       (document.getElementById("colorPRD") as HTMLCanvasElement).style.background = "#ffffff";
 
       this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
+    }, (error) => {
+      Swal.fire(
+        '',
+        error.error.resultado,
+        'error'
+      )
+      this.spanPrecioPiso = 0;
+      this.spanVolumen = 0;
+      this.filterForm.get('volumen')?.reset();
+      this.filterForm.get('tipoOperacion')?.reset();
     })
-
-    Swal.fire({
-      icon: 'success',
-      title: 'Dato agregado con exito',
-      toast: true,
-      position: 'top-right',
-      showConfirmButton: false,
-      timer: 1500,
-      timerProgressBar: true
-    })
-
   }
 
   eliminarElemento(index: number) {
@@ -305,27 +321,27 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  indice: number = 0;
+  editarElemento(index: any) {
+    this.indice = index;
 
-  index: number = 0;
-  editarElemento(index: number) {
+    $('#exampleModal').modal('show');
+    $('#btnGuardar').show();
     (document.getElementById('btnGuardar') as HTMLButtonElement).style.display = "block";
     (document.getElementById('botonAgregar') as HTMLButtonElement).style.display = "none";
 
-    this.index = index;
-    $('#btnGuardar').show();
-
-    $('#exampleModal').modal('show');
     $('#linea').val(this.arrayCodigos[index].linea);
     $('#codigo').val(this.arrayCodigos[index].codigo);
     $('#volumen').val(this.arrayCodigos[index].volumen);
     $('#propuesto').val(this.arrayCodigos[index].propuesto);
-    $('#cryoinfraSpan').prop('checked', this.arrayCodigos[index].tipoOperacion)
-
+    $('#cryoinfra').prop('checked', this.arrayCodigos[index].tipoOperacion);
     this.spanPrecioPiso = this.arrayCodigos[index].precioPiso;
     this.spanVolumen = this.arrayCodigos[index].totalVolumen;
+    this.selectedUMSpan = this.arrayCodigos[index].selectedUMSpan;
+
   }
 
-  btnEditarElemento(filter: Object) {
+  btnEditarElemento() {
     var form = {
       codigo: $('#codigo').val(),
       zona: $('#zona').val(),
@@ -334,30 +350,29 @@ export class DashboardComponent implements OnInit {
       propuesto: $('#propuesto').val()
     };
 
-    (document.getElementById('btnGuardar') as HTMLButtonElement).style.display = "block";
-    (document.getElementById('btnGuardar') as HTMLButtonElement).disabled = true;
-    (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "visible";
     this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
-      this.modeloCodigos = {};
-      this.modeloCodigos['codigo'] = $('#codigo').val();
-      this.modeloCodigos['linea'] = $('#linea').val();
-      this.modeloCodigos['propuesto'] = $('#propuesto').val();
-      this.modeloCodigos['tipoOperacion'] = $('#cryoinfra').is(":checked");
-      this.modeloCodigos['volumen'] = $('#volumen').val();
+      //Agregar valores span de Tabla
+      this.tempEditarArray = {};
+      this.tempEditarArray['codigo'] = $('#codigo').val();
+      this.tempEditarArray['linea'] = $('#linea').val();
+      this.tempEditarArray['propuesto'] = $('#propuesto').val();
+      this.tempEditarArray['tipoOperacion'] = $('#cryoinfra').is(":checked");
+      this.tempEditarArray['volumen'] = $('#volumen').val();
+      this.tempEditarArray['selectedUMSpan'] = this.selectedUMSpan;
 
-      //Agregar valores span Tabla
-      this.spanPrecioPiso = (res.resultado.info.precioPiso).toFixed(2);
-      this.modeloCodigos['precioPiso'] = Number(res.resultado.info.precioPiso);
+      //this.spanPrecioPiso = (res.resultado.info.precioPiso).toFixed(2);
+      this.tempEditarArray['precioPiso'] = Number(res.resultado.info.precioPiso);
 
       var propuestos = $('#propuesto').val();
       var volumen = $('#volumen').val();
-      this.modeloCodigos['totalVolumen'] = (propuestos * volumen);
+      this.tempEditarArray['totalVolumen'] = (propuestos * volumen);
 
       //Agregar span Ventas totales anuales
-      this.arrayVolumen[this.index] = (propuestos * volumen);
+      this.arrayVolumen[this.indice] = (propuestos * volumen);
       var total = this.sumar_array(this.arrayVolumen);
+
+
       this.spanVentasTotalesAnuales = total;
-      this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
 
       let itemInfo = {
         info: {
@@ -368,16 +383,19 @@ export class DashboardComponent implements OnInit {
           depreciacion: Number(res.resultado.info.depreciacion),
           gastoVta: Number(res.resultado.info.gastoVta),
           gastoAdm: Number(res.resultado.info.gastoAdm),
-          volumen: Number(this.filterForm.get('volumen')?.value),
+          volumen: Number(volumen),
           ventaIncrementalAnual: Number(this.spanVolumen),
         },
         infoPropuesto: {
-          precioPiso: Number($('#propuesto').val())
+          precioPiso: Number(propuestos)
         }
       }
-    
-      this.arrayCodigos[this.index] = this.modeloCodigos;
-      this.arrayTemp.items[this.index] = itemInfo;
+
+      this.arrayTemp.items[this.indice] = itemInfo;
+
+      this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
+
+      this.arrayCodigos[this.indice] = this.tempEditarArray;
 
       this.spanVolumen = 0;
       this.spanPrecioPiso = 0;
@@ -388,25 +406,31 @@ export class DashboardComponent implements OnInit {
       (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden";
 
       $('#linea').val('');
-    $('#codigo').val('');
-    $('#volumen').val('');
+      $('#codigo').val('');
+      $('#volumen').val('');
 
+      Swal.fire({
+        icon: 'success',
+        title: 'Dato eliminado con exito',
+        toast: true,
+        position: 'top-right',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true
+      })
+    }, (error) => {
+      Swal.fire(
+        '',
+        error.error.resultado,
+        'error'
+      )
     })
+
     $('#exampleModal').modal('hide');
-    Swal.fire({
-      icon: 'success',
-      title: 'Dato actualizado con exito',
-      toast: true,
-      position: 'top-right',
-      showConfirmButton: false,
-      timer: 1500,
-      timerProgressBar: true
-    })
   }
 
   segundaConsulta() {
     this.loader();
-    console.log(this.arrayTemp)
 
     //Agrega array
     this.arrayTemp['aniosDeContrato'] = Number(this.filterForm.get('aniosDeContrato')?.value);
@@ -496,7 +520,7 @@ export class DashboardComponent implements OnInit {
     $('#propuesto').val('');
     $('#cryoinfra').prop('');
 
-    
+
     (document.getElementById('botonAgregar') as HTMLImageElement).style.visibility = "visible";
 
     (document.getElementById('btnGuardar') as HTMLButtonElement).style.display = "none";
