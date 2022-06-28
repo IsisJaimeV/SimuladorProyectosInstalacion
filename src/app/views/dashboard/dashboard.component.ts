@@ -232,7 +232,7 @@ export class DashboardComponent implements OnInit {
       this.modeloCodigos['selectedUMSpan'] = this.selectedUMSpan;
 
       var propuestos = $('#propuesto').val();
-      var volumen = $('#propuesto').val();
+      var volumen = $('#volumen').val();
       this.modeloCodigos['totalVolumen'] = (propuestos * volumen);
 
       //Agregar span Ventas totales anuales
@@ -411,7 +411,7 @@ export class DashboardComponent implements OnInit {
 
       Swal.fire({
         icon: 'success',
-        title: 'Dato eliminado con exito',
+        title: 'Dato actualizado con exito',
         toast: true,
         position: 'top-right',
         showConfirmButton: false,
