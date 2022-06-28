@@ -221,7 +221,7 @@ export class DashboardComponent implements OnInit {
     var formGet = {
       codigo: $('#codigo').val(),
       zona: $('#zona').val(),
-      tipoOperacion: $('#cryoinfra').is(":checked"),
+      tipoOperacion: $('#cryoinfraSpan').is(":checked"),
       volumen: $('#volumen').val(),
       propuesto: $('#propuesto').val()
     };
@@ -330,11 +330,12 @@ export class DashboardComponent implements OnInit {
     (document.getElementById('btnGuardar') as HTMLButtonElement).style.display = "block";
     (document.getElementById('botonAgregar') as HTMLButtonElement).style.display = "none";
 
+
     $('#linea').val(this.arrayCodigos[index].linea);
     $('#codigo').val(this.arrayCodigos[index].codigo);
     $('#volumen').val(this.arrayCodigos[index].volumen);
     $('#propuesto').val(this.arrayCodigos[index].propuesto);
-    $('#cryoinfra').prop('checked', this.arrayCodigos[index].tipoOperacion);
+    $('#cryoinfraSpan').prop('checked', this.arrayCodigos[index].tipoOperacion);
     this.spanPrecioPiso = this.arrayCodigos[index].precioPiso;
     this.spanVolumen = this.arrayCodigos[index].totalVolumen;
     this.selectedUMSpan = this.arrayCodigos[index].selectedUMSpan;
@@ -345,32 +346,32 @@ export class DashboardComponent implements OnInit {
     var form = {
       codigo: $('#codigo').val(),
       zona: $('#zona').val(),
-      tipoOperacion: $('#cryoinfra').is(":checked"),
+      tipoOperacion: $('#cryoinfraSpan').is(":checked"),
       volumen: $('#volumen').val(),
       propuesto: $('#propuesto').val()
     };
 
+    
     this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
       //Agregar valores span de Tabla
       this.tempEditarArray = {};
       this.tempEditarArray['codigo'] = $('#codigo').val();
       this.tempEditarArray['linea'] = $('#linea').val();
       this.tempEditarArray['propuesto'] = $('#propuesto').val();
-      this.tempEditarArray['tipoOperacion'] = $('#cryoinfra').is(":checked");
+      this.tempEditarArray['tipoOperacion'] = $('#cryoinfraSpan').is(":checked");
       this.tempEditarArray['volumen'] = $('#volumen').val();
       this.tempEditarArray['selectedUMSpan'] = this.selectedUMSpan;
 
-      //this.spanPrecioPiso = (res.resultado.info.precioPiso).toFixed(2);
       this.tempEditarArray['precioPiso'] = Number(res.resultado.info.precioPiso);
 
       var propuestos = $('#propuesto').val();
       var volumen = $('#volumen').val();
       this.tempEditarArray['totalVolumen'] = (propuestos * volumen);
 
+
       //Agregar span Ventas totales anuales
       this.arrayVolumen[this.indice] = (propuestos * volumen);
       var total = this.sumar_array(this.arrayVolumen);
-
 
       this.spanVentasTotalesAnuales = total;
 
@@ -438,21 +439,22 @@ export class DashboardComponent implements OnInit {
     this.arrayTemp['gastosPreoperativos'] = Number(this.filterForm.get('gastosPreoperativos')?.value.replace(/[^0-9\.]+/g, ""));
     this.arrayTemp['aniosDeContrato'] = Number(this.filterForm.get('aniosDeContrato')?.value);
 
+    console.log(this.arrayTemp)
     this.simuladorProyecto.getDatosExtendido(this.arrayTemp).subscribe(resp => {
       if (resp.resultado.tir > 12) {
         (document.getElementById("colorTIR") as HTMLSpanElement).style.background = "#617E41";
-        this.tir = resp.resultado.tir;
+        this.tir = (resp.resultado.tir).toFixed(2);
       } else {
         (document.getElementById("colorTIR") as HTMLSpanElement).style.background = "#922415";
-        this.tir = resp.resultado.tir;
+        this.tir = (resp.resultado.tir).toFixed(2);
       }
 
       if (resp.resultado.vpn > 0) {
         (document.getElementById("colorVPN") as HTMLSpanElement).style.background = "#617E41"
-        this.vpn = resp.resultado.vpn;
+        this.vpn = (resp.resultado.vpn).toFixed(2);
       } else {
         (document.getElementById("colorVPN") as HTMLSpanElement).style.background = "#922415"
-        this.vpn = resp.resultado.vpn;
+        this.vpn = (resp.resultado.vpn).toFixed(2);
       }
 
       if (Number(resp.resultado.periodoDeRecuperacion.charAt(0)) < Number(this.filterForm.get('aniosDeContrato')?.value)) {
