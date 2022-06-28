@@ -130,7 +130,7 @@
                                                             </datalist>
                                                         </td>
                                                         <td style="padding-top: 20px;"><span [(ngModel)]="modeloCodigos.spanPrecioPiso">$ {{spanPrecioPiso | number : '1.2'}}</span></td>
-                                                        <td><input type="text" class="propuesto" placeholder="$ 0.0" formControlName="propuesto" id="propuesto" autocomplete="off" [(ngModel)]="modeloCodigos.propuesto"></td>
+                                                        <td><input type="text" class="propuesto" placeholder="$ 0.0" formControlName="propuesto" id="propuesto" autocomplete="off" [(ngModel)]="modeloCodigos.propuesto" (keyup)="primeraConsultaVolumen(filterForm.value)"></td>
                                                         <td><input type="text" class="volumen" placeholder="0" formControlName="volumen" id="volumen" tabindex="-1" (keyup)="primeraConsulta(filterForm.value)" autocomplete="off" [(ngModel)]="modeloCodigos.volumen">{{selectedUMSpan}}
                                                         </td>
                                                         <td style="padding-top: 20px;" [(ngModel)]="modeloCodigos.spanVolumen" tabindex="-1">$ {{spanVolumen | number : '1.2'}}</td>

@@ -174,7 +174,7 @@ export class DashboardComponent implements OnInit {
     var form = {
       codigo: $('#codigo').val(),
       zona: $('#zona').val(),
-      tipoOperacion: (document.getElementById("cryoinfraSpan") as HTMLInputElement).checked,
+      tipoOperacion: $('#cryoinfraSpan').is(":checked"),
       volumen: $('#volumen').val(),
       propuesto: $('#propuesto').val()
     };
@@ -212,6 +212,8 @@ export class DashboardComponent implements OnInit {
 
     })
   }
+
+  primeraConsultaVolumen(temp: Object) {}
 
   sumar_array(array_numeros: any) {
     var suma = 0;
@@ -367,9 +369,7 @@ export class DashboardComponent implements OnInit {
       this.tempEditarArray['tipoOperacion'] = $('#cryoinfraSpan').is(":checked");
       this.tempEditarArray['volumen'] = $('#volumen').val();
       this.tempEditarArray['selectedUMSpan'] = this.selectedUMSpan;
-
-      this.tempEditarArray['precioPiso'] = Number(res.resultado.info.precioPiso);
-
+      this.tempEditarArray['precioPiso'] = Number(res.resultado.info.precioPiso).toFixed(2);
       var propuestos = $('#propuesto').val();
       var volumen = $('#volumen').val();
       this.tempEditarArray['totalVolumen'] = (propuestos * volumen);
@@ -378,8 +378,8 @@ export class DashboardComponent implements OnInit {
       //Agregar span Ventas totales anuales
       this.arrayVolumen[this.indice] = (propuestos * volumen);
       var total = this.sumar_array(this.arrayVolumen);
-
       this.spanVentasTotalesAnuales = total;
+      this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
 
       let itemInfo = {
         info: {
@@ -399,7 +399,6 @@ export class DashboardComponent implements OnInit {
       }
 
       this.arrayTemp.items[this.indice] = itemInfo;
-
       this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
 
       this.arrayCodigos[this.indice] = this.tempEditarArray;
@@ -439,12 +438,11 @@ export class DashboardComponent implements OnInit {
   segundaConsulta() {
     this.loader();
     //Agrega array
+    console.log(this.arrayTemp)
     this.arrayTemp['aniosDeContrato'] = Number(this.filterForm.get('aniosDeContrato')?.value);
     this.arrayTemp['activos'] = Number(this.filterForm.get('activos')?.value.replace(/[^0-9\.]+/g, ""));
     this.arrayTemp['gastosPreoperativos'] = Number(this.filterForm.get('gastosPreoperativos')?.value.replace(/[^0-9\.]+/g, ""));
-    this.arrayTemp['aniosDeContrato'] = Number(this.filterForm.get('aniosDeContrato')?.value);
 
-  
     this.simuladorProyecto.getDatosExtendido(this.arrayTemp).subscribe(resp => {
       if (resp.resultado.tir > 12) {
         (document.getElementById("colorTIR") as HTMLSpanElement).style.background = "#617E41";
