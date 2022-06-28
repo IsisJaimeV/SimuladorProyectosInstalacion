@@ -242,8 +242,6 @@ export class DashboardComponent implements OnInit {
       var propuestos = $('#propuesto').val();
       var volumen = $('#volumen').val();
       this.modeloCodigos['totalVolumen'] = (propuestos * volumen);
-
-      //Agregar span Ventas totales anuales
       this.arrayVolumen.push(propuestos * volumen);
       var total = this.sumar_array(this.arrayVolumen);
       this.spanVentasTotalesAnuales = total;
@@ -370,12 +368,12 @@ export class DashboardComponent implements OnInit {
       this.tempEditarArray['volumen'] = $('#volumen').val();
       this.tempEditarArray['selectedUMSpan'] = this.selectedUMSpan;
       this.tempEditarArray['precioPiso'] = Number(res.resultado.info.precioPiso).toFixed(2);
+
+      //Agregar span Ventas totales anuales
       var propuestos = $('#propuesto').val();
       var volumen = $('#volumen').val();
       this.tempEditarArray['totalVolumen'] = (propuestos * volumen);
-
-
-      //Agregar span Ventas totales anuales
+      
       this.arrayVolumen[this.indice] = (propuestos * volumen);
       var total = this.sumar_array(this.arrayVolumen);
       this.spanVentasTotalesAnuales = total;
@@ -391,7 +389,7 @@ export class DashboardComponent implements OnInit {
           gastoVta: Number(res.resultado.info.gastoVta),
           gastoAdm: Number(res.resultado.info.gastoAdm),
           volumen: Number(volumen),
-          ventaIncrementalAnual: Number(this.spanVolumen),
+          ventaIncrementalAnual: propuestos * volumen,
         },
         infoPropuesto: {
           precioPiso: Number(propuestos)
