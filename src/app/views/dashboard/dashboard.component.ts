@@ -122,6 +122,7 @@ export class DashboardComponent implements OnInit {
     this.simuladorProyecto.getLinea().subscribe(res => {
       this.linea = res;
     });
+
   }
 
   separadorMiles() {
@@ -225,11 +226,13 @@ export class DashboardComponent implements OnInit {
       volumen: $('#volumen').val(),
       propuesto: $('#propuesto').val()
     };
+
     this.simuladorProyecto.getDatosNormal(formGet).subscribe(res => {
       //Agregar valores span Tabla
       this.spanPrecioPiso = (res.resultado.info.precioPiso).toFixed(2);
       this.modeloCodigos['precioPiso'] = this.spanPrecioPiso;
       this.modeloCodigos['selectedUMSpan'] = this.selectedUMSpan;
+      this.modeloCodigos['tipoOperacion'] = $('#cryoinfraSpan').is(":checked");
 
       var propuestos = $('#propuesto').val();
       var volumen = $('#volumen').val();
@@ -330,7 +333,7 @@ export class DashboardComponent implements OnInit {
     (document.getElementById('btnGuardar') as HTMLButtonElement).style.display = "block";
     (document.getElementById('botonAgregar') as HTMLButtonElement).style.display = "none";
 
-
+   
     $('#linea').val(this.arrayCodigos[index].linea);
     $('#codigo').val(this.arrayCodigos[index].codigo);
     $('#volumen').val(this.arrayCodigos[index].volumen);
@@ -439,7 +442,7 @@ export class DashboardComponent implements OnInit {
     this.arrayTemp['gastosPreoperativos'] = Number(this.filterForm.get('gastosPreoperativos')?.value.replace(/[^0-9\.]+/g, ""));
     this.arrayTemp['aniosDeContrato'] = Number(this.filterForm.get('aniosDeContrato')?.value);
 
-    console.log(this.arrayTemp)
+  
     this.simuladorProyecto.getDatosExtendido(this.arrayTemp).subscribe(resp => {
       if (resp.resultado.tir > 12) {
         (document.getElementById("colorTIR") as HTMLSpanElement).style.background = "#617E41";
