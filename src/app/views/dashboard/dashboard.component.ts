@@ -101,10 +101,13 @@ export class DashboardComponent implements OnInit {
     });
 
     //limpiar campos
-    $('#volumen').val();
-    $('#propuesto').val();
-    $('#codigo').val();
-    $('#tipoOperacion').val();
+    this.selectedUMSpan = "";
+    this.spanPrecioPiso = 0;
+    this.spanVolumen = 0;
+    $('#volumen').val('');
+    $('#propuesto').val('');
+    $('#codigo').val('');
+    $('#cryoinfraSpan').prop('checked', false);
   }
 
   selectedCodigo(event: any) {
@@ -354,7 +357,7 @@ export class DashboardComponent implements OnInit {
       propuesto: $('#propuesto').val()
     };
 
-    
+    this.primeraConsulta(form);
     this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
       //Agregar valores span de Tabla
       this.tempEditarArray = {};
@@ -435,7 +438,6 @@ export class DashboardComponent implements OnInit {
 
   segundaConsulta() {
     this.loader();
-
     //Agrega array
     this.arrayTemp['aniosDeContrato'] = Number(this.filterForm.get('aniosDeContrato')?.value);
     this.arrayTemp['activos'] = Number(this.filterForm.get('activos')?.value.replace(/[^0-9\.]+/g, ""));
