@@ -75,6 +75,7 @@ export class DashboardComponent implements OnInit {
   tir: number = 0;
   vpn: number = 0;
   prd: string = '';
+  correo: any = "";
 
   constructor(private simuladorProyecto: SimuladorProyectosDAOService, private spinner: NgxSpinnerService, private currencyPipe: CurrencyPipe, private elementRef: ElementRef, private renderer: Renderer2) { }
 
@@ -85,9 +86,13 @@ export class DashboardComponent implements OnInit {
     this.soloNumerosInput();
   }
   selectZona() {
-    this.simuladorProyecto.getZona().subscribe(res => {
+    this.correo = localStorage.getItem("user");
+
+    this.simuladorProyecto.getZona(this.correo).subscribe(res => {
+      console.log(res)
       this.zona = res;
     });
+
   }
 
   selectCodigo(event: any) {

@@ -7,11 +7,12 @@ export const environment = {
   production: true,
   env: 'dev',
   ambiente: 'dev',
-  endp_precioPiso: 'https://infralink.azure-api.net/api/AnalisisPrecioInfra',
-  endp_linea: 'https://infralink.azure-api.net/api/linea',
-  endp_zona: 'https://infralink.azure-api.net/api/zona',
-  endp_codigo: 'https://infralink.azure-api.net/api/web/codigo/',
-  endp_analisis: 'https://infralink.azure-api.net/api/Analisis'
+  endp_auth: 'https://infralink-prod.azure-api.net/dev/Login',
+  endp_precioPiso: 'https://infralink-prod.azure-api.net/dev/AnalisisPrecioInfra',
+  endp_linea: 'https://infralink-prod.azure-api.net/dev/linea',
+  endp_zona: 'https://infralink-prod.azure-api.net/dev/zona/',
+  endp_codigo: 'https://infralink-prod.azure-api.net/dev/web/codigo/',
+  endp_analisis: 'https://infralink-prod.azure-api.net/dev//Analisis'
 };
 
 

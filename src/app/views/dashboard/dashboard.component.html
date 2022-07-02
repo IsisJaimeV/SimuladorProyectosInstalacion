@@ -6,12 +6,11 @@
                 <div class="row">
                     <div class="col-md-6">
                         <p class="tituloInput">Zona</p>
-                        <input formControlName="zona" list="filterZona" name="filterZona" placeholder="Selecciona una Zona" id="zona" required autocomplete="off" (change)="reiniciar($event)">
-                        <datalist id="filterZona">
+                        <select id="filterZona" formControlName="zona" list="filterZona" name="filterZona" placeholder="Selecciona una Zona" id="zona" required autocomplete="off" (change)="reiniciar($event)">
                             <option [value]="item.nombre" *ngFor="let item of zona">
                                 {{item.area}} {{item.nombre}}
                             </option>
-                        </datalist>
+                        </select>
                     </div>
                     <div class="col">
                         <p class="tituloInput">Años de contrato</p>
@@ -255,5 +254,5 @@
     </div>
 </div>
 <ngx-spinner type="ball-scale-multiple">
-    <p style="color: white"> Calculando datos... </p>
+    <p style="color: white"></p>
 </ngx-spinner>
