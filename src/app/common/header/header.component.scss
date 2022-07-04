@@ -56,7 +56,7 @@
         }
     }
     .img-logo {
-        width: 25%;
+        width: 15% !important;
     }
     .d-flex {
         right: 0px;
@@ -86,7 +86,7 @@
     }
 }
 
-@media (max-width:1024px) {
+@media (max-width:1080px) {
     .img-logo {
         width: 8%;
     }
@@ -97,7 +97,7 @@
     }
     .navbar-brand {
         p {
-            font-size: 0.8em;
+            font-size: 0.7em;
         }
     }
     .datosUser {

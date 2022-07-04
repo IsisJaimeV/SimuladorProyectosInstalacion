@@ -13,9 +13,9 @@ export class SimuladorProyectosDAOService {
 
   constructor(private http: HttpClient) { }
 
-  
+
   getAuth(path: Object): Observable<any> {
-        
+
     var body = JSON.stringify(path)
     var json = JSON.parse(body)
 
@@ -87,7 +87,7 @@ export class SimuladorProyectosDAOService {
     var key = "items"
     delete json[key]
     delete json.activos, json.aniosDeContrato, json.gastosPreoperativos, json.linea, json.ventasTotalesAnuales;
-   
+
     json.propuesto = Number(json.propuesto)
 
     this.eliminarVacios(json);
