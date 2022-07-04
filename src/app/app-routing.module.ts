@@ -5,7 +5,7 @@ import { LoadingComponent } from './views/loading/loading.component';
 import { NotFoundComponent } from './views/not-found/not-found.component';
 
 const routes: Routes = [
-  {path: '', component: DashboardComponent},
+  {path: '', component: LoadingComponent},
   {path: 'dashboard', component: DashboardComponent},
   {path: 'not-found', component: NotFoundComponent},
 ];
