@@ -86,10 +86,23 @@
     }
 }
 
-@media (max-width:450px) {
+@media (max-width:1024px) {
+    .img-logo {
+        width: 8%;
+    }
+    .divDatosUser {
+        svg {
+            font-size: 1.5em;
+        }
+    }
     .navbar-brand {
         p {
-            display: block;
+            font-size: 0.8em;
+        }
+    }
+    .datosUser {
+        p {
+            font-size: 0.8em;
         }
     }
 }
