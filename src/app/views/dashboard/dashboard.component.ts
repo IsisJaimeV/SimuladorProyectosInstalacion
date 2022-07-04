@@ -190,7 +190,7 @@ export class DashboardComponent implements OnInit {
       //var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
       var volumen = $('#volumen').val();
 
-      this.spanVolumen = propuestos * volumen;
+      this.spanVolumen = Number(propuestos.replace(/[^0-9\.]+/g, "")) * Number(volumen.replace(/[^0-9\.]+/g, ""));
       this.spanPrecioPiso = (res.resultado.info.precioPiso).toFixed(2);
 
       (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = false;
@@ -341,7 +341,7 @@ export class DashboardComponent implements OnInit {
     (document.getElementById('btnGuardar') as HTMLButtonElement).style.display = "block";
     (document.getElementById('botonAgregar') as HTMLButtonElement).style.display = "none";
 
-   
+
     $('#linea').val(this.arrayCodigos[index].linea);
     $('#codigo').val(this.arrayCodigos[index].codigo);
     $('#volumen').val(this.arrayCodigos[index].volumen);
@@ -378,7 +378,7 @@ export class DashboardComponent implements OnInit {
       var propuestos = $('#propuesto').val();
       var volumen = $('#volumen').val();
       this.tempEditarArray['totalVolumen'] = (propuestos * volumen);
-      
+
       this.arrayVolumen[this.indice] = (propuestos * volumen);
       var total = this.sumar_array(this.arrayVolumen);
       this.spanVentasTotalesAnuales = total;
