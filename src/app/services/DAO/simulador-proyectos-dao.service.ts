@@ -51,7 +51,7 @@ export class SimuladorProyectosDAOService {
         'Ocp-Apim-Subscription-Key': '802ac063011f4cf9b2ff79d781cca71f'
     }
 
-    return this.http.get(environment.endp_zona + correo, { 'headers': headers })
+    return this.http.get(environment.endp_zona + 'daniel.luevano@externo.infra.com.mx', { 'headers': headers })
 }
 
   eliminarVacios(json: any) {

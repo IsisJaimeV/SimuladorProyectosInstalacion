@@ -176,28 +176,31 @@ export class DashboardComponent implements OnInit {
     (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
     (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "visible";
 
+    // Variables
+    const propuesto = Number( $('#propuesto').val().replace(/[^0-9\.]+/g, ""));
+    const volumen = Number( $('#volumen').val().replace(/[^0-9\.]+/g, ""));
+
     var form = {
       codigo: $('#codigo').val(),
       zona: $('#zona').val(),
       tipoOperacion: $('#cryoinfraSpan').is(":checked"),
-      volumen: $('#volumen').val(),
-      propuesto: $('#propuesto').val()
+      volumen: volumen,
+      propuesto: propuesto,
     };
 
 
     this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
-      var propuestos = $('#propuesto').val();
+      const propuestos = Number( $('#propuesto').val().replace(/[^0-9\.]+/g, ""));
+      const volumen = Number( $('#volumen').val().replace(/[^0-9\.]+/g, ""));
       //var propuestos = Number(currencyPropuestos.replace(/[^0-9\.]+/g, ""));
-      var volumen = $('#volumen').val();
 
-      this.spanVolumen = Number(propuestos.replace(/[^0-9\.]+/g, "")) * Number(volumen.replace(/[^0-9\.]+/g, ""));
+      this.spanVolumen =propuestos * volumen;
       this.spanPrecioPiso = (res.resultado.info.precioPiso).toFixed(2);
 
       (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = false;
       (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden";
 
-      var volumen = $('#volumen').val();
-      if (volumen === "") {
+      if (volumen === 0 || volumen === null) {
         (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
         (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "hidden"
       }
@@ -233,8 +236,8 @@ export class DashboardComponent implements OnInit {
       codigo: $('#codigo').val(),
       zona: $('#zona').val(),
       tipoOperacion: $('#cryoinfraSpan').is(":checked"),
-      volumen: $('#volumen').val(),
-      propuesto: $('#propuesto').val()
+      volumen: Number($('#volumen').val().replace(/[^0-9\.]+/g, "")),
+      propuesto: Number($('#propuesto').val().replace(/[^0-9\.]+/g, ""))
     };
 
     this.simuladorProyecto.getDatosNormal(formGet).subscribe(res => {
@@ -244,8 +247,8 @@ export class DashboardComponent implements OnInit {
       this.modeloCodigos['selectedUMSpan'] = this.selectedUMSpan;
       this.modeloCodigos['tipoOperacion'] = $('#cryoinfraSpan').is(":checked");
 
-      var propuestos = $('#propuesto').val();
-      var volumen = $('#volumen').val();
+      const propuestos = Number( $('#propuesto').val().replace(/[^0-9\.]+/g, ""));
+      const volumen = Number( $('#volumen').val().replace(/[^0-9\.]+/g, ""));
       this.modeloCodigos['totalVolumen'] = (propuestos * volumen);
       this.arrayVolumen.push(propuestos * volumen);
       var total = this.sumar_array(this.arrayVolumen);
@@ -354,12 +357,15 @@ export class DashboardComponent implements OnInit {
   }
 
   btnEditarElemento() {
+    const propuesto = Number( $('#propuesto').val().replace(/[^0-9\.]+/g, ""));
+    const volumen = Number( $('#volumen').val().replace(/[^0-9\.]+/g, ""));
+
     var form = {
       codigo: $('#codigo').val(),
       zona: $('#zona').val(),
       tipoOperacion: $('#cryoinfraSpan').is(":checked"),
-      volumen: $('#volumen').val(),
-      propuesto: $('#propuesto').val()
+      volumen: volumen,
+      propuesto: propuesto,
     };
 
     this.primeraConsulta(form);
@@ -368,9 +374,9 @@ export class DashboardComponent implements OnInit {
       this.tempEditarArray = {};
       this.tempEditarArray['codigo'] = $('#codigo').val();
       this.tempEditarArray['linea'] = $('#linea').val();
-      this.tempEditarArray['propuesto'] = $('#propuesto').val();
+      this.tempEditarArray['propuesto'] = Number( $('#propuesto').val().replace(/[^0-9\.]+/g, ""));
       this.tempEditarArray['tipoOperacion'] = $('#cryoinfraSpan').is(":checked");
-      this.tempEditarArray['volumen'] = $('#volumen').val();
+      this.tempEditarArray['volumen'] = Number( $('#volumen').val().replace(/[^0-9\.]+/g, ""));
       this.tempEditarArray['selectedUMSpan'] = this.selectedUMSpan;
       this.tempEditarArray['precioPiso'] = Number(res.resultado.info.precioPiso).toFixed(2);
 
@@ -517,8 +523,8 @@ export class DashboardComponent implements OnInit {
     this.spanPrecioPiso = 0;
     this.spanVolumen = 0;
 
-    var volumen = $('#volumen').val();
-    var propuesto = $('#propuesto').val();
+    const propuesto = Number( $('#propuesto').val().replace(/[^0-9\.]+/g, ""));
+    const volumen = Number( $('#volumen').val().replace(/[^0-9\.]+/g, ""));
     var codigo = $('#codigo').val();
     var linea = $('#linea').val();
 
@@ -534,7 +540,7 @@ export class DashboardComponent implements OnInit {
     (document.getElementById('btnGuardar') as HTMLButtonElement).style.display = "none";
     (document.getElementById('botonAgregar') as HTMLButtonElement).style.display = "block";
 
-    if (volumen == "" && propuesto == "" && codigo == "" && linea == "") {
+    if (volumen == null && propuesto == null && codigo == "" && linea == "") {
       (document.getElementById("botonAgregar") as HTMLButtonElement).disabled = false;
     } else {
       (document.getElementById("botonAgregar") as HTMLButtonElement).disabled = true;
