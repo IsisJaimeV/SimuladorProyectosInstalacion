@@ -134,7 +134,7 @@ export class DashboardComponent implements OnInit {
   }
 
   separadorMiles() {
-    $("#activos, #gastosPreoperativos").on({
+    $("#activos, #gastosPreoperativos, #propuesto, #volumen").on({
       "focus": function (event: { target: any; }) {
         $(event.target).select();
       },
