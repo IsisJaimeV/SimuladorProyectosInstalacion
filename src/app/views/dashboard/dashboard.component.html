@@ -127,7 +127,7 @@
                                                         <td><input class="codigo" formControlName="codigo" list="filterCodigo" name="filterCodigo" placeholder="Selecciona un código" id="codigo" autocomplete="off" [(ngModel)]="modeloCodigos.codigo" (change)="selectedCodigo($event)">
                                                             <datalist id="filterCodigo">
                                                                 <option [value]="item.codigo" *ngFor="let item of codigo">
-                                                                    {{item.codigo}}{{item.descripcion}}
+                                                                    {{item.codigo}} {{item.descripcion}}
                                                                 </option>
                                                             </datalist>
                                                         </td>
