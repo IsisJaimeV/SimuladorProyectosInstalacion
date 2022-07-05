@@ -346,8 +346,8 @@ export class DashboardComponent implements OnInit {
 
     $('#linea').val(this.arrayCodigos[index].linea);
     $('#codigo').val(this.arrayCodigos[index].codigo);
-    $('#volumen').val(this.arrayCodigos[index].volumen);
-    $('#propuesto').val(this.arrayCodigos[index].propuesto);
+    $('#volumen').val(new Intl.NumberFormat('es-MX').format(this.arrayCodigos[index].volumen));
+    $('#propuesto').val(new Intl.NumberFormat('es-MX').format(this.arrayCodigos[index].propuesto));
     $('#cryoinfraSpan').prop('checked', this.arrayCodigos[index].tipoOperacion);
     this.spanPrecioPiso = this.arrayCodigos[index].precioPiso;
     this.spanVolumen = this.arrayCodigos[index].totalVolumen;
@@ -356,15 +356,12 @@ export class DashboardComponent implements OnInit {
   }
 
   btnEditarElemento() {
-    const propuesto = Number( $('#propuesto').val().replace(/[^0-9\.]+/g, ""));
-    const volumen = Number( $('#volumen').val().replace(/[^0-9\.]+/g, ""));
-
     var form = {
       codigo: $('#codigo').val(),
       zona: $('#zona').val(),
       tipoOperacion: $('#cryoinfraSpan').is(":checked"),
-      volumen: volumen,
-      propuesto: propuesto,
+      volumen: Number($('#volumen').val().replace(/[^0-9\.]+/g, "")),
+      propuesto: Number($('#propuesto').val().replace(/[^0-9\.]+/g, "")),
     };
 
     this.primeraConsulta(form);
@@ -380,8 +377,8 @@ export class DashboardComponent implements OnInit {
       this.tempEditarArray['precioPiso'] = Number(res.resultado.info.precioPiso).toFixed(2);
 
       //Agregar span Ventas totales anuales
-      var propuestos = $('#propuesto').val();
-      var volumen = $('#volumen').val();
+      var propuestos =  Number($('#propuesto').val().replace(/[^0-9\.]+/g, ""));
+      var volumen = Number($('#volumen').val().replace(/[^0-9\.]+/g, ""))
       this.tempEditarArray['totalVolumen'] = (propuestos * volumen);
 
       this.arrayVolumen[this.indice] = (propuestos * volumen);
