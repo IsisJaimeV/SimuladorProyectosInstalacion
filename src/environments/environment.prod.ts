@@ -7,5 +7,5 @@ export const environment = {
   endp_linea: 'https://infralink-prod.azure-api.net/dev/linea',
   endp_zona: 'https://infralink-prod.azure-api.net/dev/zona/',
   endp_codigo: 'https://infralink-prod.azure-api.net/dev/web/codigo/',
-  endp_analisis: 'https://infralink-prod.azure-api.net/dev//Analisis'
+  endp_analisis: 'https://infralink-prod.azure-api.net/dev/Analisis'
 };
