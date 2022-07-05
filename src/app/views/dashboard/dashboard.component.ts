@@ -186,6 +186,14 @@ export class DashboardComponent implements OnInit {
   }
 
   primeraConsulta(temp: Object) {
+
+    if ($('#linea').val() === '' || $('#codigo').val() === '' || $('#volumen').val() === '' || $('#propuesto').val() === '' || $('#volumen').val() === 0 || $('#propuesto').val() === 0) {
+      $('#btnGuardar').prop('disabled', true);
+      return;
+    }
+
+    $('#btnGuardar').prop('disabled', false);
+
     (document.getElementById('botonAgregar') as HTMLButtonElement).disabled = true;
     (document.getElementById('img-loader') as HTMLImageElement).style.visibility = "visible";
 
@@ -200,8 +208,6 @@ export class DashboardComponent implements OnInit {
       volumen: volumen,
       propuesto: propuesto,
     };
-
-    console.log(form)
 
     this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
       const propuestos = Number($('#propuesto').val().replace(/[^0-9\.]+/g, ""));
@@ -308,6 +314,8 @@ export class DashboardComponent implements OnInit {
       (document.getElementById("colorPRD") as HTMLCanvasElement).style.background = "#ffffff";
 
       this.arrayTemp['ventasTotalesAnuales'] = this.spanVentasTotalesAnuales;
+
+      $('#botonAgregar').prop('disabled', true);
     }, (error) => {
       Swal.fire(
         '',
@@ -536,6 +544,12 @@ export class DashboardComponent implements OnInit {
     this.spanPrecioPiso = 0;
     this.spanVolumen = 0;
 
+    if ($('#linea').val() === '' && $('#codigo').val('') === '' && $('#volumen').val('') === '' && $('#propuesto').val('') === '') {
+      $('#botonAgregar').prop('disabled', true);
+    } else {
+      $('#botonAgregar').prop('disabled', false);
+    }
+
     const propuesto = Number($('#propuesto').val().replace(/[^0-9\.]+/g, ""));
     const volumen = Number($('#volumen').val().replace(/[^0-9\.]+/g, ""));
     var codigo = $('#codigo').val();
@@ -546,6 +560,7 @@ export class DashboardComponent implements OnInit {
     $('#volumen').val('');
     $('#propuesto').val('');
     $('#cryoinfra').prop('');
+
 
 
     (document.getElementById('botonAgregar') as HTMLImageElement).style.visibility = "visible";
