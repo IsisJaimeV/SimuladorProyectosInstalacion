@@ -201,6 +201,7 @@ export class DashboardComponent implements OnInit {
       propuesto: propuesto,
     };
 
+    console.log(form)
 
     this.simuladorProyecto.getDatosNormal(form).subscribe(res => {
       const propuestos = Number($('#propuesto').val().replace(/[^0-9\.]+/g, ""));
