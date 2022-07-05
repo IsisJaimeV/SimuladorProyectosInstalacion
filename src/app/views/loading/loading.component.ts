@@ -12,7 +12,12 @@ import { Router } from '@angular/router';
 export class LoadingComponent implements OnInit {
 
   user: ResponseI[] = [];
-  constructor(private router: Router, private precioPiso: SimuladorProyectosDAOService, private spinner: NgxSpinnerService) { }
+  loading: boolean = false;
+  constructor(
+    private router: Router,
+    private precioPiso: SimuladorProyectosDAOService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit(): void {
     this.loader();
@@ -42,18 +47,22 @@ export class LoadingComponent implements OnInit {
       sourceId: 3
     }
 
-    localStorage.setItem("user", "")
+    this.loading = true;
+    localStorage.setItem("user", "");
     this.precioPiso.getAuth(pathJSON).subscribe(res => {
-      if (res.resultado == true) {
+      if (res?.resultado) {
         localStorage.setItem("user", res.correo)
         this.router.navigate(['dashboard']);
       } else {
         this.router.navigate(['not-found']);
       }
+      this.loading = false;
     }, (error) => {
+      this.loading = false;
+      console.log(error);
       this.router.navigate(['not-found']);
     })
-    
+
     return this.user;
   }
 }

@@ -27,7 +27,6 @@ export class SimuladorProyectosDAOService {
 
     delete json.token
 
-    console.log(json)
     return this.http.post(environment.endp_auth, json, { 'headers': headers });
 }
 
