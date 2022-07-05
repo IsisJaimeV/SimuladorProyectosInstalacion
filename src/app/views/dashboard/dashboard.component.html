@@ -7,14 +7,17 @@
                     <div class="col-md-6">
                         <p class="tituloInput">Zona</p>
                         <select id="filterZona" formControlName="zona" list="filterZona" name="filterZona" placeholder="Selecciona una Zona" id="zona" required autocomplete="off" (change)="reiniciar($event)">
+                            <option selected hidden>Selecciona una zona</option>
                             <option [value]="item.nombre" *ngFor="let item of zona">
-                                {{item.area}} {{item.nombre}}
+                                 {{item.nombre}}
                             </option>
+                            <option *ngIf="loading" selected>Cargando...</option>
                         </select>
                     </div>
                     <div class="col">
                         <p class="tituloInput">Años de contrato</p>
                         <select id="filterAnio" formControlName="aniosDeContrato" list="filterAnio" name="filterAnio" placeholder="Selecciona un año" id="aniosDeContrato" (change)="limpiarIndicadores()" autocomplete="off" required>
+                            <option selected hidden>Selecciona un año</option>
                             <option [value]="item" *ngFor="let item of this.anioArray">
                                 {{item}}
                             </option>

@@ -77,6 +77,9 @@ export class DashboardComponent implements OnInit {
   prd: string = '';
   correo: any = "";
 
+  //ZONA LOADING
+  loading: boolean = false;
+
   constructor(private simuladorProyecto: SimuladorProyectosDAOService, private spinner: NgxSpinnerService, private currencyPipe: CurrencyPipe, private elementRef: ElementRef, private renderer: Renderer2) { }
 
   ngOnInit(): void {
@@ -88,14 +91,19 @@ export class DashboardComponent implements OnInit {
   selectZona() {
     this.correo = localStorage.getItem("user");
 
+    this.loading = true;
     (document.getElementById("zona") as HTMLSelectElement).disabled = true;
     (document.getElementById("zona") as HTMLSelectElement).style.backgroundColor = "#c0c0c0";
     this.simuladorProyecto.getZona(this.correo).subscribe(res => {
       this.zona = res;
       (document.getElementById("zona") as HTMLSelectElement).disabled = false;
       (document.getElementById("zona") as HTMLSelectElement).style.backgroundColor = "#F2F2F2";
-
-    });
+      this.loading = false;
+    }, (error) => {
+      console.log(error);
+      this.loading = false;
+    }
+    );
 
   }
 
@@ -379,7 +387,7 @@ export class DashboardComponent implements OnInit {
       this.tempEditarArray = {};
       this.tempEditarArray['codigo'] = $('#codigo').val();
       this.tempEditarArray['linea'] = $('#linea').val();
-      this.tempEditarArray['propuesto'] = $('#propuesto').val();
+      this.tempEditarArray['propuesto'] = Number($('#propuesto').val().replace(/[^0-9\.]+/g, ""));
       this.tempEditarArray['tipoOperacion'] = $('#cryoinfraSpan').is(":checked");
       this.tempEditarArray['volumen'] = Number($('#volumen').val().replace(/[^0-9\.]+/g, ""));
       this.tempEditarArray['selectedUMSpan'] = this.selectedUMSpan;
@@ -452,7 +460,6 @@ export class DashboardComponent implements OnInit {
   segundaConsulta() {
     this.loader();
     //Agrega array
-    console.log(this.arrayTemp)
     this.arrayTemp['aniosDeContrato'] = Number(this.filterForm.get('aniosDeContrato')?.value);
     this.arrayTemp['activos'] = Number(this.filterForm.get('activos')?.value.replace(/[^0-9\.]+/g, ""));
     this.arrayTemp['gastosPreoperativos'] = Number(this.filterForm.get('gastosPreoperativos')?.value.replace(/[^0-9\.]+/g, ""));
