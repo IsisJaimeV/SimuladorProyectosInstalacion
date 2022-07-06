@@ -371,8 +371,8 @@ export class DashboardComponent implements OnInit {
 
     $('#linea').val(this.arrayCodigos[index].linea);
     $('#codigo').val(this.arrayCodigos[index].codigo);
-    $('#volumen').val(new Intl.NumberFormat('es-MX').format(this.arrayCodigos[index].volumen));
-    $('#propuesto').val(new Intl.NumberFormat('es-MX').format(this.arrayCodigos[index].propuesto));
+    $('#volumen').val((this.arrayCodigos[index].volumen));
+    $('#propuesto').val((this.arrayCodigos[index].volumen));
     $('#cryoinfraSpan').prop('checked', this.arrayCodigos[index].tipoOperacion);
     this.spanPrecioPiso = this.arrayCodigos[index].precioPiso;
     this.spanVolumen = this.arrayCodigos[index].totalVolumen;
@@ -396,9 +396,9 @@ export class DashboardComponent implements OnInit {
       this.tempEditarArray = {};
       this.tempEditarArray['codigo'] = $('#codigo').val();
       this.tempEditarArray['linea'] = $('#linea').val();
-      this.tempEditarArray['propuesto'] = Number($('#propuesto').val().replace(/[^0-9\.]+/g, ""));
+      this.tempEditarArray['propuesto'] = ($('#propuesto').val().replace(/[^0-9\.]+/g, ""));
       this.tempEditarArray['tipoOperacion'] = $('#cryoinfraSpan').is(":checked");
-      this.tempEditarArray['volumen'] = Number($('#volumen').val().replace(/[^0-9\.]+/g, ""));
+      this.tempEditarArray['volumen'] = ($('#volumen').val().replace(/[^0-9\.]+/g, ""));
       this.tempEditarArray['selectedUMSpan'] = this.selectedUMSpan;
       this.tempEditarArray['precioPiso'] = Number(res.resultado.info.precioPiso).toFixed(2);
 
