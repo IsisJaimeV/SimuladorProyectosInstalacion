@@ -80,12 +80,18 @@ export class DashboardComponent implements OnInit {
   //ZONA LOADING
   loading: boolean = false;
 
-  constructor(private simuladorProyecto: SimuladorProyectosDAOService, private spinner: NgxSpinnerService, private currencyPipe: CurrencyPipe, private elementRef: ElementRef, private renderer: Renderer2) { }
+  constructor(
+    private simuladorProyecto: SimuladorProyectosDAOService,
+    private spinner: NgxSpinnerService,
+    private currencyPipe: CurrencyPipe,
+    private elementRef: ElementRef,
+    private renderer: Renderer2
+  ) { }
 
   ngOnInit(): void {
     this.selectZona();
     this.selectLinea();
-    this.separadorMiles();
+    // this.separadorMiles();
     this.soloNumerosInput();
   }
   selectZona() {
@@ -377,6 +383,10 @@ export class DashboardComponent implements OnInit {
     this.spanPrecioPiso = this.arrayCodigos[index].precioPiso;
     this.spanVolumen = this.arrayCodigos[index].totalVolumen;
     this.selectedUMSpan = this.arrayCodigos[index].selectedUMSpan;
+
+    const logPropuesto = $('#volumen').val();
+    const logVolumen = $('#propuesto').val();
+    console.log(logPropuesto, logVolumen);
 
   }
 

@@ -34,12 +34,12 @@
                     <p class="tituloInput">Activos</p>
                     <p class="descripcion">Importe estimado de los equipos en comodato. El monto debe ser considerado como nuevo por el valor de reposición. El valor de recuperación se considera al final del plazo del contrato.
                     </p>
-                    <label>$<input type="text" style="margin-left: 10px; text-align: right;" placeholder="0" formControlName="activos" required id="activos" autocomplete="off"></label>
+                    <label>$<input type="text" style="margin-left: 10px; text-align: right;" placeholder="0" formControlName="activos" required id="activos" autocomplete="off" currencyMask [options]="{ max: 999999999, precision: 0, prefix: '' }"></label>
                 </div>
                 <div class="row mt-4">
                     <p class="tituloInput">Gastos preoperativos</p>
                     <p class="descripcion">Monto estimado para la instalación y traslado de equipos.</p>
-                    <label>$<input type="text" style="margin-left: 10px; text-align: right;" placeholder="0" formControlName="gastosPreoperativos" required id="gastosPreoperativos" autocomplete="off"></label>
+                    <label>$<input type="text" style="margin-left: 10px; text-align: right;" placeholder="0" formControlName="gastosPreoperativos" required id="gastosPreoperativos" autocomplete="off" currencyMask [options]="{ max: 999999999, precision: 0, prefix: '' }"></label>
                 </div>
             </div>
             <div class="col ms-2">
@@ -132,8 +132,19 @@
                                                             </datalist>
                                                         </td>
                                                         <td style="padding-top: 20px;"><span [(ngModel)]="modeloCodigos.spanPrecioPiso">$ {{spanPrecioPiso | number : '1.2'}}</span></td>
-                                                        <td><input type="text" class="propuesto" placeholder="$ 0.0" formControlName="propuesto" id="propuesto" tabindex="-1" (keyup)="primeraConsulta(filterForm.value)" autocomplete="off" [(ngModel)]="modeloCodigos.propuesto"></td>
-                                                        <td><input type="text" class="volumen" placeholder="0" formControlName="volumen" id="volumen" tabindex="-1" (keyup)="primeraConsulta(filterForm.value)" autocomplete="off" [(ngModel)]="modeloCodigos.volumen">{{selectedUMSpan}}
+                                                        <td>
+                                                          <input
+                                                            type="text" class="propuesto" placeholder="$ 0.0"
+                                                            formControlName="propuesto" id="propuesto" tabindex="-1"
+                                                            (keyup)="primeraConsulta(filterForm.value)"
+                                                            autocomplete="off" [(ngModel)]="modeloCodigos.propuesto" currencyMask [options]="{ max: 999999999, precision: 0, prefix: '' }">
+                                                        </td>
+                                                        <td>
+                                                          <input
+                                                            type="text" class="volumen" placeholder="0"
+                                                            formControlName="volumen" id="volumen" tabindex="-1"
+                                                            (keyup)="primeraConsulta(filterForm.value)"
+                                                            autocomplete="off" [(ngModel)]="modeloCodigos.volumen" currencyMask [options]="{ max: 999999999, precision: 0, prefix: '' }">{{selectedUMSpan}}
                                                         </td>
                                                         <td style="padding-top: 20px;" [(ngModel)]="modeloCodigos.spanVolumen" tabindex="-1">$ {{spanVolumen | number : '1.2'}}</td>
                                                         <td style="padding-top: 20px;"><label class="switch ms-4">
@@ -161,8 +172,8 @@
                                 <td><input class="codigo" placeholder="{{x.codigo}}" [disabled]="true" readonly value="{{x.codigo}}">
                                 </td>
                                 <td style="padding-top: 20px;"><span>$ {{x.precioPiso | number : '1.2'}}</span></td>
-                                <td><input type="text" class="propuesto" [disabled]="true" readonly value="{{x.propuesto}}"></td>
-                                <td><input type="text" class="volumen" [disabled]="true" readonly value="{{x.volumen}}"> {{x.selectedUMSpan}}
+                                <td><input type="text" class="propuesto" [disabled]="true" currencyMask [options]="{ max: 999999999, precision: 0, prefix: '' }" readonly value="{{x.propuesto}}"></td>
+                                <td><input type="text" class="volumen" [disabled]="true" currencyMask [options]="{ max: 999999999, precision: 0, prefix: '' }" readonly value="{{x.volumen}}"> {{x.selectedUMSpan}}
                                 </td>
                                 <td style="padding-top: 20px;">$ {{x.totalVolumen | number : '1.2'}}</td>
                                 <td style="padding-top: 20px;"><label class="switch ms-4">
