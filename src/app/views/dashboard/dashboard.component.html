@@ -137,14 +137,14 @@
                                                             type="text" class="propuesto" placeholder="$ 0.0"
                                                             formControlName="propuesto" id="propuesto" tabindex="-1"
                                                             (keyup)="primeraConsulta(filterForm.value)"
-                                                            autocomplete="off" [(ngModel)]="modeloCodigos.propuesto" currencyMask [options]="{ max: 999999999, precision: 0, prefix: '' }">
+                                                            autocomplete="off" [(ngModel)]="modeloCodigos.propuesto" >
                                                         </td>
                                                         <td>
                                                           <input
                                                             type="text" class="volumen" placeholder="0"
                                                             formControlName="volumen" id="volumen" tabindex="-1"
                                                             (keyup)="primeraConsulta(filterForm.value)"
-                                                            autocomplete="off" [(ngModel)]="modeloCodigos.volumen" currencyMask [options]="{ max: 999999999, precision: 0, prefix: '' }">{{selectedUMSpan}}
+                                                            autocomplete="off" [(ngModel)]="modeloCodigos.volumen" >{{selectedUMSpan}}
                                                         </td>
                                                         <td style="padding-top: 20px;" [(ngModel)]="modeloCodigos.spanVolumen" tabindex="-1">$ {{spanVolumen | number : '1.2'}}</td>
                                                         <td style="padding-top: 20px;"><label class="switch ms-4">

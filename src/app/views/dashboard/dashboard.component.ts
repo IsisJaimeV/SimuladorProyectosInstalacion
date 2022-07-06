@@ -91,7 +91,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.selectZona();
     this.selectLinea();
-    // this.separadorMiles();
+    this.separadorMiles();
     this.soloNumerosInput();
   }
   selectZona() {
@@ -159,8 +159,9 @@ export class DashboardComponent implements OnInit {
       "keyup": function (event: { target: any; }) {
         $(event.target).val(function (index: any, value: string) {
           return value.replace(/\D/g, "")
-            .replace(/([0-9])([0-9]{0})$/, '$1')
+            // .replace(/([0-9])([0-9]{0})$/, '$1')
             .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+            // .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
         });
       }
     });
@@ -374,19 +375,25 @@ export class DashboardComponent implements OnInit {
     (document.getElementById('btnGuardar') as HTMLButtonElement).style.display = "block";
     (document.getElementById('botonAgregar') as HTMLButtonElement).style.display = "none";
 
+    // Convertir los valores de tipo string a number
+    const numPropuesto = this.arrayCodigos[index].volumen;
+    const numVolumen = this.arrayCodigos[index].propuesto;
+
 
     $('#linea').val(this.arrayCodigos[index].linea);
     $('#codigo').val(this.arrayCodigos[index].codigo);
     $('#volumen').val((this.arrayCodigos[index].volumen));
-    $('#propuesto').val((this.arrayCodigos[index].volumen));
+    $('#propuesto').val((this.arrayCodigos[index].propuesto));
     $('#cryoinfraSpan').prop('checked', this.arrayCodigos[index].tipoOperacion);
     this.spanPrecioPiso = this.arrayCodigos[index].precioPiso;
     this.spanVolumen = this.arrayCodigos[index].totalVolumen;
     this.selectedUMSpan = this.arrayCodigos[index].selectedUMSpan;
 
-    const logPropuesto = $('#volumen').val();
-    const logVolumen = $('#propuesto').val();
-    console.log(logPropuesto, logVolumen);
+
+    console.log(typeof numPropuesto, typeof numVolumen);
+    console.log(numPropuesto, numVolumen);
+    console.log(typeof $('#propuesto').val(), typeof $('#volumen').val());
+    console.log($('#propuesto').val(), $('#volumen').val());
 
   }
 
