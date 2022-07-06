@@ -266,6 +266,8 @@ export class DashboardComponent implements OnInit {
       this.modeloCodigos['precioPiso'] = this.spanPrecioPiso;
       this.modeloCodigos['selectedUMSpan'] = this.selectedUMSpan;
       this.modeloCodigos['tipoOperacion'] = $('#cryoinfraSpan').is(":checked");
+      this.modeloCodigos['propuesto'] =  $('#propuesto').val();
+      this.modeloCodigos['volumen'] =  $('#volumen').val();
 
       const propuestos = Number($('#propuesto').val().replace(/[^0-9\.]+/g, ""));
       const volumen = Number($('#volumen').val().replace(/[^0-9\.]+/g, ""));
@@ -371,8 +373,8 @@ export class DashboardComponent implements OnInit {
 
     $('#linea').val(this.arrayCodigos[index].linea);
     $('#codigo').val(this.arrayCodigos[index].codigo);
-    $('#volumen').val((this.arrayCodigos[index].volumen));
-    $('#propuesto').val((this.arrayCodigos[index].volumen));
+    $('#volumen').val(this.arrayCodigos[index].volumen);
+    $('#propuesto').val(this.arrayCodigos[index].propuesto);
     $('#cryoinfraSpan').prop('checked', this.arrayCodigos[index].tipoOperacion);
     this.spanPrecioPiso = this.arrayCodigos[index].precioPiso;
     this.spanVolumen = this.arrayCodigos[index].totalVolumen;
@@ -396,9 +398,9 @@ export class DashboardComponent implements OnInit {
       this.tempEditarArray = {};
       this.tempEditarArray['codigo'] = $('#codigo').val();
       this.tempEditarArray['linea'] = $('#linea').val();
-      this.tempEditarArray['propuesto'] = ($('#propuesto').val().replace(/[^0-9\.]+/g, ""));
+      this.tempEditarArray['propuesto'] =  $('#propuesto').val();
       this.tempEditarArray['tipoOperacion'] = $('#cryoinfraSpan').is(":checked");
-      this.tempEditarArray['volumen'] = ($('#volumen').val().replace(/[^0-9\.]+/g, ""));
+      this.tempEditarArray['volumen'] =  $('#volumen').val();
       this.tempEditarArray['selectedUMSpan'] = this.selectedUMSpan;
       this.tempEditarArray['precioPiso'] = Number(res.resultado.info.precioPiso).toFixed(2);
 
@@ -469,6 +471,7 @@ export class DashboardComponent implements OnInit {
   segundaConsulta() {
     this.loader();
     //Agrega array
+    console.log(this.arrayTemp)
     this.arrayTemp['aniosDeContrato'] = Number(this.filterForm.get('aniosDeContrato')?.value);
     this.arrayTemp['activos'] = Number(this.filterForm.get('activos')?.value.replace(/[^0-9\.]+/g, ""));
     this.arrayTemp['gastosPreoperativos'] = Number(this.filterForm.get('gastosPreoperativos')?.value.replace(/[^0-9\.]+/g, ""));
