@@ -1,7 +1,7 @@
 <app-header></app-header>
 <div class="container-fluid">
     <form [formGroup]="filterForm" (ngSubmit)="segundaConsulta()">
-        <div class="row mt-5 ms-4 me-4">
+        <div class="row mt-5 ms-4 me-3">
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-6">
@@ -74,7 +74,7 @@
                 <p>Venta <b>incremental</b></p>
             </div>
         </div>
-        <div class="row ms-3 me-3 mt-3">
+        <div class="row ms-3 me-2 mt-3">
             <div class="divVenta">
                 <div class="table-responsive">
                     <table class="table table-fixed table-borderless table-hover">
@@ -181,6 +181,9 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="d-md-none d-sm-block">
+                    <i class="fa fa-long-arrow-right arrow1" aria-hidden="true"></i><span class="descripcionScroll">Realiza un scroll a la derecha para agregar un nuevo código.</span>
+                </div>
             </div>
         </div>
         <div class="row ms-3 mt-3 ventasTotales">
@@ -198,13 +201,13 @@
             </div>
         </div>
     </form>
-    <div class="row ms-3 me-3 mt-3 tituloIndicadores">
+    <div class="row ms-3 mt-3 tituloIndicadores">
         <div class="subtitulos" href="/">
             <img src="../../../assets/icons/icono_indicadores.png" alt="" class="img-subtitulos me-3">
             <p>Indicadores</p>
         </div>
     </div>
-    <div class="row ms-3 me-3 mt-3">
+    <div class="row ms-3 mt-3">
         <div class="col mt-3 me-4">
             <div class="row indicadoresDivs">
                 <div class="col-md-3 text-center">
@@ -238,7 +241,7 @@
             </div>
             <p class="indicadoresDescripcion">Para ser rentable la VPN debe ser mayor a $ 0</p>
         </div>
-        <div class="col  mt-3 me-4">
+        <div class="col-md-4 col-6 mt-3 me-4 divPrecioRecuperacion">
             <div class="row indicadoresDivs">
                 <div class="col-md-3 text-center">
                     <img src="../../../assets/icons/icono_diferenciaenutilidadpiso.png" class="mt-4 iconDiv">

@@ -459,6 +459,46 @@ canvas {
     background: #ffffff;
 }
 
+//SCROLL DIV VENTA
+.divVenta {
+    div::-webkit-scrollbar,
+    table::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    div::-webkit-scrollbar-track,
+    table::-webkit-scrollbar-track {
+        background: #FFFFFF;
+        border: 1px solid #F2F2F2;
+        box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.25);
+        border-radius: 8px;
+    }
+    div::-webkit-scrollbar-thumb,
+    table::-webkit-scrollbar-thumb {
+        background: #3661a1;
+        border-radius: 8px;
+    }
+    .arrow1 {
+        color: #3661a1;
+        animation: slide1 1s ease-in-out infinite;
+        margin-left: 9px;
+    }
+    .descripcionScroll {
+        margin-left: 10px;
+        font-family: "Roboto-Light";
+        font-size: 0.7em;
+    }
+    @keyframes slide1 {
+        0%,
+        100% {
+            transform: translate(0, 0);
+        }
+        50% {
+            transform: translate(10px, 0);
+        }
+    }
+}
+
 @media (max-width:450px) {
     .navbar-brand {
         p {

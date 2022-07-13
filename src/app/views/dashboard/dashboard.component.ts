@@ -471,7 +471,6 @@ export class DashboardComponent implements OnInit {
   segundaConsulta() {
     this.loader();
     //Agrega array
-    console.log(this.arrayTemp)
     this.arrayTemp['aniosDeContrato'] = Number(this.filterForm.get('aniosDeContrato')?.value);
     this.arrayTemp['activos'] = Number(this.filterForm.get('activos')?.value.replace(/[^0-9\.]+/g, ""));
     this.arrayTemp['gastosPreoperativos'] = Number(this.filterForm.get('gastosPreoperativos')?.value.replace(/[^0-9\.]+/g, ""));
