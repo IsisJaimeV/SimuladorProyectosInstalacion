@@ -80,13 +80,7 @@ export class DashboardComponent implements OnInit {
   //ZONA LOADING
   loading: boolean = false;
 
-  constructor(
-    private simuladorProyecto: SimuladorProyectosDAOService,
-    private spinner: NgxSpinnerService,
-    private currencyPipe: CurrencyPipe,
-    private elementRef: ElementRef,
-    private renderer: Renderer2
-  ) { }
+  constructor(private simuladorProyecto: SimuladorProyectosDAOService, private spinner: NgxSpinnerService, private currencyPipe: CurrencyPipe, private elementRef: ElementRef, private renderer: Renderer2) { }
 
   ngOnInit(): void {
     this.selectZona();
@@ -159,9 +153,8 @@ export class DashboardComponent implements OnInit {
       "keyup": function (event: { target: any; }) {
         $(event.target).val(function (index: any, value: string) {
           return value.replace(/\D/g, "")
-            // .replace(/([0-9])([0-9]{0})$/, '$1')
+            .replace(/([0-9])([0-9]{0})$/, '$1')
             .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-            // .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
         });
       }
     });
@@ -273,6 +266,8 @@ export class DashboardComponent implements OnInit {
       this.modeloCodigos['precioPiso'] = this.spanPrecioPiso;
       this.modeloCodigos['selectedUMSpan'] = this.selectedUMSpan;
       this.modeloCodigos['tipoOperacion'] = $('#cryoinfraSpan').is(":checked");
+      this.modeloCodigos['propuesto'] =  $('#propuesto').val();
+      this.modeloCodigos['volumen'] =  $('#volumen').val();
 
       const propuestos = Number($('#propuesto').val().replace(/[^0-9\.]+/g, ""));
       const volumen = Number($('#volumen').val().replace(/[^0-9\.]+/g, ""));
@@ -375,25 +370,15 @@ export class DashboardComponent implements OnInit {
     (document.getElementById('btnGuardar') as HTMLButtonElement).style.display = "block";
     (document.getElementById('botonAgregar') as HTMLButtonElement).style.display = "none";
 
-    // Convertir los valores de tipo string a number
-    const numPropuesto = this.arrayCodigos[index].volumen;
-    const numVolumen = this.arrayCodigos[index].propuesto;
-
 
     $('#linea').val(this.arrayCodigos[index].linea);
     $('#codigo').val(this.arrayCodigos[index].codigo);
-    $('#volumen').val((this.arrayCodigos[index].volumen));
-    $('#propuesto').val((this.arrayCodigos[index].propuesto));
+    $('#volumen').val(this.arrayCodigos[index].volumen);
+    $('#propuesto').val(this.arrayCodigos[index].propuesto);
     $('#cryoinfraSpan').prop('checked', this.arrayCodigos[index].tipoOperacion);
     this.spanPrecioPiso = this.arrayCodigos[index].precioPiso;
     this.spanVolumen = this.arrayCodigos[index].totalVolumen;
     this.selectedUMSpan = this.arrayCodigos[index].selectedUMSpan;
-
-
-    console.log(typeof numPropuesto, typeof numVolumen);
-    console.log(numPropuesto, numVolumen);
-    console.log(typeof $('#propuesto').val(), typeof $('#volumen').val());
-    console.log($('#propuesto').val(), $('#volumen').val());
 
   }
 
@@ -413,9 +398,9 @@ export class DashboardComponent implements OnInit {
       this.tempEditarArray = {};
       this.tempEditarArray['codigo'] = $('#codigo').val();
       this.tempEditarArray['linea'] = $('#linea').val();
-      this.tempEditarArray['propuesto'] = ($('#propuesto').val().replace(/[^0-9\.]+/g, ""));
+      this.tempEditarArray['propuesto'] =  $('#propuesto').val();
       this.tempEditarArray['tipoOperacion'] = $('#cryoinfraSpan').is(":checked");
-      this.tempEditarArray['volumen'] = ($('#volumen').val().replace(/[^0-9\.]+/g, ""));
+      this.tempEditarArray['volumen'] =  $('#volumen').val();
       this.tempEditarArray['selectedUMSpan'] = this.selectedUMSpan;
       this.tempEditarArray['precioPiso'] = Number(res.resultado.info.precioPiso).toFixed(2);
 

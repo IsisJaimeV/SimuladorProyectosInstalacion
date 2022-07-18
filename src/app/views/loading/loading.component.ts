@@ -32,25 +32,33 @@ export class LoadingComponent implements OnInit {
     }, 2000);
   }
 
-  authUser() {
+  authUser(){
     var path = document.URL;
-
+    
     var correoTemp = path.split('?correo=')[1];
+    var tokenTemp = path.split('&token=')[1];
 
     var correo = correoTemp.split('&token=')[0];
-    var token = path.split('&token=')[1];
+    var token = tokenTemp.split('&origen=')[0];
 
+    var indexCidrado = path.indexOf("&origen=");
+    var cifrado = undefined;
+    if ( indexCidrado >= 0){
+      cifrado = path.split('&origen=')[1];
+    }else{
+      cifrado = undefined;
+    }
 
     var pathJSON = {
       correo: decodeURIComponent(correo),
       token: decodeURIComponent(token),
+      origen: cifrado,
       sourceId: 3
     }
 
     this.loading = true;
-    localStorage.setItem("user", "");
     this.precioPiso.getAuth(pathJSON).subscribe(res => {
-      if (res?.resultado) {
+      if (res.resultado == true) {
         localStorage.setItem("user", res.correo)
         this.router.navigate(['dashboard']);
       } else {
@@ -59,10 +67,8 @@ export class LoadingComponent implements OnInit {
       this.loading = false;
     }, (error) => {
       this.loading = false;
-      console.log(error);
       this.router.navigate(['not-found']);
     })
 
-    return this.user;
   }
 }

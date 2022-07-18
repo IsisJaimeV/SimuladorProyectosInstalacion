@@ -1,7 +1,7 @@
 <app-header></app-header>
 <div class="container-fluid">
     <form [formGroup]="filterForm" (ngSubmit)="segundaConsulta()">
-        <div class="row mt-5 ms-4 me-4">
+        <div class="row mt-5 ms-4 me-3">
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-6">
@@ -34,12 +34,12 @@
                     <p class="tituloInput">Activos</p>
                     <p class="descripcion">Importe estimado de los equipos en comodato. El monto debe ser considerado como nuevo por el valor de reposición. El valor de recuperación se considera al final del plazo del contrato.
                     </p>
-                    <label>$<input type="text" style="margin-left: 10px; text-align: right;" placeholder="0" formControlName="activos" required id="activos" autocomplete="off" currencyMask [options]="{ max: 999999999, precision: 0, prefix: '' }"></label>
+                    <label>$<input type="text" style="margin-left: 10px; text-align: right;" placeholder="0" formControlName="activos" required id="activos" autocomplete="off"></label>
                 </div>
                 <div class="row mt-4">
                     <p class="tituloInput">Gastos preoperativos</p>
                     <p class="descripcion">Monto estimado para la instalación y traslado de equipos.</p>
-                    <label>$<input type="text" style="margin-left: 10px; text-align: right;" placeholder="0" formControlName="gastosPreoperativos" required id="gastosPreoperativos" autocomplete="off" currencyMask [options]="{ max: 999999999, precision: 0, prefix: '' }"></label>
+                    <label>$<input type="text" style="margin-left: 10px; text-align: right;" placeholder="0" formControlName="gastosPreoperativos" required id="gastosPreoperativos" autocomplete="off"></label>
                 </div>
             </div>
             <div class="col ms-2">
@@ -74,7 +74,7 @@
                 <p>Venta <b>incremental</b></p>
             </div>
         </div>
-        <div class="row ms-3 me-3 mt-3">
+        <div class="row ms-3 me-2 mt-3">
             <div class="divVenta">
                 <div class="table-responsive">
                     <table class="table table-fixed table-borderless table-hover">
@@ -84,7 +84,7 @@
                                 <th scope="col" class="col-sm-3">Código</th>
                                 <th scope="col" class="col-sm-1">Precio piso</th>
                                 <th scope="col">Precio propuesto</th>
-                                <th scope="col">Volumen incremental</th>
+                                <th scope="col">Volumen incremental anual</th>
                                 <th scope="col">Venta incremental anual</th>
                                 <th scope="col">Distribuye Cryoinfra</th>
                                 <th scope="col" class="col-sm-1">
@@ -109,7 +109,7 @@
                                                         <th scope="col" class="col-sm-3">Código</th>
                                                         <th scope="col" class="col-sm-1">Precio piso</th>
                                                         <th scope="col">Precio propuesto</th>
-                                                        <th scope="col">Volumen incremental</th>
+                                                        <th scope="col">Volumen incremental anual</th>
                                                         <th scope="col">Venta incremental anual</th>
                                                         <th scope="col">Distribuye Cryoinfra</th>
 
@@ -132,19 +132,10 @@
                                                             </datalist>
                                                         </td>
                                                         <td style="padding-top: 20px;"><span [(ngModel)]="modeloCodigos.spanPrecioPiso">$ {{spanPrecioPiso | number : '1.2'}}</span></td>
-                                                        <td>
-                                                          <input
-                                                            type="text" class="propuesto" placeholder="$ 0.0"
-                                                            formControlName="propuesto" id="propuesto" tabindex="-1"
-                                                            (keyup)="primeraConsulta(filterForm.value)"
-                                                            autocomplete="off" [(ngModel)]="modeloCodigos.propuesto" >
-                                                        </td>
-                                                        <td>
-                                                          <input
-                                                            type="text" class="volumen" placeholder="0"
-                                                            formControlName="volumen" id="volumen" tabindex="-1"
-                                                            (keyup)="primeraConsulta(filterForm.value)"
-                                                            autocomplete="off" [(ngModel)]="modeloCodigos.volumen" >{{selectedUMSpan}}
+                                                        <td><input type="text" class="propuesto" placeholder="$ 0.0" formControlName="propuesto" id="propuesto" tabindex="-1" (keyup)="primeraConsulta(filterForm.value)" autocomplete="off" [(ngModel)]="modeloCodigos.propuesto"
+                                                                maxlength="7"></td>
+                                                        <td><input type="text" class="volumen" placeholder="0" formControlName="volumen" id="volumen" tabindex="-1" (keyup)="primeraConsulta(filterForm.value)" autocomplete="off" [(ngModel)]="modeloCodigos.volumen"
+                                                                maxlength="7">{{selectedUMSpan}}
                                                         </td>
                                                         <td style="padding-top: 20px;" [(ngModel)]="modeloCodigos.spanVolumen" tabindex="-1">$ {{spanVolumen | number : '1.2'}}</td>
                                                         <td style="padding-top: 20px;"><label class="switch ms-4">
@@ -172,8 +163,8 @@
                                 <td><input class="codigo" placeholder="{{x.codigo}}" [disabled]="true" readonly value="{{x.codigo}}">
                                 </td>
                                 <td style="padding-top: 20px;"><span>$ {{x.precioPiso | number : '1.2'}}</span></td>
-                                <td><input type="text" class="propuesto" [disabled]="true" currencyMask [options]="{ max: 999999999, precision: 0, prefix: '' }" readonly value="{{x.propuesto}}"></td>
-                                <td><input type="text" class="volumen" [disabled]="true" currencyMask [options]="{ max: 999999999, precision: 0, prefix: '' }" readonly value="{{x.volumen}}"> {{x.selectedUMSpan}}
+                                <td><input type="text" class="propuesto" [disabled]="true" readonly value="{{x.propuesto}}"></td>
+                                <td><input type="text" class="volumen" [disabled]="true" readonly value="{{x.volumen}}"> {{x.selectedUMSpan}}
                                 </td>
                                 <td style="padding-top: 20px;">$ {{x.totalVolumen | number : '1.2'}}</td>
                                 <td style="padding-top: 20px;"><label class="switch ms-4">
@@ -189,6 +180,9 @@
 
                         </tbody>
                     </table>
+                </div>
+                <div class="d-md-none d-sm-block">
+                    <i class="fa fa-long-arrow-right arrow1" aria-hidden="true"></i><span class="descripcionScroll">Realiza un scroll a la derecha para agregar un nuevo código.</span>
                 </div>
             </div>
         </div>
@@ -207,13 +201,13 @@
             </div>
         </div>
     </form>
-    <div class="row ms-3 me-3 mt-3 tituloIndicadores">
+    <div class="row ms-3 mt-3 tituloIndicadores">
         <div class="subtitulos" href="/">
             <img src="../../../assets/icons/icono_indicadores.png" alt="" class="img-subtitulos me-3">
             <p>Indicadores</p>
         </div>
     </div>
-    <div class="row ms-3 me-3 mt-3">
+    <div class="row ms-3 mt-3">
         <div class="col mt-3 me-4">
             <div class="row indicadoresDivs">
                 <div class="col-md-3 text-center">
@@ -247,7 +241,7 @@
             </div>
             <p class="indicadoresDescripcion">Para ser rentable la VPN debe ser mayor a $ 0</p>
         </div>
-        <div class="col  mt-3 me-4">
+        <div class="col-md-4 col-6 mt-3 me-4 divPrecioRecuperacion">
             <div class="row indicadoresDivs">
                 <div class="col-md-3 text-center">
                     <img src="../../../assets/icons/icono_diferenciaenutilidadpiso.png" class="mt-4 iconDiv">

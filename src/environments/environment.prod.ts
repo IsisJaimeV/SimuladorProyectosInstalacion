@@ -2,10 +2,10 @@ export const environment = {
   production: true,
   env: 'prod',
   ambiente: 'Producción',
-  endp_auth: 'https://infralink-prod.azure-api.net/dev/Login',
-  endp_precioPiso: 'https://infralink-prod.azure-api.net/dev/AnalisisPrecioInfra',
-  endp_linea: 'https://infralink-prod.azure-api.net/dev/linea',
-  endp_zona: 'https://infralink-prod.azure-api.net/dev/zona/',
-  endp_codigo: 'https://infralink-prod.azure-api.net/dev/web/codigo/',
-  endp_analisis: 'https://infralink-prod.azure-api.net/dev/Analisis'
+  endp_auth: 'https://infralink-prod.azure-api.net/web/Login',
+  endp_precioPiso: 'https://infralink-prod.azure-api.net/web/AnalisisPrecioInfra',
+  endp_linea: 'https://infralink-prod.azure-api.net/web/linea',
+  endp_zona: 'https://infralink-prod.azure-api.net/web/zona/',
+  endp_codigo: 'https://infralink-prod.azure-api.net/web/web/codigo/',
+  endp_analisis: 'https://infralink-prod.azure-api.net/web/Analisis'
 };
