@@ -87,6 +87,8 @@ export class DashboardComponent implements OnInit {
     this.selectLinea();
     this.separadorMiles();
     this.soloNumerosInput();
+
+    $('#scrollbar1').tinyscrollbar();
   }
   selectZona() {
     this.correo = localStorage.getItem("user");

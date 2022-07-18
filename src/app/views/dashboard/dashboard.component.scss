@@ -462,10 +462,13 @@ canvas {
 //SCROLL DIV VENTA
 .divVenta {
      ::-webkit-scrollbar {
-        -webkit-appearance: none;
+        width: 8px;
+        height: 8px;
     }
     div::-webkit-scrollbar,
     table::-webkit-scrollbar {
+        overflow: scroll;
+        -webkit-overflow-scrolling: auto;
         width: 8px;
         height: 8px;
     }
